@@ -4,12 +4,16 @@
   "description": "piccolo progetto ecomerce",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "simone",
   "license": "ISC",
   "type": "commonjs",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.1",
