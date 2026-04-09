@@ -13,7 +13,7 @@ const start = async () =>
     await sequelize.authenticate();
     //await sequelize.sync();// ignorato: le migrazioni CLI gestiscono lo schema. sync() in produzione rischia di alterare tabelle esistenti.
 
-    console.log('Connessione al database StageSS26IOT_BE_Analytics API riuscita');
+    console.log('Connessione al database ecommerce API riuscita');
 
     app.listen(PORT, () => 
     {
