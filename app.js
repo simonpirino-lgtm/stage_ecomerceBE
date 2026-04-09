@@ -1,5 +1,5 @@
 // app.js - File di configurazione principale dell'applicazione Express
-require('dontenv').config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
