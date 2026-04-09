@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const routes = require('./routes'); // Importa il router centralizzato
+const routes = require('./src/routes'); // Importa il router centralizzato
 
 const app = express();
 
