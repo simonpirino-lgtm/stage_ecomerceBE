@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const giochiRoute = require('../routes/giochi.route');
+
+const utentiRoute = require('./utenti.route');
+const giochiRoute = require('./giochi.route');
+
+router.use('/utenti', utentiRoute);
+
+
+
+x
 
 
 router.use('/giochi',giochiRoute);
