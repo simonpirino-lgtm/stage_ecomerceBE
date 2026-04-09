@@ -1,7 +1,8 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../confing/db');
 
-const Carrello = sequelize.define(
+const Carrello = sequelize.define
+(
     'Carrello',
     {
         // Name=id | DataType=3 (INT) | LengthSet=11 | DefaultText=AUTO_INCREMENT
