@@ -1,8 +1,8 @@
 // app.js - File di configurazione principale dell'applicazione Express
-
+require('dontenv').config();
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+
 const routes = require('./routes'); // Importa il router centralizzato
 
 const app = express();
@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // Permette di leggere e gestire i cookie inviati dal client (req.cookies)
-app.use(cookieParser());
+
 
 // Configurazione Cross-Origin Resource Sharing (CORS)
 // Necessaria per permettere al frontend (es. Angular) di comunicare con il backend
@@ -33,12 +33,18 @@ app.use(cors
 
 // Collega tutte le rotte definite nel modulo 'routes' al prefisso '/api'
 // Esempio: se in routes esiste la rotta '/users', l'URL finale sarà '/api/users'
-app.use('/api', routes);
+app.use('/api/v1', routes);
 
 // Rotta di test (Health Check) per verificare che il server sia attivo
-app.get('/hello', (req, res) => 
+app.get('/health', (req, res) => 
 {
-    res.send("Server in ascolto");
+  return res.json
+  ({
+    status : "ok",
+    timestamp : new Date(),
+    enviroment : process.env.NODE_ENV || 'development',
+  });
+  
 });
 
 // --- Gestione degli Errori ---
