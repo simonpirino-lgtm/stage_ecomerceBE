@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   giochiModel: GiochiModel[] = [];
   searchTerm: string = ''; 
 
+  
   private giochiService = inject(GiochiService);
   private cdr = inject(ChangeDetectorRef);
 

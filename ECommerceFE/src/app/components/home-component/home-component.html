@@ -7,7 +7,7 @@
 
 <div class="container">
   <!-- Usiamo giochiFiltrati per far funzionare la ricerca -->
-  @for(gioco of giochiFiltrati; track gioco.id) {
+  @for(gioco of giochiModel; track gioco.id) {
     <div class="product-card">
       <div class="image-wrapper">
         <img [src]="gioco.image_url" [alt]="gioco.titolo" class="product-image">
