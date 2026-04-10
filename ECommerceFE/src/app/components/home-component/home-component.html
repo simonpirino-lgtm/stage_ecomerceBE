@@ -1,36 +1,30 @@
 <div class="header-section">
   <h1 class="title">Benvenuto su GameStore!</h1>
-  <button ></button>
-  <div class="search-box">
+  
+  <!-- Il bottone ora seguirà l'allineamento a sinistra della sezione -->
+  <a href="https://steampowered.com" class="custom-button">Carrello</a>
+  
+  <!-- La barra di ricerca -->
+  <div class="search-container">
     <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
   </div>
 </div>
 
 <div class="container">
-  <!-- Usiamo giochiFiltrati per far funzionare la ricerca -->
   @for(gioco of giochiFiltrati; track gioco.id) {
     <div class="product-card">
       <div class="image-wrapper">
-        <img [src]="gioco.image_url" [alt]="gioco.titolo" class="product-image"
-             (mouseenter)="onMouseEnter($event, gioco)"
-             (mousemove)="onMouseMove($event, gioco)"
-             (mouseleave)="onMouseLeave(gioco)"
-             [style.transform]="transforms[gioco.id] || ''">
+        <img [src]="gioco.image_url" [alt]="gioco.titolo" class="product-image">
       </div>
       <div class="card-content">
         <h2 class="game-title">{{gioco.titolo}}</h2>
         <p class="price">€ {{gioco.prezzo}}</p>
-        <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">Aggiungi al Carrello</button>
+        <button class="btn-add">Aggiungi al Carrello</button>
       </div>
     </div>
-  }
-   @empty 
-  {
+  } @empty {
     <div class="no-results">
       <p>Nessun gioco trovato per "{{searchTerm}}"</p>
     </div>
   }
 </div>
-
-
-

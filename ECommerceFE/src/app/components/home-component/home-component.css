@@ -105,3 +105,27 @@ input[type="text"]:focus {
     padding: 40px;
     color: #666;
 }
+.custom-button {
+    display: table;        /* Mantiene la grandezza basata sul testo */
+    margin-left: auto;     /* SPINGE IL BOTTONE A DESTRA */
+    margin-right: 0;       /* Lo attacca al bordo destro */
+    
+    /* Tuo stile aggiornato */
+    color: rgb(76, 1, 59);
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid rgb(95, 2, 76);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* Correzione: width deve essere auto, non right */
+    width: auto; 
+}
+
+.custom-button:hover {
+    background-color: rgb(95, 2, 76);
+    color: white;
+}
+
