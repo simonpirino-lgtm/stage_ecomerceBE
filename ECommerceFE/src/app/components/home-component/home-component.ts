@@ -25,7 +25,8 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
     this.giochiService.getGiochi().subscribe({
       next: (data) => {
         this.giochiModel = data;
@@ -35,7 +36,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  aggiungiAlCarrello(gioco: GiochiModel) {
+  aggiungiAlCarrello(gioco: GiochiModel) 
+  {
     alert(`Aggiunto al carrello: ${gioco.titolo}`);
   }
 }

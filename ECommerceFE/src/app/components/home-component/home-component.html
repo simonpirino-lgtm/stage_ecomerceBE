@@ -1,5 +1,6 @@
 <div class="header-section">
   <h1 class="title">Benvenuto su GameStore!</h1>
+  <button ></button>
   <div class="search-box">
     <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
   </div>
@@ -18,7 +19,9 @@
         <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">Aggiungi al Carrello</button>
       </div>
     </div>
-  } @empty {
+  }
+   @empty 
+  {
     <div class="no-results">
       <p>Nessun gioco trovato per "{{searchTerm}}"</p>
     </div>
