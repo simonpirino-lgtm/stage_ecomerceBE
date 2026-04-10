@@ -12,8 +12,8 @@ export class GiochiService
 {
   private http = inject(HttpClient);
 
- getGiochi(): Observable<GiochiModel[]> {
-    return this.http.get<{ giochi: GiochiModel[] }>('http://localhost:3000/api/v1/giochi/getall')
-      .pipe(map(response => response.giochi));
+ getGiochi(): Observable<GiochiModel[]>
+  {
+    return this.http.get<{ giochi: GiochiModel[] }>('http://localhost:3000/api/v1/giochi/getall').pipe(map(response => response.giochi));
   }
 }

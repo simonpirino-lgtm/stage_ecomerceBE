@@ -1,7 +1,8 @@
 .header-section {
+    
     text-align: center;
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: #ce610d;
 }
 
 .title {
@@ -31,6 +32,7 @@ input[type="text"]:focus {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 25px;
     padding: 30px;
+    background-color: #e48b48;
 }
 
 .product-card {
@@ -52,7 +54,7 @@ input[type="text"]:focus {
 .image-wrapper {
     width: 100%;
     height: 180px;
-    background-color: #f0f0f0;
+    background-color: #ece2e2;
 }
 
 .product-image {
