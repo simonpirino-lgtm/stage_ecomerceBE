@@ -34,7 +34,7 @@ input[type="text"]:focus {
 }
 
 .product-card {
-    background: white;
+    background: rgb(255, 215, 215);
     border-radius: 12px;
     overflow: visible;
     position: relative;
