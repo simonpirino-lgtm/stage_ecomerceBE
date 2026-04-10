@@ -1,12 +1,29 @@
-<div class="container">
-
-@for(gioco of giochiModel ; track gioco.id)
-{
-  <div class="product-card">
-    <img src="{{gioco.image_url}}" alt="{{gioco.titolo}}" class="product-image">
-  <h1>{{gioco.titolo}}</h1>
+<div class="header-section">
+  <h1 class="title">Benvenuto su GameStore!</h1>
+  <div class="search-box">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
   </div>
-}
-
 </div>
+
+<div class="container">
+  <!-- Usiamo giochiFiltrati per far funzionare la ricerca -->
+  @for(gioco of giochiFiltrati; track gioco.id) {
+    <div class="product-card">
+      <div class="image-wrapper">
+        <img [src]="gioco.image_url" [alt]="gioco.titolo" class="product-image">
+      </div>
+      <div class="card-content">
+        <h2 class="game-title">{{gioco.titolo}}</h2>
+        <p class="price">€ {{gioco.prezzo}}</p>
+        <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">Aggiungi al Carrello</button>
+      </div>
+    </div>
+  } @empty {
+    <div class="no-results">
+      <p>Nessun gioco trovato per "{{searchTerm}}"</p>
+    </div>
+  }
+</div>
+
+
 
