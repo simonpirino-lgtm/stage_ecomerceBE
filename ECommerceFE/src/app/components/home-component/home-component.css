@@ -1,15 +1,11 @@
 .header-section {
     text-align: center;
     padding: 20px;
-<<<<<<< HEAD
     background-color: #a54c07;
-=======
-    background-color: #ec3c14;
->>>>>>> afda205747aa4dae931f955e98179ccfefc6af7d
 }
 
 .title {
-    color: #333;
+    color: #0044ff57;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -19,9 +15,10 @@ input[type="text"] {
     padding: 12px 20px;
     margin: 15px 0;
     border-radius: 25px;
-    border: 1px solid #ddd;
+    border: 1px solid #ff0000;
     outline: none;
     transition: all 0.3s;
+    background-color: #eda955;
 }
 
 input[type="text"]:focus {
@@ -38,7 +35,7 @@ input[type="text"]:focus {
 }
 
 .product-card {
-    background: white;
+    background: rgb(255, 215, 215);
     border-radius: 12px;
     overflow: visible;
     position: relative;
