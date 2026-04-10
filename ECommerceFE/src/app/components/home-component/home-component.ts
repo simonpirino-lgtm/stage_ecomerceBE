@@ -14,12 +14,9 @@ import { GiochiService } from '../../services/giochi-service';
 export class HomeComponent implements OnInit {
   giochiModel: GiochiModel[] = [];
   searchTerm: string = ''; 
-
-  
+  transforms: { [id: number]: string } = {};
   private giochiService = inject(GiochiService);
   private cdr = inject(ChangeDetectorRef);
-
-  // Getter per filtrare i giochi in base alla textbox
   get giochiFiltrati() {
     return this.giochiModel.filter(gioco =>
       gioco.titolo.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -28,15 +25,34 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.giochiService.getGiochi().subscribe({
-      next: (data) => {
+      next: (data: GiochiModel[]) => {
         this.giochiModel = data;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error("Errore nel caricamento dati:", err)
+      error: (err: any) => console.error("Errore nel caricamento dati:", err)
     });
   }
 
   aggiungiAlCarrello(gioco: GiochiModel) {
     alert(`Aggiunto al carrello: ${gioco.titolo}`);
+  }
+
+  onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
+    this.transforms[gioco.id] = 'scale(1.2)';
+  }
+
+  onMouseMove(event: MouseEvent, gioco: GiochiModel) {
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -15; // Tilt up/down
+    const rotateY = ((x - centerX) / centerX) * 15;  // Tilt left/right
+    this.transforms[gioco.id] = `scale(1.2) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  }
+
+  onMouseLeave(gioco: GiochiModel) {
+    delete this.transforms[gioco.id];
   }
 }

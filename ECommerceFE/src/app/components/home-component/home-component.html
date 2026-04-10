@@ -7,10 +7,14 @@
 
 <div class="container">
   <!-- Usiamo giochiFiltrati per far funzionare la ricerca -->
-  @for(gioco of giochiModel; track gioco.id) {
+  @for(gioco of giochiFiltrati; track gioco.id) {
     <div class="product-card">
       <div class="image-wrapper">
-        <img [src]="gioco.image_url" [alt]="gioco.titolo" class="product-image">
+        <img [src]="gioco.image_url" [alt]="gioco.titolo" class="product-image"
+             (mouseenter)="onMouseEnter($event, gioco)"
+             (mousemove)="onMouseMove($event, gioco)"
+             (mouseleave)="onMouseLeave(gioco)"
+             [style.transform]="transforms[gioco.id] || ''">
       </div>
       <div class="card-content">
         <h2 class="game-title">{{gioco.titolo}}</h2>
