@@ -1,5 +1,34 @@
 
  
+<div class="header-section">
+  
+  <a href="https://steampowered.com" class="custom-button">Carrello</a>
+
+  <h1 class="title">Benvenuto su GameStore!</h1>
+  
+  
+  <div class="search-container">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
+  </div>
+</div>
+
+<div class="container">
+  @for(gioco of giochiFiltrati; track gioco.id) {
+    <div class="product-card">
+      
+      <div class="image-wrapper">
+        <img 
+          [src]="gioco.image_url" 
+          [alt]="gioco.titolo" 
+          class="product-image"
+
+          (mouseenter)="onMouseEnter($event, gioco)"
+          (mousemove)="onMouseMove($event, gioco)"
+          (mouseleave)="onMouseLeave(gioco)"
+
+          [style.transform]="transforms[gioco.id] || ''"
+        >
+      </div>
 
       <div class="card-content">
         <h2 class="game-title">{{gioco.titolo}}</h2>
