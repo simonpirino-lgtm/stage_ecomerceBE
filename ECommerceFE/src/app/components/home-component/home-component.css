@@ -1,7 +1,11 @@
 .header-section {
     text-align: center;
     padding: 20px;
+<<<<<<< HEAD
+    background-color: #a54c07;
+=======
     background-color: #ec3c14;
+>>>>>>> afda205747aa4dae931f955e98179ccfefc6af7d
 }
 
 .title {
