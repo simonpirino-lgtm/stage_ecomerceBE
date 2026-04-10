@@ -1,6 +1,7 @@
 // Importa la classe principale Sequelize dal pacchetto sequelize
 const { Sequelize } = require("sequelize");
 
+
 // Carica le variabili d'ambiente dal file .env nell'oggetto process.env
 // Fondamentale per non esporre dati sensibili (password, host) nel codice
 require("dotenv").config();
