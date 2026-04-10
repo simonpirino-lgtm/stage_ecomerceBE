@@ -2,7 +2,7 @@
     
     text-align: center;
     padding: 20px;
-    background-color: #ce610d;
+    background-color: #ec3c14;
 }
 
 .title {
@@ -32,7 +32,7 @@ input[type="text"]:focus {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 25px;
     padding: 30px;
-    background-color: #e48b48;
+    background-color: #d96f51;
 }
 
 .product-card {
