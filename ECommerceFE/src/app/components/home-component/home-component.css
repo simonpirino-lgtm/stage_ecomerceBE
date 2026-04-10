@@ -1,7 +1,31 @@
 .container {
     display: grid;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    /* Crea colonne da 250px che si adattano alla larghezza dello schermo */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 20px; /* Spazio (tabulazione) tra le card */
     padding: 20px;
     border: 2px solid black;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px; /* Opzionale: rende i bordi più morbidi */
+}
+
+.product-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover; /* Taglia l'immagine bene senza deformarla */
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 1.2rem;
+    margin: 0;
 }
