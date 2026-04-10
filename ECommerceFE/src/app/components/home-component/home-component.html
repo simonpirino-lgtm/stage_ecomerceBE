@@ -1,7 +1,12 @@
-<div>
+<div class="container">
+
 @for(gioco of giochiModel ; track gioco.id)
 {
+  <div class="product-card">
+    <img src="{{gioco.image_url}}" alt="{{gioco.titolo}}" class="product-image">
   <h1>{{gioco.titolo}}</h1>
-}</div>
+  </div>
+}
 
+</div>
 
