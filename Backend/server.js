@@ -14,7 +14,7 @@ const start = async () => {
     console.log('Connessione al database ecommerce API riuscita');
 
     app.listen(PORT, () => {
-      console.log(`Server avviato su http://localhost:${PORT}`,`\nDocumentazione su http://localhost:${PORT}/api-docs`);
+      console.log(`Server avviato su http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error('Errore connessione database:', error);
