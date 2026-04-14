@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home-component',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './home-component.html',
   styleUrl: './home-component.css',
 })
