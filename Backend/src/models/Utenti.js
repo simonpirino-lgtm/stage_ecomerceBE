@@ -4,19 +4,23 @@ const sequelize = require('../config/db');
 const Utenti = sequelize.define(
     'utenti',
     {
-        id: {
+        id: 
+        {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        userid: {
+        userid: 
+        {
             type: DataTypes.STRING(500),
             allowNull: false,
         },
-        password: {
+        password: 
+        {
             type: DataTypes.STRING(500),
             allowNull: false,
-        }, refreshToken: {
+        }, refreshToken: 
+        {
             type: DataTypes.STRING(500),
             allowNull: false,
         }

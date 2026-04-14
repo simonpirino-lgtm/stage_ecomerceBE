@@ -1,7 +1,8 @@
 const utentiRepository = require('../repositories/utenti.repository');
 
 
-const findAll = async () => {
+const findAll = async () => 
+{
     return await utentiRepository.findAll();
 }
 

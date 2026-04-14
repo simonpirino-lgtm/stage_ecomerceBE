@@ -1,6 +1,7 @@
 const Giochi = require('../models/Giochi.js');
 
-const findAll = async () => {
+const findAll = async () => 
+{
     return await Giochi.findAll();
 };
 
