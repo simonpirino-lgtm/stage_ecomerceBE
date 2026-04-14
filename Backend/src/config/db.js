@@ -13,7 +13,8 @@ require("dotenv").config();
 const logg = String(process.env.DB_LOGGING ?? 'false').toLowerCase() === 'true';
 
 // Inizializzazione dell'istanza Sequelize
-const sequelize = new Sequelize(
+const sequelize = new Sequelize
+(
   process.env.DB_NAME,     // Nome del database
   process.env.DB_USER,     // Nome utente per l'accesso
   process.env.DB_PASSWORD, // Password dell'utente

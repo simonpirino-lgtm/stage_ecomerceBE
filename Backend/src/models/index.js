@@ -1,4 +1,4 @@
-/* const Utenti = require('./Utenti');
+const Utenti = require('./Utenti');
 const Carrello = require('./Carrello');
 
 const Categoria = require('./Categoria');
@@ -105,4 +105,4 @@ module.exports = {
   Checkout,
   CheckoutRighe,
   Magazzino
-}; */
+};

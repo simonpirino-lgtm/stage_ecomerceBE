@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
 import { GiochiService } from '../../services/giochi-service';
 import { Router, RouterLink } from '@angular/router';
+import { CarrelloService } from '../../services/carrello.service';
 
-@Component({
+@Component
+({
   selector: 'app-home-component',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
@@ -22,6 +24,7 @@ export class HomeComponent implements OnInit {
   showMenu = false;
 
   private giochiService = inject(GiochiService);
+  private carrelloService = inject(CarrelloService); // 2. Iniettalo qui con inject
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
@@ -73,14 +76,18 @@ export class HomeComponent implements OnInit {
     alert(`Aggiunto al carrello: ${gioco.titolo}`);
   }
 
-  onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
+  onMouseEnter(event: MouseEvent, gioco: GiochiModel) 
+  {
     this.transforms[gioco.id] = 'scale(1.2)';
   }
 
-  onMouseMove(event: MouseEvent, gioco: GiochiModel) {
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
+  onMouseMove(event: MouseEvent, gioco: GiochiModel) 
+  {
+    const target = event.currentTarget as HTMLElement; // Meglio usare currentTarget per il rect
+    const rect = target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     const rotateX = ((y - centerY) / centerY) * -15;
@@ -90,7 +97,8 @@ export class HomeComponent implements OnInit {
       `scale(1.2) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
 
-  onMouseLeave(gioco: GiochiModel) {
+  onMouseLeave(gioco: GiochiModel) 
+  {
     delete this.transforms[gioco.id];
   }
 }

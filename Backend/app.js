@@ -3,9 +3,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const routes = require('./src/routes'); // Importa il router centralizzato
+const carrelloRoutes = require('./src/routes/carrello.route'); 
+
+const routes = require('./src/routes');  /// Importa il router centralizzato
 
 const app = express();
+
 
 // --- Middleware di Configurazione ---
 
@@ -14,7 +17,7 @@ app.use(express.json());
 
 // Permette di leggere e gestire i cookie inviati dal client (req.cookies)
 
-
+app.use('/api/carrello', carrelloRoutes); 
 // Configurazione Cross-Origin Resource Sharing (CORS)
 // Necessaria per permettere al frontend (es. Angular) di comunicare con il backend
 app.use(cors

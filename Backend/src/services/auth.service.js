@@ -1,13 +1,15 @@
-/* exports.register = async (req, res) => {
+ exports.register = async (req, res) =>
+{
   const { email, password } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = { id: users.length + 1, email, password: hashedPassword };
+
   users.push(user);
 
   res.json({ message: "User registered" });
-}; */
+}; 
 
 const Utenti = require("../models/Utenti");
 const authRepo = require("../repository/auth.repository");
