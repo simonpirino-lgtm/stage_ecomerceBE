@@ -1,4 +1,4 @@
-const utentiRepository = require('../repositories/utenti.repository');
+const utentiRepository = require('../repository/utenti.repository');
 
 
 const findAll = async () => {
