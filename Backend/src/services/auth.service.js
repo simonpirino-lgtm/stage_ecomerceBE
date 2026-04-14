@@ -10,20 +10,15 @@
 }; */
 
 const Utenti = require("../models/Utenti");
-const authRepo = require("../repositories/auth.repository");
+const authRepo = require("../repository/auth.repository");
 
 exports.login = async (body) => {
-  const { email, password } = body;
+  const { id, password } = body;
 
-  const user = authRepo.
-  if (!user) return res.status(404).json({ message: "User not found" });
+  const user = await authRepo.getUtente(id, password);
+  if (!user) return { message: "User not found" };
 
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) return res.status(401).json({ message: "Wrong password" });
 
-  const token = jwt.sign({ id: user.id }, "SECRET_KEY", {
-    expiresIn: "1h"
-  });
 
   res.json({ token });
 };
