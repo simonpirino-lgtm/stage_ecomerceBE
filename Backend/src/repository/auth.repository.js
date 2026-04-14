@@ -1,5 +1,5 @@
 const Utenti = require("../models/Utenti.js");
-const Auth = require("../models/Utenti.js");
+
 
 const getUtente = async () => {
     return await Utenti.findOne({
