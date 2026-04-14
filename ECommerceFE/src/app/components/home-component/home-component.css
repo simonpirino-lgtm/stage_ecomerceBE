@@ -1,19 +1,19 @@
-/* --- HEADER E TESTATA (CENTRATURA TOTALE) --- */
+/* --- HEADER E TESTATA --- */
 .header-section {
     padding: 40px 20px;
     background-color: #ec3c14;
     display: flex;
-    flex-direction: column; /* Imposta la colonna per Titolo e Ricerca */
-    align-items: center;    /* Centra orizzontalmente titolo e ricerca */
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    position: relative;     /* Necessario per bloccare il bottone a destra */
+    position: relative;
     min-height: 150px;
 }
 
 .nomecarrello {
     display: flex;
-    flex-direction: column; 
-    align-items: center;    /* Mette la barra di ricerca sotto il titolo, entrambi centrati */
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
 }
 
@@ -38,14 +38,14 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* SISTEMAZIONE PULSANTE CARRELLO (Mirato direttamente sul tag button) */
+/* CARRELLO BUTTON */
 .header-section > button {
-    position: absolute;  /* Lo sgancia dal flusso per non disturbare il titolo */
-    right: 40px;        /* Lo blocca a destra */
+    position: absolute;
+    right: 40px;
     top: 50%;
-    transform: translateY(-50%); /* Lo centra verticalmente */
+    transform: translateY(-50%);
     
-    background-color: #222; /* Nero stile Gaming */
+    background-color: #222;
     color: #ffffff;
     border: none;
     padding: 15px 30px;
@@ -54,22 +54,20 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 5px 0px #000; /* Effetto 3D */
+    box-shadow: 0 5px 0px #000;
 }
 
 .header-section > button:hover {
     background-color: #ffffff;
     color: #ec3c14;
-    transform: translateY(-55%); /* Effetto sollevamento */
-    box-shadow: 0 7px 0px rgba(0,0,0,0.1);
+    transform: translateY(-55%);
 }
 
 .header-section > button:active {
     transform: translateY(-45%);
-    box-shadow: 0 2px 0px #000;
 }
 
-/* --- PARTE INFERIORE (INVARIATA COME RICHIESTO) --- */
+/* --- GRID PRODUCTS --- */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -81,9 +79,7 @@
 .product-card {
     background: rgb(255, 215, 215);
     border-radius: 12px;
-    overflow: visible;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: 0.3s;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -91,48 +87,37 @@
 
 .product-card:hover {
     transform: translateY(-5px);
-    z-index: 10;
 }
 
 .image-wrapper {
     width: 100%;
     height: 180px;
     background-color: #ece2e2;
-    border-radius: 12px 12px;
-    overflow: visible;
-    position: relative;
+    overflow: hidden;
 }
 
 .product-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
     transition: transform 0.2s ease-out;
-    position: relative;
-    z-index: 2;
-    border-radius: 12px 12px 0px 0px;
 }
 
 .card-content {
     padding: 15px;
     text-align: center;
-    border-radius: 12px;
 }
 
 .game-title {
     font-size: 1.1rem;
     margin: 10px 0;
     color: #222;
-    height: 2.4em;
-    overflow: hidden;
 }
 
 .price {
     font-weight: bold;
     color: #28a745;
     font-size: 1.2rem;
-    margin-bottom: 15px;
 }
 
 .btn-add {
@@ -143,11 +128,11 @@
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
-    transition: all 0.25s ease;
+    transition: 0.25s;
 }
 
 .btn-add:hover {
-    background-color: #66ffba; 
+    background-color: #66ffba;
     transform: scale(1.05);
 }
 
@@ -156,4 +141,69 @@
     text-align: center;
     padding: 40px;
     color: #666;
+}
+
+/* =========================
+   USER SECTION (FIXED)
+   ========================= */
+
+.user-info {
+    position: absolute;
+    right: 40px;
+    top: 15px;
+}
+
+/* row layout (USERNAME + MENU INLINE) */
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* USERNAME */
+.username {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background: rgba(0,0,0,0.3);
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.username:hover {
+    background: rgba(0,0,0,0.6);
+}
+
+/* INLINE MENU */
+.dropdown-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: rgba(0,0,0,0.5);
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* MENU ITEMS */
+.dropdown-item {
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    color: #66ffba;
+}
+
+.dropdown-item.logout {
+    color: #ff4d4d;
+}
+
+.dropdown-item.logout:hover {
+    color: #ffaaaa;
 }

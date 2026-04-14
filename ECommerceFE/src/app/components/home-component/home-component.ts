@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
 import { GiochiService } from '../../services/giochi-service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-component',
@@ -13,19 +13,31 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home-component.css',
 })
 export class HomeComponent implements OnInit {
+
   giochiModel: GiochiModel[] = [];
   searchTerm: string = ''; 
   transforms: { [id: number]: string } = {};
+
+  user: any = null;
+  showMenu = false;
+
   private giochiService = inject(GiochiService);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+
   get giochiFiltrati() {
     return this.giochiModel.filter(gioco =>
       gioco.titolo.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  ngOnInit() 
-  {
+  ngOnInit() {
+
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+    }
+
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
         this.giochiModel = data;
@@ -35,8 +47,29 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  aggiungiAlCarrello(gioco: GiochiModel) 
-  {
+  // 🔽 DROPDOWN
+  toggleMenu(event: MouseEvent) {
+    event.stopPropagation(); // IMPORTANT
+    this.showMenu = !this.showMenu;
+  }
+
+  // 🔽 CLICK OUTSIDE
+  @HostListener('document:click')
+  closeMenu() {
+    this.showMenu = false;
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile']);
+    this.showMenu = false;
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    this.router.navigate(['/auth/login']);
+  }
+
+  aggiungiAlCarrello(gioco: GiochiModel) {
     alert(`Aggiunto al carrello: ${gioco.titolo}`);
   }
 
@@ -50,9 +83,11 @@ export class HomeComponent implements OnInit {
     const y = event.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -15; // Tilt up/down
-    const rotateY = ((x - centerX) / centerX) * 15;  // Tilt left/right
-    this.transforms[gioco.id] = `scale(1.2) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    const rotateX = ((y - centerY) / centerY) * -15;
+    const rotateY = ((x - centerX) / centerX) * 15;
+
+    this.transforms[gioco.id] =
+      `scale(1.2) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
 
   onMouseLeave(gioco: GiochiModel) {

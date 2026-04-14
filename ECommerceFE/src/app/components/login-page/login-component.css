@@ -55,18 +55,23 @@
 }
 
 /* BUTTON */
-.auth-box button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #f79c88;
-  cursor: pointer;
+.auth-box button { 
+  width: 100%; 
+  padding: 10px; 
+  margin-top: 10px; 
+  cursor: pointer; 
+  background-color: #f79c88; 
+  border-radius: 15px 0px 15px 0px; 
+  font-family: 'Gill Sans', Calibri, sans-serif;
+  font-weight: bolder;
+  font-size: medium;
 }
 
 /* ERROR */
 .error {
   margin-top: 10px;
   background: #d43d1c;
+  color: #421616;
   color: rgb(255, 185, 185);
   padding: 8px;
   border-radius: 8px;
