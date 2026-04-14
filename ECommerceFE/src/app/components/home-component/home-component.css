@@ -110,7 +110,7 @@
     transition: transform 0.2s ease-out;
     position: relative;
     z-index: 2;
-    border-radius: 12px;
+    border-radius: 12px 12px 0px 0px;
 }
 
 .card-content {
