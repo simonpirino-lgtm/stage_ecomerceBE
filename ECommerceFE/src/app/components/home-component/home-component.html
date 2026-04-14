@@ -1,19 +1,37 @@
 <div class="header-section">
 
+  <!-- USER DROPDOWN -->
+  <div class="user-info" *ngIf="user">
+    <div class="user-row">
+      <span class="username" (click)="toggleMenu($event)">
+        👤 {{ user.userid }} - € {{ user.credito }}
+      </span>
+      <div class="dropdown-inline" *ngIf="showMenu">
+        <span class="dropdown-item" (click)="goToProfile()">
+          Account
+        </span>
+        <span class="dropdown-item logout" (click)="logout()">
+          Logout
+        </span>
+      </div>
+    </div>
+  </div>
 
-<div class ="nomecarrello">
-  <h1 class="title">Benvenuto su GameStore!</h1>
-  
-  
-  <div class="search-container">
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
-    
+  <!-- TITLE + SEARCH -->
+  <div class="nomecarrello">
+    <h1 class="title">Benvenuto su GameStore!</h1>
+
+    <div class="search-container">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
+    </div>
   </div>
-  
-  </div>
+
+  <!-- CART -->
   <button [routerLink]="['/carrello']">Carrello</button>
+
 </div>
 
+<!-- PRODUCTS -->
 <div class="container">
   @for(gioco of giochiFiltrati; track gioco.id) {
     <div class="product-card">
@@ -23,11 +41,9 @@
           [src]="gioco.image_url" 
           [alt]="gioco.titolo" 
           class="product-image"
-
           (mouseenter)="onMouseEnter($event, gioco)"
           (mousemove)="onMouseMove($event, gioco)"
           (mouseleave)="onMouseLeave(gioco)"
-
           [style.transform]="transforms[gioco.id] || ''"
         >
       </div>
