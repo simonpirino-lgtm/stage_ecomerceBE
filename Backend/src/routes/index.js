@@ -7,10 +7,7 @@ const authRoute = require('./auth.route');
 
 router.use('/utenti', utentiRoute);
 
-
-
-
-
+router.use('/auth', authRoute);
 
 router.use('/giochi',giochiRoute);
 
