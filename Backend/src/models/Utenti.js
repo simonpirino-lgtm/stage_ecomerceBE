@@ -23,6 +23,12 @@ const Utenti = sequelize.define(
         {
             type: DataTypes.STRING(500),
             allowNull: false,
+        },
+        credito: {
+            type: DataTypes.DECIMAL(10,2),
+            unsigned: true,
+            allowNull: false,
+            defaultValue: '0.00',
         }
     },
     {

@@ -1,4 +1,5 @@
 const utentiService = require('../services/utenti.service');
+const authService = require('../services/auth.service')
 
 const findAll = async (req,res) => 
 {
@@ -37,29 +38,19 @@ const register = async (req, res) =>
     }
 };
 
-const login = async (req,res) => 
-{
-    try 
-    {
-        const utenti = await utentiService.login(req.body);
-        return res.status(200).json({utenti});
-    } 
-    catch (error) 
-    {
-        return res.status(401).json({ message: "Utente o password non corretti", errore: error});
+const login = async (req, res) => {
+  try {
+    const user = await authService.login(req.body);
+
+    if (!user) {
+      return res.status(401).json({ message: "Utente non trovato" });
     }
-}
-const user = async (req, res) => 
-{
-    try 
-    {
-        // Logica per recuperare l'utente corrente
-        return res.status(200).json({ utente: req.user }); 
-    } 
-    catch (error) 
-    {
-        return res.status(500).json({ message: "Errore" });
-    }
-}
+
+    return res.status(200).json(user);
+
+  } catch (err) {
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 
 module.exports = {findAll, login, register, user};

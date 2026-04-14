@@ -14,13 +14,10 @@
 const Utenti = require("../models/Utenti");
 const authRepo = require("../repository/auth.repository");
 
-exports.login = async (body) => 
-{
-  const { id, password } = body;
+exports.login = async (body) => {
+  const { userid, password } = body;
 
-  const user = await authRepo.getUtente(id, password);
-  
-  if (!user) return { message: "User not found" };
+  const user = await authRepo.getUtente(userid, password);
 
-  res.json({ token });
+  return user; // return null if not found
 };
