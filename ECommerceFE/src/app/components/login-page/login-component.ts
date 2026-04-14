@@ -56,6 +56,8 @@ export class LoginComponent {
             return;
           }
 
+          localStorage.setItem('user', JSON.stringify(res));
+
           this.router.navigate(['/home']);
         },
 
