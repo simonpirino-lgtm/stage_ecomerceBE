@@ -15,15 +15,11 @@ const authRepo = require("../repositories/auth.repository");
 exports.login = async (body) => {
   const { email, password } = body;
 
-  const user = authRepo.
-  if (!user) return res.status(404).json({ message: "User not found" });
+  //const user = authRepo.
+  //if (!user) return res.status(404).json({ message: "User not found" });
 
-  const valid = await bcrypt.compare(password, user.password);
+  //const valid =
   if (!valid) return res.status(401).json({ message: "Wrong password" });
-
-  const token = jwt.sign({ id: user.id }, "SECRET_KEY", {
-    expiresIn: "1h"
-  });
 
   res.json({ token });
 };
