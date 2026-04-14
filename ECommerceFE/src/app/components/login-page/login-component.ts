@@ -55,7 +55,8 @@ export class LoginComponent {
             this.triggerError('Wrong username or password');
             return;
           }
-
+          
+          console.log('Saving user:', res);
           localStorage.setItem('user', JSON.stringify(res));
 
           this.router.navigate(['/home']);
