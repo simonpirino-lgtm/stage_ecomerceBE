@@ -39,6 +39,9 @@ export class HomeComponent implements OnInit {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       this.user = JSON.parse(storedUser);
+    } else {
+      this.router.navigate(['/']); // redirect to login
+      return;
     }
 
     this.giochiService.getGiochi().subscribe({
@@ -69,7 +72,7 @@ export class HomeComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('user');
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/']);
   }
 
   aggiungiAlCarrello(gioco: GiochiModel) {
