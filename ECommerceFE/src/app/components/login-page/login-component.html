@@ -1,86 +1,85 @@
-<div class="header-section">
+<div class="auth-container">
 
-  <div class="auth-container">
+  <div class="flip-card" [class.flipped]="!isLogin">
 
-    <!-- FLIP CARD -->
-    <div class="flip-card" [class.flipped]="!isLogin">
+    <!-- LOGIN -->
+    <div class="flip-face front">
 
-      <!-- FRONT = LOGIN -->
-      <div class="flip-face front">
+      <div class="auth-box" [class.shake]="shake">
 
-        <div class="auth-box">
+        <h2>Login</h2>
 
-          <h2>Login</h2>
+        <form (ngSubmit)="onSubmit()">
 
-          <form (ngSubmit)="onSubmit()">
+          <input
+            type="text"
+            placeholder="Username"
+            [(ngModel)]="form.userid"
+            name="userid"
+          />
 
-            <input
-              type="text"
-              placeholder="Username"
-              [(ngModel)]="form.userid"
-              name="userid"
-            />
+          <input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="form.password"
+            name="password"
+          />
 
-            <input
-              type="password"
-              placeholder="Password"
-              [(ngModel)]="form.password"
-              name="password"
-            />
+          <button type="submit">Login</button>
 
-            <button type="submit">Login</button>
+        </form>
 
-          </form>
-
-          <p class="switch">
-            Non hai un account?
-            <span class="link" (click)="toggleMode()">Registrati</span>
-          </p>
-
+        <div class="error" *ngIf="errorMessage">
+          {{ errorMessage }}
         </div>
+
+        <p class="switch">
+          Non hai un account?
+          <span class="link" (click)="toggleMode()">Registrati</span>
+        </p>
+
       </div>
+    </div>
 
-      <!-- BACK = REGISTER -->
-      <div class="flip-face back">
+    <!-- REGISTER -->
+    <div class="flip-face back">
 
-        <div class="auth-box">
+      <div class="auth-box" [class.shake]="shake">
 
-          <h2>Register</h2>
+        <h2>Register</h2>
 
-          <form (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="onSubmit()">
 
-            <input
-              type="text"
-              placeholder="Username"
-              [(ngModel)]="form.userid"
-              name="userid2"
-            />
+          <input
+            type="text"
+            placeholder="Username"
+            [(ngModel)]="form.userid"
+            name="userid2"
+          />
 
-            <input
-              type="password"
-              placeholder="Password"
-              [(ngModel)]="form.password"
-              name="password2"
-            />
+          <input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="form.password"
+            name="password2"
+          />
 
-            <button type="submit">Register</button>
+          <button type="submit">Register</button>
 
-          </form>
+        </form>
 
-          <p class="switch">
-            Hai già un account?
-            <span class="link" (click)="toggleMode()">Login</span>
-          </p>
-
+        <div class="error" *ngIf="errorMessage">
+          {{ errorMessage }}
         </div>
-      </div>
 
+        <p class="switch">
+          Hai già un account?
+          <span class="link" (click)="toggleMode()">Login</span>
+        </p>
+
+      </div>
     </div>
 
   </div>
-
-  <p class="error" *ngIf="errorMessage">
-  {{ errorMessage }}
-  </p>
 
 </div>

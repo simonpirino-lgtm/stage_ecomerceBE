@@ -24,7 +24,7 @@ const login = async (req, res) => {
     const user = await authService.login(req.body);
 
     if (!user) {
-      return res.status(401).json({ message: "User not found" });
+      return res.status(401).json({ message: "Utente non trovato" });
     }
 
     return res.status(200).json(user);
