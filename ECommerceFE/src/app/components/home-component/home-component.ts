@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
 import { GiochiService } from '../../services/giochi-service';
 import { Router, RouterLink } from '@angular/router';
+import { CarrelloService } from '../../services/carrello.service';
 
 @Component
 ({

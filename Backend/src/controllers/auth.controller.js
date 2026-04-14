@@ -53,4 +53,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = {findAll, login, register, user};
+module.exports = {findAll, login, register};

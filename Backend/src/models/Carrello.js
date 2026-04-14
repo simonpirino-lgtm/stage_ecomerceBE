@@ -1,5 +1,5 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../confing/db');
+const sequelize = require('../config/db');
 
 const Carrello = sequelize.define
 (
