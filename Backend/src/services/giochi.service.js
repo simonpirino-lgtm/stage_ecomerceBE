@@ -1,4 +1,4 @@
-const giochiRepo = require('../repository/giochi.repository');
+const giochiRepo = require('../repositories/giochi.repository');
 
 const findAll = async () => 
 {

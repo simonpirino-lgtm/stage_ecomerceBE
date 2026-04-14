@@ -3,6 +3,11 @@ require('dotenv').config();
 const app = require('./app');
 const sequelize = require('./src/config/db');
 
+const carrelloRoute = require('./src/routes/index');
+
+
+const cors = require('cors');
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 

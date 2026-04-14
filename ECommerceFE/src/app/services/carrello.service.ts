@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { GiochiModel } from '../models/giochi-model';
 
 export interface CarrelloItem extends GiochiModel {
@@ -9,33 +11,28 @@ export interface CarrelloItem extends GiochiModel {
   providedIn: 'root'
 })
 export class CarrelloService {
-  private carrello: CarrelloItem[] = [];
+  private apiUrl = 'http://localhost:3000/api/carrello'; 
 
-  aggiungi(gioco: GiochiModel) {
-    const esistente = this.carrello.find(item => item.id === gioco.id);
-    if (esistente) {
-      esistente.quantita += 1;
-    } else {
-      this.carrello.push({ ...gioco, quantita: 1 });
-    }
+  constructor(private http: HttpClient) {}
+
+  getCarrello(): Observable<CarrelloItem[]> {
+    return this.http.get<CarrelloItem[]>(this.apiUrl);
   }
 
-  getCarrello() {
-    return this.carrello;
+  aggiungi(gioco: GiochiModel): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add`, { giocoId: gioco.id, prezzo: gioco.prezzo });
   }
 
-  getTotale(): number {
-    return this.carrello.reduce(
-      (tot, item) => tot + (parseFloat(item.prezzo) || 0) * item.quantita,
-      0
-    );
+  updateQuantita(id: number, quantita: number): Observable<any> {
+    // Il return è fondamentale per poter fare il .subscribe() nel componente
+    return this.http.put(`${this.apiUrl}/update-qty`, { id, quantita });
   }
 
-  rimuovi(index: number) {
-    this.carrello.splice(index, 1);
+  rimuovi(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  svuota() {
-    this.carrello = [];
+  getTotale(): Observable<{ totale: number }> {
+    return this.http.get<{ totale: number }>(`${this.apiUrl}/totale`);
   }
 }
