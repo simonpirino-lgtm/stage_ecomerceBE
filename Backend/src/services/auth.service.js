@@ -1,7 +1,4 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-exports.register = async (req, res) => {
+/* exports.register = async (req, res) => {
   const { email, password } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -10,12 +7,15 @@ exports.register = async (req, res) => {
   users.push(user);
 
   res.json({ message: "User registered" });
-};
+}; */
 
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
+const Utenti = require("../models/Utenti");
+const authRepo = require("../repositories/auth.repository");
 
-  const user = users.find(u => u.email === email);
+exports.login = async (body) => {
+  const { email, password } = body;
+
+  const user = authRepo.
   if (!user) return res.status(404).json({ message: "User not found" });
 
   const valid = await bcrypt.compare(password, user.password);
@@ -26,8 +26,4 @@ exports.login = async (req, res) => {
   });
 
   res.json({ token });
-};
-
-exports.user = (req, res) => {
-  res.json({ message: "Protected route (you need middleware)" });
 };
