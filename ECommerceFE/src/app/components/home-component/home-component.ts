@@ -1,14 +1,11 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
 import { GiochiService } from '../../services/giochi-service';
 import { RouterLink } from '@angular/router';
 
-@Component({
+
 @Component({
   selector: 'app-home-component',
   standalone: true,
