@@ -1,75 +1,75 @@
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CarrelloService, CarrelloItem } from '../../services/carrello.service'; // Verifica che il percorso sia esatto
+import { CarrelloService, CarrelloItem } from '../../services/carrello.service';
 
 @Component({
   selector: 'app-carrello-page',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './carrello-page.html',
-  styleUrl: './carrello-page.css',
+  styleUrls: ['./carrello-page.css']
 })
-export class CarrelloPage implements OnInit {
-  // Queste proprietà servono al tuo HTML per la ricerca e le animazioni
-  searchTerm: string = '';
+export class CarrelloPageComponent implements OnInit {
   items: CarrelloItem[] = [];
-  transforms: { [key: number]: string } = {};
+  
+  // Variabili per i calcoli (inizializzate a 0 per evitare errori nel template)
+  totaleArticoli: number = 0;
+  subtotale: number = 0;
 
-  constructor(private carrelloService: CarrelloService) {}
+  private carrelloService = inject(CarrelloService);
+  private cdr = inject(ChangeDetectorRef);
 
-  ngOnInit() {
-    // Carichiamo i dati dal Service al caricamento della pagina
-    this.aggiornaVista();
+  ngOnInit(): void {
+    this.caricaCarrello();
   }
 
-  // Sincronizza i dati locali con quelli del Service
-  aggiornaVista() {
-    this.items = this.carrelloService.getCarrello();
+  caricaCarrello(): void {
+    this.carrelloService.getCarrello().subscribe({
+      next: (dati) => {
+        this.items = dati || [];
+        this.aggiornaConteggi(); // Ricalcola tutto appena arrivano i dati
+        this.cdr.detectChanges(); // Forza il controllo dei cambiamenti
+      },
+      error: (err) => console.error('Errore caricamento:', err)
+    });
   }
 
-  // Metodo per il filtro di ricerca nel carrello
-  get giochiFiltrati() {
-    return this.items.filter(item =>
-      item.titolo?.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
-
-  // Richiama il calcolo matematico che hai già nel Service
-  getSubtotale(): number {
-    return this.carrelloService.getTotale();
-  }
-
-  // Conta quanti pezzi fisici ci sono nel carrello
-  getTotaleArticoli(): number {
-    return this.items.reduce((acc, item) => acc + item.quantita, 0);
-  }
-
-  // Gestione quantità direttamente integrata con il Service
-  cambiaQuantita(item: CarrelloItem, delta: number) {
-    const nuovoValore = item.quantita + delta;
+  // Spostiamo la logica di calcolo qui per non sovraccaricare l'HTML
+  private aggiornaConteggi(): void {
+    this.totaleArticoli = this.items.reduce((acc, item) => acc + (item.quantita || 0), 0);
     
-    if (nuovoValore <= 0) {
-      this.rimuovi(this.items.indexOf(item));
+    this.subtotale = this.items.reduce((acc, item) => {
+      const prezzo = typeof item.prezzo === 'string' ? parseFloat(item.prezzo) : item.prezzo;
+      return acc + ((prezzo || 0) * (item.quantita || 0));
+    }, 0);
+  }
+
+  // Metodi per l'interfaccia (ora restituiscono variabili già pronte)
+  getTotaleArticoli(): number {
+    return this.totaleArticoli;
+  }
+
+  getSubtotale(): number {
+    return this.subtotale;
+  }
+
+  cambiaQuantita(gioco: CarrelloItem, modifica: number): void {
+    const nuovaQty = (gioco.quantita || 1) + modifica;
+    if (nuovaQty <= 0) {
+      this.rimuovi(gioco.id);
     } else {
-      item.quantita = nuovoValore;
+      this.carrelloService.updateQuantita(gioco.id, nuovaQty).subscribe({
+        next: () => this.caricaCarrello(),
+        error: (err) => console.error('Errore update:', err)
+      });
     }
   }
 
-  rimuovi(index: number) {
-    this.carrelloService.rimuovi(index);
-    this.aggiornaVista(); // Refresh della lista
-  }
-
-  // --- ANIMAZIONI MOUSE (Per lo stile gaming che hai scelto) ---
-  onMouseEnter(event: MouseEvent, gioco: CarrelloItem) {
-    this.transforms[gioco.id] = 'scale(1.03) translateY(-5px)';
-  }
-
-  onMouseMove(event: MouseEvent, gioco: CarrelloItem) { }
-
-  onMouseLeave(gioco: CarrelloItem) {
-    this.transforms[gioco.id] = 'scale(1) translateY(0)';
+  rimuovi(id: number): void {
+    this.carrelloService.rimuovi(id).subscribe({
+      next: () => this.caricaCarrello(),
+      error: (err) => console.error('Errore rimozione:', err)
+    });
   }
 }

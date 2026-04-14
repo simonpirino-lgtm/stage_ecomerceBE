@@ -1,23 +1,42 @@
 const utentiService = require('../services/utenti.service');
 const authService = require('../services/auth.service')
 
-const findAll = async (req,res) => {
-    try{
+const findAll = async (req,res) => 
+{
+    try
+    {
         const utenti = await utentiService.findAll();
         return res.status(200).json({utenti});
-    } catch(error){
+    } 
+    catch(error)
+    {
         console.error(error);
         return res.status(404).json({ message: "Errore nel ritrovamento dei dati", errore: error});
     }
 }
 
-const register = async (req,res) => {
-    try {
+const register = async (req, res) => 
+{
+    try 
+    {
+        // Passiamo i dati del corpo della richiesta (nome, email, password, ecc.) al service
+        const utenti = await utentiService.register(req.body);
         
-    } catch (error) {
-        
+        // Rispondiamo con successo
+        return res.status(201).json({ 
+            message: "Utente registrato con successo", 
+            utente: utenti 
+        });
     }
-}
+     catch (error) 
+    {
+        console.error("Errore register controller:", error);
+        return res.status(400).json({ 
+            message: "Errore durante la registrazione", 
+            errore: error.message 
+        });
+    }
+};
 
 const login = async (req, res) => {
   try {
@@ -34,4 +53,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = {findAll, login};
+module.exports = {findAll, login, register};

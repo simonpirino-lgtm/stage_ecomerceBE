@@ -1,11 +1,12 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../confing/db');
+const sequelize = require('../config/db');
 
 const Categoria = sequelize.define(
     'Categoria',
     {
         // Name=id | DataType=3 (INT) | LengthSet=11 | DefaultText=AUTO_INCREMENT
-        id: {
+        id: 
+        {
             type: DataTypes.INTEGER(11),
             primaryKey: true,
             autoIncrement: true,
@@ -13,7 +14,8 @@ const Categoria = sequelize.define(
             unsigned: false // Unsigned=0
         },
         // Name=id_utente | DataType=3 (INT) | LengthSet=11 | AllowNull=0
-        Nome: {
+        Nome: 
+        {
             type: DataTypes.INTEGER(11),
             allowNull: false,
             unsigned: false // Unsigned=0
