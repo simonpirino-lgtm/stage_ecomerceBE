@@ -1,0 +1,56 @@
+<div class="cart-wrapper">
+  <div class="header-section">
+    <button class="back-button" [routerLink]="['/']">← Torna allo Store</button>
+    <h1 class="title">Il Tuo Carrello</h1>
+    <div class="item-count">{{ getTotaleArticoli() }} Giochi pronti</div>
+  </div>
+
+  <div class="container-cart">
+    <div class="items-list">
+      @for (gioco of items; track gioco.id) {
+        <div class="cart-card">
+          <div class="cart-image-wrapper">
+            <img [src]="gioco.image_url" [alt]="gioco.titolo" class="cart-image">
+          </div>
+          
+          <div class="cart-details">
+            <h2 class="cart-game-title">{{ gioco.titolo }}</h2>
+            <p class="cart-price">€ {{ gioco.prezzo }}</p>
+          </div>
+
+          <div class="cart-actions">
+            <div class="qty-control">
+              <button (click)="cambiaQuantita(gioco, -1)">-</button>
+              <span>{{ gioco.quantita || 1 }}</span>
+              <button (click)="cambiaQuantita(gioco, 1)">+</button>
+            </div>
+           <!-- <button class="btn-remove" (click)="rimuovi(gioco)">Elimina</button > -->
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>Ops! Il tuo carrello è vuoto.</p>
+          <button class="custom-button" [routerLink]="['/']">Vai a scegliere un gioco</button>
+        </div>
+      }
+    </div>
+
+    <div class="summary-box" @if(items.length)>
+      <h3>Riepilogo Ordine</h3>
+      <div class="summary-row">
+        <span>Subtotale</span>
+        <span>€ {{ getSubtotale().toFixed(2) }}</span>
+      </div>
+      <div class="summary-row">
+       
+        <span class="free">Spedizione GRATIS</span>
+      </div>
+      <hr>
+      <div class="summary-total">
+        <span>Totale</span>
+        <span>€ {{ getSubtotale().toFixed(2) }}</span>
+      </div>
+      <button class="btn-checkout">Procedi al Pagamento</button>
+    </div>
+  </div>
+</div>

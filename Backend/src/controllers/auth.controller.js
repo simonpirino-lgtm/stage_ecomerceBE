@@ -10,4 +10,21 @@ const findAll = async (req,res) => {
     }
 }
 
-module.exports = {findAll};
+const register = async (req,res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
+const login = async (req,res) => {
+    try {
+        const utenti = await utentiService.login(req.body);
+        return res.status(200).json({utenti});
+    } catch (error) {
+        return res.status(401).json({ message: "Utente o password non corretti", errore: error});
+    }
+}
+
+module.exports = {findAll, login};

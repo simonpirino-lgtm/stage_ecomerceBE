@@ -1,15 +1,17 @@
-
- 
 <div class="header-section">
-  
-  <a href="https://steampowered.com" class="custom-button">Carrello</a>
 
+
+<div class ="nomecarrello">
   <h1 class="title">Benvenuto su GameStore!</h1>
   
   
   <div class="search-container">
     <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
+    
   </div>
+  
+  </div>
+  <button [routerLink]="['/carrello']">Carrello</button>
 </div>
 
 <div class="container">
