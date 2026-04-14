@@ -20,5 +20,5 @@ exports.login = async (body) => {
 
 
 
-  res.json({ token });
+  res.json({user});
 };
