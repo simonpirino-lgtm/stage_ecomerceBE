@@ -1,31 +1,75 @@
+/* --- HEADER E TESTATA (CENTRATURA TOTALE) --- */
 .header-section {
-    text-align: center;
-    padding: 20px;
+    padding: 40px 20px;
     background-color: #ec3c14;
+    display: flex;
+    flex-direction: column; /* Imposta la colonna per Titolo e Ricerca */
+    align-items: center;    /* Centra orizzontalmente titolo e ricerca */
+    justify-content: center;
+    position: relative;     /* Necessario per bloccare il bottone a destra */
+    min-height: 150px;
+}
+
+.nomecarrello {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    /* Mette la barra di ricerca sotto il titolo, entrambi centrati */
+    gap: 20px;
 }
 
 .title {
-    color: #0044ff57;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
 }
 
-input[type="text"] {
-    width: 100%;
-    max-width: 400px;
-    padding: 12px 20px;
-    margin: 15px 0;
-    border-radius: 25px;
-    border: 1px solid #ff0000;
+.search-container input {
+    width: 450px;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    background-color: #ffffff;
+    font-size: 1rem;
     outline: none;
-    transition: all 0.3s;
-    background-color: #eda955;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-input[type="text"]:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0,123,255,0.2);
+/* SISTEMAZIONE PULSANTE CARRELLO (Mirato direttamente sul tag button) */
+.header-section > button {
+    position: absolute;  /* Lo sgancia dal flusso per non disturbare il titolo */
+    right: 40px;        /* Lo blocca a destra */
+    top: 50%;
+    transform: translateY(-50%); /* Lo centra verticalmente */
+    
+    background-color: #222; /* Nero stile Gaming */
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 5px 0px #000; /* Effetto 3D */
 }
 
+.header-section > button:hover {
+    background-color: #ffffff;
+    color: #ec3c14;
+    transform: translateY(-55%); /* Effetto sollevamento */
+    box-shadow: 0 7px 0px rgba(0,0,0,0.1);
+}
+
+.header-section > button:active {
+    transform: translateY(-45%);
+    box-shadow: 0 2px 0px #000;
+}
+
+/* --- PARTE INFERIORE (INVARIATA COME RICHIESTO) --- */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -54,7 +98,7 @@ input[type="text"]:focus {
     width: 100%;
     height: 180px;
     background-color: #ece2e2;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px 12px;
     overflow: visible;
     position: relative;
 }
@@ -66,11 +110,13 @@ input[type="text"]:focus {
     transition: transform 0.2s ease-out;
     position: relative;
     z-index: 2;
+    border-radius: 12px;
 }
 
 .card-content {
     padding: 15px;
     text-align: center;
+    border-radius: 12px;
 }
 
 .game-title {
@@ -100,7 +146,7 @@ input[type="text"]:focus {
 }
 
 .btn-add:hover {
-    background-color: #66ffba; /* verde acqua */
+    background-color: #66ffba; 
     transform: scale(1.05);
 }
 
@@ -109,24 +155,4 @@ input[type="text"]:focus {
     text-align: center;
     padding: 40px;
     color: #666;
-}
-
-.custom-button {
-    display: table;
-    margin-left: auto;
-    margin-right: 0;
-    color: rgb(76, 1, 59);
-    text-decoration: none;
-    font-weight: bold;
-    border: 2px solid rgb(95, 2, 76);
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: auto; 
-}
-
-.custom-button:hover {
-    background-color: rgb(95, 2, 76);
-    color: white;
 }
