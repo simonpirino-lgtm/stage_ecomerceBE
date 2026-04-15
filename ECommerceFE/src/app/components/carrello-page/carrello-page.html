@@ -1,6 +1,8 @@
 <div class="cart-wrapper">
   <div class="header-section">
-    <button class="back-button" [routerLink]="['/home']">← Torna allo Store</button>
+      <button class="back-button" [routerLink]="['/home']">
+        <i class="fas fa-arrow-left arrow"></i>
+      </button>
     <h1 class="title">Il Tuo Carrello</h1>
     <div class="item-count">{{ getTotaleArticoli() }} Giochi pronti</div>
   </div>
@@ -33,7 +35,6 @@
       {
         <div class="empty-state">
           <p>Ops! Il tuo carrello è vuoto.</p>
-      
         </div>
       }
     </div>

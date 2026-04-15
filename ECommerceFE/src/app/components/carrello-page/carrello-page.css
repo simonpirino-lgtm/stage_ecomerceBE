@@ -140,3 +140,28 @@
 @media (max-width: 900px) {
     .container-cart { grid-template-columns: 1fr; }
 }
+
+.back-button {
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: white;
+}
+
+.arrow {
+    display: inline-block;
+}
+
+.back-button:hover .arrow {
+    animation: moveArrow 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes moveArrow {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-8px);
+    }
+}

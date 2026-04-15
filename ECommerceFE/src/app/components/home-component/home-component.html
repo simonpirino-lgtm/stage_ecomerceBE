@@ -25,6 +25,12 @@
       <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
     </div>
   </div>
+  <div>
+    <select [(ngModel)]="selectedGenre">
+      <option value="">Tutti i generi</option>
+      <option *ngFor="let genre of generi" [value]="genre">{{ genre }}</option>
+    </select>
+  </div>
 
   <!-- CART -->
   <button [routerLink]="['/carrello']">carrello</button>
@@ -33,7 +39,7 @@
 
 <!-- PRODUCTS -->
 <div class="container">
-  @for(gioco of giochiFiltrati; track gioco.id) {
+  @for(gioco of giochiModel; track gioco.id) {
     <div class="product-card">
       
       <div class="image-wrapper">
