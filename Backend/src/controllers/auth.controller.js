@@ -17,7 +17,7 @@ const register = async (req, res) => {
 
     if (!nuovoUtente) {
       if (!req.body.userid || !req.body.password) {
-        return res.status(400).json({ message: "Userid e password obbligatori" });
+        return res.status(400).json({ message: "User e password obbligatori" });
       }
       return res.status(409).json({ message: "User already exists" });
     }
