@@ -15,34 +15,33 @@ const findAll = async (req,res) =>
     }
 }
 
-const register = async (req, res) => 
-{
-    try 
-    {
-        // Passiamo i dati del corpo della richiesta (nome, email, password, ecc.) al service
-        const utenti = await utentiService.register(req.body);
-        
-        // Rispondiamo con successo
-        return res.status(201).json({ 
-            message: "Utente registrato con successo", 
-            utente: utenti 
-        });
+const register = async (req, res) => {
+  try {
+    const nuovoUtente = await utentiService.register(req.body);
+
+    if (!nuovoUtente) {
+      // L'utente esiste già
+      return res.status(409).json({ message: "User already exists" });
     }
-     catch (error) 
-    {
-        console.error("Errore register controller:", error);
-        return res.status(400).json({ 
-            message: "Errore durante la registrazione", 
-            errore: error.message 
-        });
-    }
+
+    return res.status(201).json({
+      message: "Utente registrato con successo",
+      utente: nuovoUtente
+    });
+  } catch (error) {
+    console.error("Errore register controller:", error);
+    return res.status(500).json({
+      message: "Errore durante la registrazione",
+      errore: error.message
+    });
+  }
 };
 
 const login = async (req, res) => {
   try {
     const user = await authService.login(req.body);
 
-    if (!user) {
+    if (!user || user.message === 'User not found') {
       return res.status(401).json({ message: "Utente non trovato" });
     }
 

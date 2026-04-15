@@ -22,7 +22,7 @@ const Utenti = sequelize.define(
         }, refreshToken: 
         {
             type: DataTypes.STRING(500),
-            allowNull: false,
+            allowNull: true,
         },
         credito: {
             type: DataTypes.DECIMAL(10,2),
