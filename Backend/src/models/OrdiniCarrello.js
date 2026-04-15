@@ -27,7 +27,7 @@ const OrdiniCarrello = sequelize.define('OrdiniCarrello',
     }
 }, 
 {
-    tableName: 'ordinicarrello', // Nome esatto della tabella
+    tableName: 'ordini_carrello', // Nome esatto della tabella
     timestamps: false            // Di solito non servono per le righe del carrello
 });
 

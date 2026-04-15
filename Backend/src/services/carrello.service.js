@@ -1,35 +1,48 @@
-// Importa il repository (che creeremo al punto 2)
 const carrelloRepository = require('../repository/carrello.repository');
 
-const aggiungiProdotto = async (utenteId, giocoId, prezzo) => 
-{
-    // 1. Controlla se il gioco è già nel carrello per questo utente
-    const itemEsistente = await carrelloRepository.findItem(utenteId, giocoId);
-
-    if (itemEsistente) 
+const recuperaCarrelloCompleto = async (utenteId) => 
     {
-        // 2. Se esiste, incrementa la quantità
+    const items = await carrelloRepository.getCartByUtente(utenteId);
+    
+    // LOGICA SPOSTATA: Calcolo totali lato server
+    const totaleArticoli = items.reduce((acc, item) => acc + (item.quantita || 0), 0);
+    const subtotale = items.reduce((acc, item) => {
+        const prezzo = parseFloat(item.prezzo_unitario) || 0;
+        return acc + (prezzo * item.quantita);
+    }, 0);
+
+    return {
+        items,
+        totaleArticoli,
+        subtotale
+    };
+};
+
+const aggiungiProdotto = async (utenteId, giocoId, prezzo) => {
+    const itemEsistente = await carrelloRepository.findItem(utenteId, giocoId);
+    if (itemEsistente) {
         const nuovaQuantita = itemEsistente.quantita + 1;
         return await carrelloRepository.updateQuantita(itemEsistente.id, nuovaQuantita);
-    } 
-    else 
-    {
-        // 3. Se non esiste, crea una nuova riga nel carrello
-        return await carrelloRepository.createItem
-        ({
-            utente_id: utenteId,
-            gioco_id: giocoId,
-            quantita: 1,
-            prezzo_unitario: prezzo 
-        });
     }
+    return await carrelloRepository.createItem({
+        utente_id: utenteId,
+        gioco_id: giocoId,
+        quantita: 1,
+        prezzo_unitario: prezzo
+    });
 };
 
-const getTotaleCarrello = async (utenteId) => 
-{
-    const items = await carrelloRepository.getCartByUtente(utenteId);
-    // Logica del reduce che avevi in Angular, ma fatta sul server
-    return items.reduce((tot, item) => tot + (item.prezzo_unitario * item.quantita), 0);
+const aggiornaQuantita = async (id, quantita) => {
+    return await carrelloRepository.updateQuantita(id, quantita);
 };
 
-module.exports = { aggiungiProdotto, getTotaleCarrello };
+const eliminaProdotto = async (id) => {
+    return await carrelloRepository.deleteItem(id);
+};
+
+module.exports = { 
+    recuperaCarrelloCompleto, 
+    aggiungiProdotto, 
+    aggiornaQuantita, 
+    eliminaProdotto 
+};
