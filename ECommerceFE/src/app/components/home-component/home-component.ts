@@ -6,13 +6,12 @@ import { GiochiService } from '../../services/giochi-service';
 import { Router, RouterLink } from '@angular/router';
 import { CarrelloService } from '../../services/carrello.service';
 
-@Component
-({
+@Component({
   selector: 'app-home-component',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './home-component.html',
-  styleUrl: './home-component.css',
+  styleUrls: ['./home-component.css'],
 })
 export class HomeComponent implements OnInit {
 
@@ -23,19 +22,22 @@ export class HomeComponent implements OnInit {
   user: any = null;
   showMenu = false;
 
+  selectedGenre: string = '';
+  generi: string[] = [];
+
   private giochiService = inject(GiochiService);
-  private carrelloService = inject(CarrelloService); // 2. Iniettalo qui con inject
+  private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  get giochiFiltrati() {
+  /* get giochiFiltrati() {
     return this.giochiModel.filter(gioco =>
-      gioco.titolo.toLowerCase().includes(this.searchTerm.toLowerCase())
+      gioco.titolo.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      (this.selectedGenre === '' || categoria === this.selectedGenre)
     );
-  }
+  } */
 
   ngOnInit() {
-
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       this.user = JSON.parse(storedUser);
@@ -47,6 +49,10 @@ export class HomeComponent implements OnInit {
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
         this.giochiModel = data;
+
+        // Ottieni tutti i generi unici dai giochi
+        //this.generi = Array.from(new Set(data.map(g => g.categoria))).sort();
+
         this.cdr.detectChanges();
       },
       error: (err: any) => console.error("Errore nel caricamento dati:", err)
@@ -76,17 +82,15 @@ export class HomeComponent implements OnInit {
   }
 
   aggiungiAlCarrello(gioco: GiochiModel) {
-    alert(`Aggiunto al carrello: ${gioco.titolo}`);
+    // logica
   }
 
-  onMouseEnter(event: MouseEvent, gioco: GiochiModel) 
-  {
+  onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
     this.transforms[gioco.id] = 'scale(1.2)';
   }
 
-  onMouseMove(event: MouseEvent, gioco: GiochiModel) 
-  {
-    const target = event.currentTarget as HTMLElement; // Meglio usare currentTarget per il rect
+  onMouseMove(event: MouseEvent, gioco: GiochiModel) {
+    const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -100,8 +104,7 @@ export class HomeComponent implements OnInit {
       `scale(1.2) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
 
-  onMouseLeave(gioco: GiochiModel) 
-  {
+  onMouseLeave(gioco: GiochiModel) {
     delete this.transforms[gioco.id];
   }
 }
