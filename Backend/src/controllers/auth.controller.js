@@ -1,26 +1,24 @@
 const utentiService = require('../services/utenti.service');
-const authService = require('../services/auth.service')
+const authService = require('../services/auth.service');
 
-const findAll = async (req,res) => 
-{
-    try
-    {
-        const utenti = await utentiService.findAll();
-        return res.status(200).json({utenti});
-    } 
-    catch(error)
-    {
-        console.error(error);
-        return res.status(404).json({ message: "Errore nel ritrovamento dei dati", errore: error});
-    }
-}
+const findAll = async (req,res) => {
+  try {
+    const utenti = await utentiService.findAll();
+    return res.status(200).json({ utenti });
+  } catch(error) {
+    console.error(error);
+    return res.status(500).json({ message: "Errore nel ritrovamento dei dati", errore: error.message });
+  }
+};
 
 const register = async (req, res) => {
   try {
     const nuovoUtente = await utentiService.register(req.body);
 
     if (!nuovoUtente) {
-      // L'utente esiste già
+      if (!req.body.userid || !req.body.password) {
+        return res.status(400).json({ message: "Userid e password obbligatori" });
+      }
       return res.status(409).json({ message: "User already exists" });
     }
 
@@ -41,15 +39,16 @@ const login = async (req, res) => {
   try {
     const user = await authService.login(req.body);
 
-    if (!user || user.message === 'User not found') {
-      return res.status(401).json({ message: "Utente non trovato" });
+    if (!user) {
+      return res.status(401).json({ message: "Utente o password errati" });
     }
 
     return res.status(200).json(user);
 
   } catch (err) {
-    return res.status(500).json({ message: "Server error" });
+    console.error("Errore login controller:", err);
+    return res.status(500).json({ message: "Server error", errore: err.message });
   }
 };
 
-module.exports = {findAll, login, register};
+module.exports = { findAll, login, register };
