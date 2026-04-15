@@ -12,6 +12,6 @@ router.use('/auth', authRoute);
 
 router.use('/giochi',giochiRoute);
 
-router.use('/cart', carrelloRoute);
+router.use('/carrello', carrelloRoute);
 
 module.exports = router;

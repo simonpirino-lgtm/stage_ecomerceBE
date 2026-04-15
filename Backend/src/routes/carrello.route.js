@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const carrelloController = require('../controllers/carrello.controller');
 
-router.get('/test', (req, res) => res.send('OK'));
+router.get('/get/:id', carrelloController.getCarrello);
+router.post('/aggiungi', carrelloController.aggiungi);
+router.put('/update-qty', carrelloController.updateQuantita);
+router.delete('/:id', carrelloController.rimuovi);
 
 module.exports = router;

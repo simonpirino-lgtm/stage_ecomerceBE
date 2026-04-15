@@ -6,8 +6,7 @@ import { GiochiService } from '../../services/giochi-service';
 import { Router, RouterLink } from '@angular/router';
 import { CarrelloService } from '../../services/carrello.service';
 
-@Component
-({
+@Component({
   selector: 'app-home-component',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
@@ -15,19 +14,20 @@ import { CarrelloService } from '../../services/carrello.service';
   styleUrl: './home-component.css',
 })
 export class HomeComponent implements OnInit {
-
+  // Dati e Stato
   giochiModel: GiochiModel[] = [];
-  searchTerm: string = ''; 
+  searchTerm: string = '';
   transforms: { [id: number]: string } = {};
-
   user: any = null;
   showMenu = false;
 
+  // Injection
   private giochiService = inject(GiochiService);
-  private carrelloService = inject(CarrelloService); // 2. Iniettalo qui con inject
+  private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
+  // Getter per la ricerca in tempo reale
   get giochiFiltrati() {
     return this.giochiModel.filter(gioco =>
       gioco.titolo.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -35,15 +35,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    // Controllo Sessione Utente
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       this.user = JSON.parse(storedUser);
     } else {
-      this.router.navigate(['/']); // redirect to login
+      this.router.navigate(['/']); 
       return;
     }
 
+    // Caricamento Giochi dal Database
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
         this.giochiModel = data;
@@ -53,13 +54,33 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // 🔽 DROPDOWN
+  /**
+   * AGGIUNGI AL CARRELLO
+   * Invia i dati al backend. La logica di incremento quantità
+   * è gestita interamente dal server.
+   */
+  // Prima (sbagliato):
+// this.carrelloService.aggiungi(gioco.id).subscribe(...)
+
+// Dopo (corretto):
+aggiungiAlCarrello(gioco: GiochiModel) {
+  // Passiamo SIA l'id CHE il prezzo come richiesto dal service
+  this.carrelloService.aggiungi(gioco.id, gioco.prezzo).subscribe({
+    next: (res) => {
+      console.log('Prodotto aggiunto:', res);
+      alert(`${gioco.titolo} aggiunto al carrello!`);
+    },
+    error: (err) => console.error("Errore aggiunta carrello:", err)
+  });
+}
+
+  // --- GESTIONE UI & ANIMAZIONI ---
+
   toggleMenu(event: MouseEvent) {
-    event.stopPropagation(); // IMPORTANT
+    event.stopPropagation();
     this.showMenu = !this.showMenu;
   }
 
-  // 🔽 CLICK OUTSIDE
   @HostListener('document:click')
   closeMenu() {
     this.showMenu = false;
@@ -75,18 +96,12 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  aggiungiAlCarrello(gioco: GiochiModel) {
-    alert(`Aggiunto al carrello: ${gioco.titolo}`);
+  onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
+    this.transforms[gioco.id] = 'scale(1.1)';
   }
 
-  onMouseEnter(event: MouseEvent, gioco: GiochiModel) 
-  {
-    this.transforms[gioco.id] = 'scale(1.2)';
-  }
-
-  onMouseMove(event: MouseEvent, gioco: GiochiModel) 
-  {
-    const target = event.currentTarget as HTMLElement; // Meglio usare currentTarget per il rect
+  onMouseMove(event: MouseEvent, gioco: GiochiModel) {
+    const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -97,11 +112,10 @@ export class HomeComponent implements OnInit {
     const rotateY = ((x - centerX) / centerX) * 15;
 
     this.transforms[gioco.id] =
-      `scale(1.2) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
 
-  onMouseLeave(gioco: GiochiModel) 
-  {
+  onMouseLeave(gioco: GiochiModel) {
     delete this.transforms[gioco.id];
   }
 }

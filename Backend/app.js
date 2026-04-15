@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Permette di leggere e gestire i cookie inviati dal client (req.cookies)
 
-app.use('/api/carrello', carrelloRoutes); 
+
 // Configurazione Cross-Origin Resource Sharing (CORS)
 // Necessaria per permettere al frontend (es. Angular) di comunicare con il backend
 app.use(cors

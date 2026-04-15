@@ -3,7 +3,7 @@ export class GiochiModel
     
     id!: number;
     titolo!: string;
-    prezzo!: string;
+    prezzo!: number;
     datarilascio!: string;
     sviluppatore!: string;
     image_url!: string;

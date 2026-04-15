@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CarrelloService, CarrelloItem } from '../../services/carrello.service';
+import { CarrelloService, CarrelloResponse } from '../../services/carrello.service';
 
 @Component({
   selector: 'app-carrello-page',
@@ -10,14 +10,15 @@ import { CarrelloService, CarrelloItem } from '../../services/carrello.service';
   templateUrl: './carrello-page.html',
   styleUrls: ['./carrello-page.css']
 })
-export class CarrelloPageComponent implements OnInit 
-{
-  items: CarrelloItem[] = [];
+export class CarrelloPageComponent implements OnInit {
+  // Dati del carrello
+  items: any[] = [];
   
-  // Variabili per i calcoli (inizializzate a 0 per evitare errori nel template)
+  // Variabili popolate direttamente dai calcoli del Backend
   totaleArticoli: number = 0;
   subtotale: number = 0;
 
+  // Injection dei servizi
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
 
@@ -25,52 +26,84 @@ export class CarrelloPageComponent implements OnInit
     this.caricaCarrello();
   }
 
+  /**
+   * Recupera i dati dal server. 
+   * Nota: Il server restituisce già i totali calcolati.
+   */
   caricaCarrello(): void {
-    this.carrelloService.getCarrello().subscribe({
-      next: (dati) => {
-        this.items = dati || [];
-        this.aggiornaConteggi(); // Ricalcola tutto appena arrivano i dati
-        this.cdr.detectChanges(); // Forza il controllo dei cambiamenti
+    const userStr = localStorage.getItem('user');
+    if (!userStr) {
+      console.error('User not found in localStorage');
+      return;
+    }
+
+    let userId: number;
+    try {
+      const userObj = JSON.parse(userStr);
+      userId = userObj.id || parseInt(userStr, 10);
+    } catch {
+      userId = parseInt(userStr, 10);
+    }
+
+    if (!userId) {
+      console.error('Invalid user ID');
+      return;
+    }
+
+    this.carrelloService.getCarrello(userId).subscribe({
+      next: (risposta: CarrelloResponse) => {
+        // Assegnazione dei dati pronti dal backend
+        this.items = risposta.items || [];
+        this.totaleArticoli = risposta.totaleArticoli || 0;
+        this.subtotale = risposta.subtotale || 0;
+        
+        this.cdr.detectChanges(); // Forza il refresh della UI
       },
-      error: (err) => console.error('Errore caricamento:', err)
+      error: (err) => {
+        console.error('Errore durante il caricamento del carrello:', err);
+      }
     });
   }
 
-  // Spostiamo la logica di calcolo qui per non sovraccaricare l'HTML
-  private aggiornaConteggi(): void {
-    this.totaleArticoli = this.items.reduce((acc, item) => acc + (item.quantita || 0), 0);
+  /**
+   * Gestisce l'aumento o la diminuzione della quantità.
+   * La logica di controllo (se <= 0 rimuovi) rimane qui per l'esperienza utente.
+   */
+  cambiaQuantita(item: any, modifica: number): void {
+    const nuovaQty = (item.quantita || 1) + modifica;
     
-    this.subtotale = this.items.reduce((acc, item) => {
-      const prezzo = typeof item.prezzo === 'string' ? parseFloat(item.prezzo) : item.prezzo;
-      return acc + ((prezzo || 0) * (item.quantita || 0));
-    }, 0);
+    if (nuovaQty <= 0) {
+      this.rimuovi(item.id);
+    } else {
+      this.carrelloService.updateQuantita(item.id, nuovaQty).subscribe({
+        next: () => {
+          // Dopo l'aggiornamento, ricarichiamo tutto per avere i nuovi totali dal server
+          this.caricaCarrello();
+        },
+        error: (err) => console.error('Errore durante l\'aggiornamento quantità:', err)
+      });
+    }
   }
 
-  // Metodi per l'interfaccia (ora restituiscono variabili già pronte)
+  /**
+   * Rimuove un elemento dal carrello tramite ID.
+   */
+  rimuovi(id: number): void {
+    this.carrelloService.rimuovi(id).subscribe({
+      next: () => {
+        // Ricarica per aggiornare la lista e i totali
+        this.caricaCarrello();
+      },
+      error: (err) => console.error('Errore durante la rimozione dell\'articolo:', err)
+    });
+  }
+
+  // Helper per il template (opzionali, usano le variabili già pronte)
   getTotaleArticoli(): number {
     return this.totaleArticoli;
   }
 
   getSubtotale(): number {
     return this.subtotale;
-  }
-
-  cambiaQuantita(gioco: CarrelloItem, modifica: number): void {
-    const nuovaQty = (gioco.quantita || 1) + modifica;
-    if (nuovaQty <= 0) {
-      this.rimuovi(gioco.id);
-    } else {
-      this.carrelloService.updateQuantita(gioco.id, nuovaQty).subscribe({
-        next: () => this.caricaCarrello(),
-        error: (err) => console.error('Errore update:', err)
-      });
-    }
-  }
-
-  rimuovi(id: number): void {
-    this.carrelloService.rimuovi(id).subscribe({
-      next: () => this.caricaCarrello(),
-      error: (err) => console.error('Errore rimozione:', err)
-    });
   }
 }

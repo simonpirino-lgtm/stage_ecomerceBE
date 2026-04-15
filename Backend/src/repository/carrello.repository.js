@@ -1,29 +1,26 @@
-const { Carrello } = require('../models'); // Assumendo che usi Sequelize o simile
+const { Carrello } = require('../models');
 
-const findItem = async (utenteId, giocoId) => 
-{
+const findItem = async (utenteId, giocoId) => {
     return await Carrello.findOne({ where: { utente_id: utenteId, gioco_id: giocoId } });
 };
 
-const updateQuantita = async (id, quantita) => 
-{
+const updateQuantita = async (id, quantita) => {
     return await Carrello.update({ quantita }, { where: { id } });
 };
 
-const createItem = async (dati) => 
-{
+const createItem = async (dati) => {
     return await Carrello.create(dati);
 };
 
-// Nel repository o service del BACK-END
-// Esempio se usi Sequelize:
-const getCartByUtente = async (utenteId) =>
-{
+const getCartByUtente = async (utenteId) => {
     return await Carrello.findAll({
-        where: { utente_id: utenteId },
-        include: ['Gioco'] // <--- IMPORTANTE: include i dettagli del gioco (titolo, immagine)
+        where: {id_utente: utenteId },
+        include: ['giochi'] // Assicurati che l'associazione 'Gioco' sia definita nei modelli
     });
 };
 
+const deleteItem = async (id) => {
+    return await Carrello.destroy({ where: { id } });
+};
 
-module.exports = { findItem, updateQuantita, createItem, getCartByUtente };
+module.exports = { findItem, updateQuantita, createItem, getCartByUtente, deleteItem };

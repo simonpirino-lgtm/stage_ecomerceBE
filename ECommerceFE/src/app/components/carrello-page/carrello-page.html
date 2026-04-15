@@ -7,7 +7,8 @@
 
   <div class="container-cart">
     <div class="items-list">
-      @for (gioco of items; track gioco.id) {
+      @for (gioco of items; track gioco.id) 
+      {
         <div class="cart-card">
           <div class="cart-image-wrapper">
             <img [src]="gioco.image_url" [alt]="gioco.titolo" class="cart-image">
@@ -27,10 +28,12 @@
            
           </div>
         </div>
-      } @empty {
+      } 
+      @empty 
+      {
         <div class="empty-state">
           <p>Ops! Il tuo carrello è vuoto.</p>
-          <button class="custom-button" [routerLink]="['/']">Vai a scegliere un gioco</button>
+      
         </div>
       }
     </div>
