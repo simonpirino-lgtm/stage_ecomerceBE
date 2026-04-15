@@ -1,9 +1,24 @@
-const utentiRepository = require('../repository/utenti.repository');
+const { getUtenteByUserid, creaUtente } = require('../repository/auth.repository');
+const bcrypt = require('bcrypt');
 
+const register = async ({ userid, password }) => {
+  if (!userid || !password) return null;
 
-const findAll = async () => 
-{
-    return await utentiRepository.findAll();
-}
+  const existingUser = await getUtenteByUserid(userid);
+  if (existingUser) return null;
 
-module.exports = {findAll};
+  const newUser = await creaUtente(userid, password);
+  return newUser;
+};
+
+const login = async ({ userid, password }) => {
+  const user = await getUtenteByUserid(userid);
+  if (!user) return null;
+
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) return null;
+
+  return user;
+};
+
+module.exports = { register, login };

@@ -47,28 +47,46 @@ export class LoginComponent {
     };
 
     if (this.isLogin) {
-
+      // LOGIN
       this.authService.login(payload).subscribe({
         next: (res: any) => {
-
-          if (res?.message === 'User not found') {
+          if (!res || res?.message === 'User not found') {
             this.triggerError('Wrong username or password');
             return;
           }
-          
+
           console.log('Saving user:', res);
           localStorage.setItem('user', JSON.stringify(res));
-
           this.router.navigate(['/home']);
         },
-
         error: (err) => {
           this.triggerError(err?.error?.message || 'Login failed');
         }
       });
-
     } else {
-      console.log('REGISTER not implemented');
+      // REGISTER
+      this.authService.register(payload).subscribe({
+        next: (res: any) => {
+          console.log(res);
+          if (!res) {
+            // backend può ritornare null se utente esiste
+            this.triggerError('User already exists');
+            return;
+          }
+          if (res?.message === 'User already exists') {
+            this.triggerError('User already exists');
+            return;
+          }
+
+          console.log('User created successfully:', res);
+          const userData = res.utente || res;
+          localStorage.setItem('user', JSON.stringify(userData));
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          this.triggerError(err?.error?.message || 'Register failed');
+        }
+      });
     }
   }
 

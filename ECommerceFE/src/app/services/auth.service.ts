@@ -13,4 +13,18 @@ export class AuthService {
   login(data: any) {
     return this.http.post(`${this.baseUrl}/api/v1/auth/login`, data);
   }
+
+  register(data: any) {
+    return this.http.post(`${this.baseUrl}/api/v1/auth/register`, data);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('user');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+
 }
