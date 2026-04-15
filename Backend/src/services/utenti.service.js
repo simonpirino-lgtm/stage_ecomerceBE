@@ -15,12 +15,15 @@ const register = async ({ userid, password }) => {
   const existingUser = await getUtenteByUserid(userid); // ✅ ora dentro async function
 
   if (existingUser) {
-    // Utente già esistente
-    return null; // meglio null che {message: ...}
+    return null;
   }
 
-  const newUser = await creaUtente(userid, password);
-  return newUser;
+  if(userid != ''){
+    const newUser = await creaUtente(userid, password);
+    return newUser;
+  } else {
+    return null;
+  }
 };
 
 // LOGIN
