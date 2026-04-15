@@ -1,47 +1,24 @@
-const Utenti = require("../models/Utenti");
+const { getUtenteByUserid, creaUtente } = require('../repository/auth.repository');
+const bcrypt = require('bcrypt');
 
-// Trova un utente per userid
-const getUtenteByUserid = async (userid) => {
-  return await Utenti.findOne({ where: { userid } });
-};
-
-// Crea un nuovo utente
-const creaUtente = async (userid, password) => {
-  return await Utenti.create({ userid, password });
-};
-
-// REGISTER
 const register = async ({ userid, password }) => {
-  const existingUser = await getUtenteByUserid(userid); // ✅ ora dentro async function
+  if (!userid || !password) return null;
 
-  if (existingUser) {
-    return null;
-  }
+  const existingUser = await getUtenteByUserid(userid);
+  if (existingUser) return null;
 
-  if(userid != ''){
-    const newUser = await creaUtente(userid, password);
-    return newUser;
-  } else {
-    return null;
-  }
+  const newUser = await creaUtente(userid, password);
+  return newUser;
 };
 
-// LOGIN
 const login = async ({ userid, password }) => {
-  const user = await Utenti.findOne({
-    where: { userid, password }
-  });
+  const user = await getUtenteByUserid(userid);
+  if (!user) return null;
 
-  if (!user) {
-    return null; // meglio null che {message: ...}
-  }
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) return null;
 
   return user;
 };
 
-// Trova tutti gli utenti
-const findAll = async () => {
-  return await Utenti.findAll();
-};
-
-module.exports = { getUtenteByUserid, creaUtente, register, login, findAll };
+module.exports = { register, login };
