@@ -18,7 +18,7 @@ const createItem = async (dati) =>
 // Nel repository o service del BACK-END
 // Esempio se usi Sequelize:
 const getCartByUtente = async (utenteId) =>
-     {
+{
     return await Carrello.findAll({
         where: { utente_id: utenteId },
         include: ['Gioco'] // <--- IMPORTANTE: include i dettagli del gioco (titolo, immagine)

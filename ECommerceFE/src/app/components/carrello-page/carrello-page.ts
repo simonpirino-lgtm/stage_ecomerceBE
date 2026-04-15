@@ -10,7 +10,8 @@ import { CarrelloService, CarrelloItem } from '../../services/carrello.service';
   templateUrl: './carrello-page.html',
   styleUrls: ['./carrello-page.css']
 })
-export class CarrelloPageComponent implements OnInit {
+export class CarrelloPageComponent implements OnInit 
+{
   items: CarrelloItem[] = [];
   
   // Variabili per i calcoli (inizializzate a 0 per evitare errori nel template)
