@@ -10,4 +10,8 @@ const getUtente = async (id, password) => {
     })
 };
 
-module.exports = {getUtente};
+const creaUtente = async (id, password) => {
+    return await Utenti.create({ userid: id, password });
+};
+
+module.exports = {getUtente, creaUtente};

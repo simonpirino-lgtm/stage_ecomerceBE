@@ -1,23 +1,35 @@
- exports.register = async (req, res) =>
-{
-  const { email, password } = req.body;
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = { id: users.length + 1, email, password: hashedPassword };
-
-  users.push(user);
-
-  res.json({ message: "User registered" });
-}; 
-
 const Utenti = require("../models/Utenti");
-const authRepo = require("../repository/auth.repository");
 
-exports.login = async (body) => {
-  const { userid, password } = body;
-
-  const user = await authRepo.getUtente(userid, password);
-
-  return user; // return null if not found
+const getUtenteByUserid = async (userid) => {
+  return await Utenti.findOne({ where: { userid } });
 };
+
+const creaUtente = async (userid, password) => {
+  return await Utenti.create({ userid, password });
+};
+
+const register = async ({ userid, password }) => {
+  const existingUser = await getUtenteByUserid(userid);
+
+  if (existingUser) {
+    return { message: 'User already exists' };
+  }
+
+  const newUser = await creaUtente(userid, password);
+
+  return newUser;
+};
+
+const login = async ({ userid, password }) => {
+  const user = await Utenti.findOne({
+    where: { userid, password }
+  });
+
+  if (!user) {
+    return { message: 'User not found' };
+  }
+
+  return user;
+};
+
+module.exports = { login, register, getUtenteByUserid, creaUtente };
