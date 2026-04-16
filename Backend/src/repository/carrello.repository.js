@@ -1,7 +1,6 @@
 const { Carrello, OrdiniCarrello } = require('../models');
 
 const findItem = async (carrelloId, giocoId) => {
-    console.log(carrelloId + " " + giocoId);
     return await OrdiniCarrello.findOne({ where: { id_carrello: carrelloId, id_gioco: giocoId } });
 };
 
@@ -10,7 +9,6 @@ const updateQuantita = async (id, quantita) => {
 };
 
 const createItem = async (carrelloId, giocoId, quantita) => {
-    console.log(carrelloId + " " + giocoId);
     return await OrdiniCarrello.create({
         id_carrello: carrelloId,
         id_gioco: giocoId,

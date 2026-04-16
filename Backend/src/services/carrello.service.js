@@ -20,11 +20,10 @@ const recuperaCarrelloCompleto = async (utenteId) =>
 
 const aggiungiProdotto = async (carrelloId, giocoId, quantita) => {
     const itemEsistente = await carrelloRepository.findItem(carrelloId, giocoId);
-    /* if (itemEsistente) {
+    if (itemEsistente) {
         const nuovaQuantita = itemEsistente.quantita + 1;
         return await carrelloRepository.updateQuantita(itemEsistente.id, nuovaQuantita);
-    } */
-    //console.log(carrelloId + " " + giocoId);
+    }
     return await carrelloRepository.createItem(
         carrelloId,
         giocoId,

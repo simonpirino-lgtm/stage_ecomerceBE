@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/']);
       return;
     }
-    console.log(this.user.id + " ahssahduias")
 
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
@@ -65,7 +64,6 @@ export class HomeComponent implements OnInit {
 // Dopo (corretto):
 aggiungiAlCarrello(gioco: GiochiModel) {
   // Passiamo SIA l'id CHE il prezzo come richiesto dal service
-  console.log(gioco.id)
   this.carrelloService.aggiungi(this.user.id ,gioco.id, 1).subscribe({
     next: (res) => {
       console.log('Prodotto aggiunto:', res);

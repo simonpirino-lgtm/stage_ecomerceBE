@@ -33,7 +33,6 @@ export class CarrelloService {
    * Il backend restituisce già items, totaleArticoli e subtotale.
    */
   getCarrello(id:number): Observable<CarrelloResponse> {
-    console.log("getCarrello " + id)
     return this.http.get<CarrelloResponse>(`${this.apiUrl}/get/${id}`);
   }
 
