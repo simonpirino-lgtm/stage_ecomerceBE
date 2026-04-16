@@ -10,13 +10,15 @@
 
 /* MENU */
 .menu-icon {
-    position: absolute;
+    position: fixed;
     right: 20px;
-    top: 50%;
+    top: 12%;
     transform: translateY(-50%);
     font-size: 28px;
     cursor: pointer;
     color: white;
+    z-index: 999;
+    box-shadow: 0px 0px 0px 3px #e1ff00b8;
 }
 
 /* CENTRO */
@@ -33,7 +35,7 @@
     font-weight: bold;
 }
 
-/* SEARCH + SELECT */
+/* SEARCH */
 .search-row {
     display: flex;
     gap: 10px;
@@ -57,45 +59,91 @@
     cursor: pointer;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR FIX DEFINITIVO
+========================= */
+
 .sidebar {
     position: fixed;
     top: 0;
-    right: -280px;
+    right: 0;
     width: 260px;
     height: 100%;
     background: #c22626;
     color: white;
     padding: 20px;
-    transition: 0.3s;
     z-index: 1000;
+
+    /* FIX ANIMAZIONE STABILE */
+    transform: translateX(100%);
+    opacity: 0;
+
+    transition: transform 0.35s ease, opacity 0.35s ease;
+
+    pointer-events: none;
+
+    box-shadow: -12px 0 25px 5px rgba(75, 28, 7, 0.25);
+    border-radius: 15px 0px 15px 0px;
+    transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+
+    will-change: transform, opacity;
 }
+
 
 .sidebar.open {
-    right: 0;
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
+.sidebar .sidebar-item {
+    transition-delay: calc((4 - var(--i)) * 0.05s);
+}
+
+/* HEADER SIDEBAR */
+.sidebar-header {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* ITEM */
 .sidebar-item {
     padding: 12px;
     cursor: pointer;
+
+    opacity: 0;
+    transform: translateX(20px);
+
+    transition: transform 2.6s ease, opacity 0.6s ease;
 }
 
 .sidebar-item:hover {
     background: #c05959;
 }
 
+/* STAGGER FIX (ORA FUNZIONA DAVVERO) */
+.sidebar.open .sidebar-item {
+    opacity: 1;
+    transform: translateX(0);
+
+    transition-delay: calc(var(--i) * 0.08s);
+}
+
 .logout {
     color: red;
 }
 
-/* 🔥 CONTENUTO SHIFT SENZA ROMPERE 3D */
+/* CONTENUTO SHIFT */
 .main-content {
     transition: margin-right 0.3s ease;
+    background: #d96f51;
 }
 
 .main-content.shift {
     margin-right: 260px;
 }
+
 
 /* GRID */
 .container {
@@ -108,16 +156,18 @@
 
 /* CARD */
 .product-card {
-    /* background: #ffd7d7; */
-    background: linear-gradient(#d96f51,#ea2424 , #db5353);
+    background: linear-gradient(#d96f51,#ea2424,#db5353);
     border-radius: 15px;
     transition: 0.3s;
-    
 }
 
-.product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); filter: brightness(1.15); }
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    filter: brightness(1.15);
+}
 
-/* 🔥 3D FIX */
+/* IMAGE */
 .image-wrapper {
     height: 180px;
     perspective: 1000px;
@@ -128,40 +178,75 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.2s ease-out;
-    border-radius: 15px 15px 0px 0px;
+    border-radius: 15px 15px 0 0;
 }
 
-/* CONTENUTO */
+/* CARD CONTENT */
 .card-content {
     padding: 15px;
     text-align: center;
 }
 
 .game-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 10px 0;
 }
 
 .price {
     color: #710b5b;
     font-weight: bold;
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     font-size: large;
 }
 
-.btn-add 
-{
-    
+.btn-add {
     background: #007bff;
     color: white;
     padding: 10px;
     width: 100%;
     border: none;
     cursor: pointer;
-     border-radius: 10px;
-
+    border-radius: 10px;
 }
 
 .btn-add:hover {
     background: #66ffba;
+}
+
+/* ANIMAZIONI EXTRA */
+.flying-image {
+    position: fixed;
+    z-index: 2000;
+    pointer-events: none;
+    transition: all 0.7s cubic-bezier(.22,.61,.36,1);
+}
+
+.cart-burst {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    z-index: 2001;
+    pointer-events: none;
+    animation: burst 0.6s ease-out forwards;
+}
+
+@keyframes burst {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* MENU EFFECT */
+.menu-icon.vibrate {
+    animation: vibrate 0.8s ease;
+}
+
+@keyframes vibrate {
+    0% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-3px); }
+    50% { transform: translateY(-50%) translateX(3px); }
+    75% { transform: translateY(-50%) translateX(-2px); }
+    100% { transform: translateY(-50%) translateX(0); }
 }
