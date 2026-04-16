@@ -108,16 +108,19 @@
 
 /* CARD */
 .product-card {
-    background: #ffd7d7;
+    /* background: #ffd7d7; */
+    background: linear-gradient(#d96f51,#ea2424 , #db5353);
     border-radius: 15px;
     transition: 0.3s;
+    
 }
+
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); filter: brightness(1.15); }
 
 /* 🔥 3D FIX */
 .image-wrapper {
     height: 180px;
     perspective: 1000px;
-
 }
 
 .product-image {
@@ -125,6 +128,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.2s ease-out;
+    border-radius: 15px 15px 0px 0px;
 }
 
 /* CONTENUTO */

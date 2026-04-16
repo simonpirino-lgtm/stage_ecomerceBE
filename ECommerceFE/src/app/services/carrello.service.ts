@@ -6,7 +6,7 @@ import { GiochiModel } from '../models/giochi-model';
 // Definiamo le interfacce per una tipizzazione forte
 export interface CarrelloItem {
   id: number;
-  utente_id: number;
+  id_utente: number;
   gioco_id: number;
   quantita: number;
   prezzo_unitario: number;
@@ -40,9 +40,9 @@ export class CarrelloService {
    * Aggiunge un prodotto al carrello.
    * Nota: ho cambiato l'endpoint in '/aggiungi' per farlo coincidere con la rotta backend.
    */
-  aggiungi(giocoId: number, prezzo: number): Observable<any> 
+  aggiungi(carrelloId: number, giocoId: number, quantita: number): Observable<any> 
   {
-    return this.http.post(`${this.apiUrl}/aggiungi`, { giocoId, prezzo });
+    return this.http.post(`${this.apiUrl}/aggiungi`, { carrelloId, giocoId , quantita});
   }
 
   /**

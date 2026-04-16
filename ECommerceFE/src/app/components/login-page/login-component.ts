@@ -67,7 +67,6 @@ export class LoginComponent {
       // REGISTER
       this.authService.register(payload).subscribe({
         next: (res: any) => {
-          console.log(res);
           if (!res) {
             // backend può ritornare null se utente esiste
             this.triggerError('User already exists');

@@ -53,11 +53,30 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  /* -------------------------
-     ☰ SIDEBAR
-  -------------------------- */
-  toggleMenu(event: Event) {
-    event.stopPropagation(); // evita chiusura immediata
+  /**
+   * AGGIUNGI AL CARRELLO
+   * Invia i dati al backend. La logica di incremento quantità
+   * è gestita interamente dal server.
+   */
+  // Prima (sbagliato):
+// this.carrelloService.aggiungi(gioco.id).subscribe(...)
+
+// Dopo (corretto):
+aggiungiAlCarrello(gioco: GiochiModel) {
+  // Passiamo SIA l'id CHE il prezzo come richiesto dal service
+  this.carrelloService.aggiungi(this.user.id ,gioco.id, 1).subscribe({
+    next: (res) => {
+      console.log('Prodotto aggiunto:', res);
+      alert(`${gioco.titolo} aggiunto al carrello!`);
+    },
+    error: (err) => console.error("Errore aggiunta carrello:", err)
+  });
+}
+
+  // --- GESTIONE UI & ANIMAZIONI ---
+
+  toggleMenu(event: MouseEvent) {
+    event.stopPropagation();
     this.showMenu = !this.showMenu;
   }
 
@@ -92,17 +111,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  /* -------------------------
-     🛒 CARRELLO
-  -------------------------- */
-  aggiungiAlCarrello(gioco: GiochiModel) {
-    this.carrelloService.aggiungi(gioco.id, gioco.prezzo).subscribe({
-      next: () => {
-        alert(`${gioco.titolo} aggiunto al carrello!`);
-      },
-      error: (err) => console.error("Errore carrello:", err)
-    });
-  }
+
 
   /* -------------------------
      🎮 HOVER 3D
