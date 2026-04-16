@@ -41,4 +41,14 @@ const rimuovi = async (req, res) => {
     }
 };
 
-module.exports = { getCarrello, aggiungi, updateQuantita, rimuovi };
+const getTotale = async (req, res) => {
+    try {
+        const utenteId = req.params.id;
+        const { totaleArticoli, totalePrezzo } = await carrelloService.calcolaTotaleCarrello(utenteId);
+        res.status(200).json({ totaleArticoli, totalePrezzo });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { getCarrello, aggiungi, updateQuantita, rimuovi, getTotale };
