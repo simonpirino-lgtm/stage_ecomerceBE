@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { iterator } from 'rxjs/internal/symbol/iterator';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class SessionStorageService {
 
   remove(key: string): void {
     sessionStorage.removeItem(key);
+  
   }
 
   clear(): void {
