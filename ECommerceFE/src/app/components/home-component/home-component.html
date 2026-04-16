@@ -29,11 +29,25 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar" [class.open]="showMenu">
-  <div class="sidebar-header">👤 {{ user?.userid }}</div> <br>
-  <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
-  <div class="sidebar-item">💰 Credito € {{ user?.credito }}</div>
-  <div class="sidebar-item" (click)="goToCart()">🛒 Carrello</div>
-  <div class="sidebar-item logout" (click)="logout()"> ↪️ Logout</div>
+
+  <div class="sidebar-header">👤 {{ user?.userid }}</div>
+
+  <div class="sidebar-item" style="--i:1" (click)="goToProfile()">
+    ⚙️ Account
+  </div>
+
+  <div class="sidebar-item" style="--i:2">
+    💰 Credito € {{ user?.credito }}
+  </div>
+
+  <div class="sidebar-item" style="--i:3" (click)="goToCart()">
+    🛒 Carrello
+  </div>
+
+  <div class="sidebar-item logout" style="--i:4" (click)="logout()">
+    ↪️ Logout
+  </div>
+
 </div>
 
 <!-- CONTENUTO -->
@@ -44,7 +58,16 @@
       <div class="product-card">
 
         <div class="image-wrapper">
+          <!-- <img 
+            [src]="gioco.image_url" 
+            class="product-image"
+            (mouseenter)="onMouseEnter($event, gioco)"
+            (mousemove)="onMouseMove($event, gioco)"
+            (mouseleave)="onMouseLeave(gioco)"
+            [style.transform]="transforms[gioco.id] || ''"
+          > -->
           <img 
+            #gameImg
             [src]="gioco.image_url" 
             class="product-image"
             (mouseenter)="onMouseEnter($event, gioco)"
@@ -58,9 +81,13 @@
           <h2 class="game-title">{{gioco.titolo}}</h2>
           <p class="price">€ {{gioco.prezzo}}</p><br>
 
-          <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">
+
+          <button class="btn-add" (click)="aggiungiAlCarrello(gioco, gameImg)">
             Aggiungi al Carrello
           </button>
+          <!-- <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">
+            Aggiungi al Carrello
+          </button> -->
         </div>
 
       </div>

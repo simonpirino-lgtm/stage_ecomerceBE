@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit {
   selectedGenre: string = '';
   generi: string[] = [];
 
+  menuIcon!: HTMLElement;
+
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
@@ -40,52 +42,44 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
+
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
         this.giochiModel = data;
-
-        // 🔥 generi dinamici
         this.generi = Array.from(new Set(data.map(g => g.categoria))).sort();
-
         this.cdr.detectChanges();
       },
       error: (err) => console.error("Errore caricamento:", err)
     });
   }
 
-  /**
-   * AGGIUNGI AL CARRELLO
-   * Invia i dati al backend. La logica di incremento quantità
-   * è gestita interamente dal server.
-   */
-  // Prima (sbagliato):
-// this.carrelloService.aggiungi(gioco.id).subscribe(...)
+  /* -------------------------
+     CARRELLO
+  -------------------------- */
+  aggiungiAlCarrello(gioco: GiochiModel, imgElement: HTMLElement) {
+    this.animateToCart(imgElement);
 
-// Dopo (corretto):
-aggiungiAlCarrello(gioco: GiochiModel) {
-  // Passiamo SIA l'id CHE il prezzo come richiesto dal service
-  this.carrelloService.aggiungi(this.user.id ,gioco.id, 1).subscribe({
-    next: (res) => {
-      console.log('Prodotto aggiunto:', res);
-      alert(`${gioco.titolo} aggiunto al carrello!`);
-    },
-    error: (err) => console.error("Errore aggiunta carrello:", err)
-  });
-}
+    this.carrelloService.aggiungi(this.user.id, gioco.id, 1).subscribe({
+      next: (res) => {
+        console.log('Prodotto aggiunto:', res);
+      },
+      error: (err) => console.error("Errore aggiunta carrello:", err)
+    });
+  }
 
-  // --- GESTIONE UI & ANIMAZIONI ---
-
+  /* -------------------------
+     MENU TOGGLE
+  -------------------------- */
   toggleMenu(event: MouseEvent) {
     event.stopPropagation();
     this.showMenu = !this.showMenu;
   }
 
-  // 🔥 CLICK OVUNQUE → CHIUDE
   @HostListener('document:click', ['$event'])
   handleClick(event: Event) {
     const target = event.target as HTMLElement;
 
-    // NON chiudere se clicchi su menu o sidebar
     if (target.closest('.sidebar') || target.closest('.menu-icon')) {
       return;
     }
@@ -94,7 +88,7 @@ aggiungiAlCarrello(gioco: GiochiModel) {
   }
 
   /* -------------------------
-     NAVIGAZIONE
+     NAV
   -------------------------- */
   goToProfile() {
     this.router.navigate(['/profile']);
@@ -111,10 +105,8 @@ aggiungiAlCarrello(gioco: GiochiModel) {
     this.router.navigate(['/']);
   }
 
-
-
   /* -------------------------
-     🎮 HOVER 3D
+     HOVER EFFECT
   -------------------------- */
   onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
     this.transforms[gioco.id] = 'scale(1.2)';
@@ -139,5 +131,65 @@ aggiungiAlCarrello(gioco: GiochiModel) {
 
   onMouseLeave(gioco: GiochiModel) {
     delete this.transforms[gioco.id];
+  }
+
+  /* -------------------------
+     ANIMAZIONE CARRELLO
+  -------------------------- */
+  animateToCart(img: HTMLElement) {
+
+    const rect = img.getBoundingClientRect();
+    const menuIcon = this.menuIcon;
+    const cartRect = menuIcon.getBoundingClientRect();
+
+    const clone = img.cloneNode(true) as HTMLElement;
+    clone.classList.add('flying-image');
+
+    clone.style.top = rect.top + 'px';
+    clone.style.left = rect.left + 'px';
+    clone.style.width = rect.width + 'px';
+    clone.style.height = rect.height + 'px';
+
+    document.body.appendChild(clone);
+
+    menuIcon.classList.add('magnet');
+
+    setTimeout(() => {
+      clone.style.top = cartRect.top + 'px';
+      clone.style.left = cartRect.left + 'px';
+      clone.style.width = '30px';
+      clone.style.height = '30px';
+      clone.style.opacity = '0.5';
+      clone.style.filter = 'brightness(0.6)';
+
+      menuIcon.classList.add('pulse');
+    }, 10);
+
+    setTimeout(() => {
+      clone.remove();
+
+      this.createBurst(cartRect);
+
+      menuIcon.classList.add('vibrate');
+
+      setTimeout(() => {
+        menuIcon.classList.remove('vibrate');
+        menuIcon.classList.remove('pulse');
+        menuIcon.classList.remove('magnet');
+      }, 300);
+
+    }, 700);
+  }
+
+  createBurst(rect: DOMRect) {
+    const burst = document.createElement('div');
+    burst.classList.add('cart-burst');
+
+    burst.style.top = rect.top + rect.height / 2 - 80 + 'px';
+    burst.style.left = rect.left + rect.width / 2 - 80 + 'px';
+
+    document.body.appendChild(burst);
+
+    setTimeout(() => burst.remove(), 600);
   }
 }
