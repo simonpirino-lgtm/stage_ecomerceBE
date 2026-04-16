@@ -1,72 +1,69 @@
 <div class="header-section">
 
-  <!-- USER DROPDOWN -->
-  <div class="user-info" *ngIf="user">
-    <div class="user-row">
-      <span class="username" (click)="toggleMenu($event)">
-        👤 {{ user.userid }} - € {{ user.credito }}
-      </span>
-      <div class="dropdown-inline" *ngIf="showMenu">
-        <span class="dropdown-item" (click)="goToProfile()">
-          Account
-        </span>
-        <span class="dropdown-item logout" (click)="logout()">
-          Logout
-        </span>
-      </div>
-    </div>
+  <!-- MENU -->
+  <div class="menu-icon" (click)="toggleMenu($event)">
+    ☰
   </div>
 
-  <!-- TITLE + SEARCH -->
+  <!-- CENTRO -->
   <div class="nomecarrello">
     <h1 class="title">Benvenuto su GameStore!</h1>
 
-    <div class="search-container">
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
+    <div class="search-row">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        placeholder="Cerca un gioco..."
+      >
+
+      <select class="genre-select" [(ngModel)]="selectedGenre">
+        <option value="">Tutti i generi</option>
+        <option *ngFor="let genre of generi" [value]="genre">
+          {{ genre }}
+        </option>
+      </select>
     </div>
   </div>
-  <div>
-    <select [(ngModel)]="selectedGenre">
-      <option value="">Tutti i generi</option>
-      <option *ngFor="let genre of generi" [value]="genre">{{ genre }}</option>
-    </select>
-  </div>
-
-  <!-- CART -->
-  <button [routerLink]="['/carrello']">carrello</button>
 
 </div>
 
-<!-- PRODUCTS -->
-<div class="container">
-  @for(gioco of giochiModel; track gioco.id) {
-    <div class="product-card">
-      
-      <div class="image-wrapper">
-        <img 
-          [src]="gioco.image_url" 
-          [alt]="gioco.titolo" 
-          class="product-image"
-          (mouseenter)="onMouseEnter($event, gioco)"
-          (mousemove)="onMouseMove($event, gioco)"
-          (mouseleave)="onMouseLeave(gioco)"
-          [style.transform]="transforms[gioco.id] || ''"
-        >
+<!-- SIDEBAR -->
+<div class="sidebar" [class.open]="showMenu">
+  <div class="sidebar-header">👤 {{ user?.userid }}</div> <br>
+  <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
+  <div class="sidebar-item">💰 Credito € {{ user?.credito }}</div>
+  <div class="sidebar-item" (click)="goToCart()">🛒 Carrello</div>
+  <div class="sidebar-item logout" (click)="logout()"> ↪️ Logout</div>
+</div>
+
+<!-- CONTENUTO -->
+<div class="main-content" [class.shift]="showMenu">
+  <div class="container">
+    @for(gioco of giochiModel; track gioco.id) 
+    {
+      <div class="product-card">
+
+        <div class="image-wrapper">
+          <img 
+            [src]="gioco.image_url" 
+            class="product-image"
+            (mouseenter)="onMouseEnter($event, gioco)"
+            (mousemove)="onMouseMove($event, gioco)"
+            (mouseleave)="onMouseLeave(gioco)"
+            [style.transform]="transforms[gioco.id] || ''"
+          >
+        </div>
+
+        <div class="card-content">
+          <h2 class="game-title">{{gioco.titolo}}</h2>
+          <p class="price">€ {{gioco.prezzo}}</p>
+
+          <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">
+            Aggiungi al Carrello
+          </button>
+        </div>
+
       </div>
-
-      <div class="card-content">
-        <h2 class="game-title">{{gioco.titolo}}</h2>
-        <p class="price">€ {{gioco.prezzo}}</p>
-
-        <button class="btn-add" (click)="aggiungiAlCarrello(gioco)">
-          Aggiungi al Carrello
-        </button>
-      </div>
-
-    </div>
-  } @empty {
-    <div class="no-results">
-      <p>Nessun gioco trovato per "{{searchTerm}}"</p>
-    </div>
-  }
+    }
+  </div>
 </div>
