@@ -101,9 +101,9 @@ aggiungiAlCarrello(gioco: GiochiModel) {
     this.router.navigate(['/']);
   }
 
-  aggiungiAlCarrello(gioco: GiochiModel) {
+  /* aggiungiAlCarrello(gioco: GiochiModel) 
     // logica
-  }
+  } */
 
   onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
     this.transforms[gioco.id] = 'scale(1.2)';
