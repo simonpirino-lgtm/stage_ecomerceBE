@@ -1,106 +1,123 @@
-/* --- HEADER E TESTATA --- */
+/* HEADER */
 .header-section {
     padding: 40px 20px;
     background-color: #ec3c14;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     position: relative;
-    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* MENU */
+.menu-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    cursor: pointer;
+    color: white;
+}
+
+/* CENTRO */
 .nomecarrello {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .title {
-    color: #ffffff;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    font-size: 2.8rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
-}
-
-.search-container input {
-    width: 450px;
-    padding: 12px 25px;
-    border-radius: 30px;
-    border: 2px solid #ffffff;
-    background-color: #ffffff;
-    font-size: 1rem;
-    outline: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.search-container input:focus {
-    border: 2px solid #ff9226;
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
-}
-
-/* CARRELLO BUTTON */
-.header-section > button {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    
-    background-color: #222;
-    color: #ffffff;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 10px;
+    color: white;
+    font-size: 2.5rem;
     font-weight: bold;
-    text-transform: uppercase;
+}
+
+/* SEARCH + SELECT */
+.search-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-row input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+}
+
+/* SELECT */
+.genre-select {
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: #222;
+    color: white;
+    border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 5px 0px #000;
 }
 
-.header-section > button:hover {
-    background-color: #ffffff;
-    color: #ec3c14;
-    transform: translateY(-55%);
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 260px;
+    height: 100%;
+    background: #222;
+    color: white;
+    padding: 20px;
+    transition: 0.3s;
+    z-index: 1000;
 }
 
-.header-section > button:active {
-    transform: translateY(-45%);
+.sidebar.open {
+    right: 0;
 }
 
-/* --- GRID PRODUCTS --- */
+.sidebar-item {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.sidebar-item:hover {
+    background: #444;
+}
+
+.logout {
+    color: red;
+}
+
+/* 🔥 CONTENUTO SHIFT SENZA ROMPERE 3D */
+.main-content {
+    transition: margin-right 0.3s ease;
+}
+
+.main-content.shift {
+    margin-right: 260px;
+}
+
+/* GRID */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 25px;
     padding: 30px;
-    background-color: #d96f51;
+    background: #d96f51;
 }
 
+/* CARD */
 .product-card {
-    background: rgb(255, 215, 215);
-    border-radius: 15px 15px 15px 15px;
+    background: #ffd7d7;
+    border-radius: 15px;
     transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.05);
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-    filter: brightness(1.15);
-}
-
+/* 🔥 3D FIX */
 .image-wrapper {
-    width: 100%;
     height: 180px;
-    background-color: #ece2e2;
-    border-radius: 15px 15px 15px 15px;
+    perspective: 1000px;
+
 }
 
 .product-image {
@@ -108,9 +125,9 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.2s ease-out;
-    border-radius: 15px 15px 0px 0px;
 }
 
+/* CONTENUTO */
 .card-content {
     padding: 15px;
     text-align: center;
@@ -119,99 +136,24 @@
 .game-title {
     font-size: 1.1rem;
     margin: 10px 0;
-    color: #222;
 }
 
 .price {
-    font-weight: bold;
     color: #28a745;
-    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.btn-add {
-    background-color: #007bff;
+.btn-add 
+{
+    
+    background: #007bff;
     color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 10px;
     width: 100%;
-    transition: 0.25s;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-add:hover {
-    background-color: #66ffba;
-    transform: scale(1.05);
-}
-
-.no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px;
-    color: #666;
-}
-
-/* =========================
-   USER SECTION (FIXED)
-   ========================= */
-
-.user-info {
-    position: absolute;
-    right: 40px;
-    top: 15px;
-}
-
-/* row layout (USERNAME + MENU INLINE) */
-.user-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* USERNAME */
-.username {
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    background: rgba(0,0,0,0.3);
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: 0.2s;
-    white-space: nowrap;
-}
-
-.username:hover {
-    background: rgba(0,0,0,0.6);
-}
-
-/* INLINE MENU */
-.dropdown-inline {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    background: rgba(0,0,0,0.5);
-    padding: 6px 10px;
-    border-radius: 8px;
-}
-
-/* MENU ITEMS */
-.dropdown-item {
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-    transition: 0.2s;
-    white-space: nowrap;
-}
-
-.dropdown-item:hover {
-    color: #66ffba;
-}
-
-.dropdown-item.logout {
-    color: #ff4d4d;
-}
-
-.dropdown-item.logout:hover {
-    color: #ffaaaa;
+    background: #66ffba;
 }
