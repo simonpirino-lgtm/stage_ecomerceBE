@@ -64,7 +64,7 @@
     right: -280px;
     width: 260px;
     height: 100%;
-    background: #222;
+    background: #c22626;
     color: white;
     padding: 20px;
     transition: 0.3s;
@@ -81,7 +81,7 @@
 }
 
 .sidebar-item:hover {
-    background: #444;
+    background: #c05959;
 }
 
 .logout {
@@ -143,8 +143,10 @@
 }
 
 .price {
-    color: #28a745;
+    color: #710b5b;
     font-weight: bold;
+    font-family:'Courier New', Courier, monospace;
+    font-size: large;
 }
 
 .btn-add 
@@ -156,6 +158,8 @@
     width: 100%;
     border: none;
     cursor: pointer;
+     border-radius: 10px;
+
 }
 
 .btn-add:hover {
