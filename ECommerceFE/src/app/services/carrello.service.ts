@@ -33,6 +33,7 @@ export class CarrelloService {
    * Il backend restituisce già items, totaleArticoli e subtotale.
    */
   getCarrello(id:number): Observable<CarrelloResponse> {
+    console.log("getCarrello " + id)
     return this.http.get<CarrelloResponse>(`${this.apiUrl}/get/${id}`);
   }
 
@@ -40,9 +41,9 @@ export class CarrelloService {
    * Aggiunge un prodotto al carrello.
    * Nota: ho cambiato l'endpoint in '/aggiungi' per farlo coincidere con la rotta backend.
    */
-  aggiungi(giocoId: number, prezzo: number): Observable<any> 
+  aggiungi(carrelloId: number, giocoId: number, quantita: number): Observable<any> 
   {
-    return this.http.post(`${this.apiUrl}/aggiungi`, { giocoId, prezzo });
+    return this.http.post(`${this.apiUrl}/aggiungi`, { carrelloId, giocoId , quantita});
   }
 
   /**

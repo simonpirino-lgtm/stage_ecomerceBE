@@ -25,11 +25,11 @@ const aggiungiProdotto = async (carrelloId, giocoId, quantita) => {
         return await carrelloRepository.updateQuantita(itemEsistente.id, nuovaQuantita);
     } */
     //console.log(carrelloId + " " + giocoId);
-    return await carrelloRepository.createItem({
-        id_carrello: carrelloId,
-        id_gioco: giocoId,
-        quantita: 1
-    });
+    return await carrelloRepository.createItem(
+        carrelloId,
+        giocoId,
+        quantita
+    );
 };
 
 const aggiornaQuantita = async (id, quantita) => {

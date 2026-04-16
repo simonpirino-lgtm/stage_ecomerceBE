@@ -9,8 +9,10 @@
 
   <div class="container-cart">
     <div class="items-list">
-      @for (gioco of items; track gioco.id) 
-      {
+    @for (carrello of items; track carrello.id) {
+    
+      @for (gioco of carrello.giochi; track gioco.id) {
+
         <div class="cart-card">
           <div class="cart-image-wrapper">
             <img [src]="gioco.image_url" [alt]="gioco.titolo" class="cart-image">
@@ -24,22 +26,23 @@
           <div class="cart-actions">
             <div class="qty-control">
               <button (click)="cambiaQuantita(gioco, -1)">-</button>
-              <span>{{ gioco.quantita || 1 }}</span>
+              <span>{{ gioco.OrdiniCarrello?.quantita || 1 }}</span>
               <button (click)="cambiaQuantita(gioco, 1)">+</button>
             </div>
-           
           </div>
         </div>
-      } 
-      @empty 
-      {
-        <div class="empty-state">
-          <p>Ops! Il tuo carrello è vuoto.</p>
-        </div>
-      }
-    </div>
 
-    <div class="summary-box" @if(items.length)>
+      }
+
+    } @empty {
+      <div class="empty-state">
+        <p>Ops! Il tuo carrello è vuoto.</p>
+      </div>
+    }
+  </div>
+
+    @if(items.length){
+    <div class="summary-box">
       <h3>Riepilogo Ordine</h3>
       <div class="summary-row">
         <span>Subtotale</span>
@@ -56,5 +59,6 @@
       </div>
       <button class="btn-checkout">Procedi al Pagamento</button>
     </div>
+  }
   </div>
 </div>
