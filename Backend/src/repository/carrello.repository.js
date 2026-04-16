@@ -1,15 +1,21 @@
-const { Carrello } = require('../models');
+const { Carrello, OrdiniCarrello } = require('../models');
 
-const findItem = async (utenteId, giocoId) => {
-    return await Carrello.findOne({ where: { utente_id: utenteId, gioco_id: giocoId } });
+const findItem = async (carrelloId, giocoId) => {
+    console.log(carrelloId + " " + giocoId);
+    return await OrdiniCarrello.findOne({ where: { id_carrello: carrelloId, id_gioco: giocoId } });
 };
 
 const updateQuantita = async (id, quantita) => {
     return await Carrello.update({ quantita }, { where: { id } });
 };
 
-const createItem = async (dati) => {
-    return await Carrello.create(dati);
+const createItem = async (carrelloId, giocoId, quantita) => {
+    console.log(carrelloId + " " + giocoId);
+    return await OrdiniCarrello.create({
+        id_carrello: carrelloId,
+        id_gioco: giocoId,
+        quantita: quantita
+    });
 };
 
 const getCartByUtente = async (utenteId) => {

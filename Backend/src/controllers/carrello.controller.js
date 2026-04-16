@@ -13,9 +13,10 @@ const getCarrello = async (req, res) =>
 
 const aggiungi = async (req, res) => {
     try {
-        const { giocoId, prezzo } = req.body;
-        const utenteId = req.user ? req.user.id : 1;
-        await carrelloService.aggiungiProdotto(utenteId, giocoId, prezzo);
+        const { giocoId, carrelloId } = req.body;
+        //console.log(carrelloId);
+        //const utenteId = req.user ? req.user.id : 1;
+        await carrelloService.aggiungiProdotto(carrelloId, giocoId, 1);
         res.status(200).json({ message: "Prodotto aggiunto" });
     } catch (error) {
         res.status(500).json({ error: error.message });

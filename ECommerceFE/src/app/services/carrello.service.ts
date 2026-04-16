@@ -6,7 +6,7 @@ import { GiochiModel } from '../models/giochi-model';
 // Definiamo le interfacce per una tipizzazione forte
 export interface CarrelloItem {
   id: number;
-  utente_id: number;
+  id_utente: number;
   gioco_id: number;
   quantita: number;
   prezzo_unitario: number;

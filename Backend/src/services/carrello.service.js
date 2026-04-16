@@ -18,17 +18,17 @@ const recuperaCarrelloCompleto = async (utenteId) =>
     };
 };
 
-const aggiungiProdotto = async (utenteId, giocoId, prezzo) => {
-    const itemEsistente = await carrelloRepository.findItem(utenteId, giocoId);
-    if (itemEsistente) {
+const aggiungiProdotto = async (carrelloId, giocoId, quantita) => {
+    const itemEsistente = await carrelloRepository.findItem(carrelloId, giocoId);
+    /* if (itemEsistente) {
         const nuovaQuantita = itemEsistente.quantita + 1;
         return await carrelloRepository.updateQuantita(itemEsistente.id, nuovaQuantita);
-    }
+    } */
+    //console.log(carrelloId + " " + giocoId);
     return await carrelloRepository.createItem({
-        utente_id: utenteId,
-        gioco_id: giocoId,
-        quantita: 1,
-        prezzo_unitario: prezzo
+        id_carrello: carrelloId,
+        id_gioco: giocoId,
+        quantita: 1
     });
 };
 
