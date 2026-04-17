@@ -64,6 +64,11 @@ const calcolaTotaleCarrello = async (utenteId) =>
 
     console.log("ITEMS PER TOTALE:", items);
 
+    const subtotale = items.reduce((acc, item) => {
+        const prezzo = parseFloat(item.gioco?.prezzo || 0);
+        return acc + (prezzo * (item.quantita || 0));
+    }, 0);
+
     const totaleArticoli = items.reduce((acc, item) => {
         console.log("QTA:", item.quantita);
         return acc + (item.quantita || 0);
@@ -78,7 +83,12 @@ const calcolaTotaleCarrello = async (utenteId) =>
     console.log("TOTALE ARTICOLI:", totaleArticoli);
     console.log("TOTALE PREZZO:", totalePrezzo);
 
-    return { totaleArticoli, totalePrezzo };
+    return { 
+        totaleArticoli, 
+        subtotale,
+        iva: subtotale * IVA_PERCENTUALE,
+        totale: subtotale + (subtotale * IVA_PERCENTUALE)
+    };
 };
 module.exports = { 
     recuperaCarrelloCompleto, 
