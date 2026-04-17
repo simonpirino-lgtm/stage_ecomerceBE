@@ -57,7 +57,9 @@ const sommaQuantitaProdotti = async (utenteId) => {
 const eliminaProdotto = async (id) => {
     return await carrelloRepository.deleteItem(id);
 };
-const calcolaTotaleCarrello = async (utenteId) => {
+
+const calcolaTotaleCarrello = async (utenteId) => 
+    {
     const items = await carrelloRepository.getCartByUtente(utenteId);
 
     console.log("ITEMS PER TOTALE:", items);
