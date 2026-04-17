@@ -1,4 +1,5 @@
 const { getUtenteByUserid, creaUtente } = require('../repository/auth.repository');
+const { Carrello } = require('../models');
 const bcrypt = require('bcrypt');
 
 const register = async ({ userid, password }) => {
@@ -8,6 +9,13 @@ const register = async ({ userid, password }) => {
   if (existingUser) return null;
 
   const newUser = await creaUtente(userid, password);
+
+  await Carrello.create({
+    id_utente: newUser.id
+  });
+
+  console.log("🛒 CARRELLO CREATO PER USER:", newUser.id);
+
   return newUser;
 };
 
