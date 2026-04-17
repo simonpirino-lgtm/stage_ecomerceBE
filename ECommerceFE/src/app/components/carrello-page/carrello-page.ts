@@ -33,7 +33,7 @@ export class CarrelloPageComponent implements OnInit {
    * Restituisce il totale dei prezzi del carrello
    */
   getTotaleArticoli(): number {
-    return this.totalePrezzo;
+    return this.totaleArticoli;
   }
 
   /**
