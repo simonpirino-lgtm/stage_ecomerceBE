@@ -39,7 +39,7 @@
       <h3>Riepilogo Ordine</h3>
       <div class="summary-row">
         <span>Subtotale</span>
-        <span>€ {{ getSubtotale().toFixed(2) }}</span>
+        <span>€ {{ getTotaleArticoli().toFixed(2) }}</span>
       </div>
       <div class="summary-row">
        
@@ -48,7 +48,7 @@
       <hr>
       <div class="summary-total">
         <span>Totale</span>
-        <span>€ {{ getSubtotale().toFixed(2) }}</span>
+        <span>€ {{ getTotaleArticoli().toFixed(2) }}</span>
       </div>
       <button class="btn-checkout">Procedi al Pagamento</button>
     </div>

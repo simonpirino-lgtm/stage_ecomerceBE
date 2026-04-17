@@ -17,6 +17,7 @@ export class CarrelloPageComponent implements OnInit {
   // Variabili popolate direttamente dai calcoli del Backend
   totaleArticoli: number = 0;
   subtotale: number = 0;
+  totalePrezzo: number = 0;
 
   // Injection dei servizi
   private carrelloService = inject(CarrelloService);
@@ -24,6 +25,13 @@ export class CarrelloPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.caricaCarrello();
+  }
+
+  /**
+   * Restituisce il totale dei prezzi del carrello
+   */
+  getTotaleArticoli(): number {
+    return this.totalePrezzo;
   }
 
   /**
@@ -56,6 +64,7 @@ export class CarrelloPageComponent implements OnInit {
         this.items = risposta.items || [];
         this.totaleArticoli = risposta.totaleArticoli || 0;
         this.subtotale = risposta.subtotale || 0;
+        this.totalePrezzo = risposta.subtotale || 0; // Usa subtotale come totalePrezzo
         
         this.cdr.detectChanges(); // Forza il refresh della UI
       },
@@ -70,9 +79,10 @@ export class CarrelloPageComponent implements OnInit {
    * La logica di controllo (se <= 0 rimuovi) rimane qui per l'esperienza utente.
    */
   cambiaQuantita(item: any, modifica: number): void {
-    const nuovaQty = item.quantita + modifica;
-
-    if (nuovaQty <= 0) {
+    const nuovaQty = (item.quantita || 1) + modifica;
+    
+    if (nuovaQty <= 0)
+    {
       this.rimuovi(item.id);
     } else {
       this.carrelloService.updateQuantita(item.id, nuovaQty).subscribe({
@@ -95,12 +105,4 @@ export class CarrelloPageComponent implements OnInit {
     });
   }
 
-  // Helper per il template (opzionali, usano le variabili già pronte)
-  getTotaleArticoli(): number {
-    return this.totaleArticoli;
-  }
-
-  getSubtotale(): number {
-    return this.subtotale;
-  }
 }

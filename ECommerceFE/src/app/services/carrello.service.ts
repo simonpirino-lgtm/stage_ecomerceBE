@@ -63,9 +63,10 @@ export class CarrelloService {
   }
 
   /**
-   * Recupera solo il totale (utile se serve solo il costo in altre pagine).
+   * Recupera il totale del carrello (quantità e prezzo).
    */
-  getTotale(): Observable<{ totale: number }> {
-    return this.http.get<{ totale: number }>(`${this.apiUrl}/totale`);
+  getTotaleArticoli(id: number): Observable<{ totaleArticoli: number; totalePrezzo: number }> {
+    return this.http.get<{ totaleArticoli: number; totalePrezzo: number }>(`${this.apiUrl}/totale/${id}`);
   }
+
 }
