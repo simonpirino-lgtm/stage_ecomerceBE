@@ -18,14 +18,18 @@ const recuperaCarrelloCompleto = async (utenteId) =>
     };
 };
 
-const aggiungiProdotto = async (carrelloId, giocoId, quantita) => {
-    const itemEsistente = await carrelloRepository.findItem(carrelloId, giocoId);
+const aggiungiProdotto = async (utenteId, giocoId, quantita) => {
+    const itemEsistente = await carrelloRepository.findItem(utenteId, giocoId);
+
     if (itemEsistente) {
-        const nuovaQuantita = itemEsistente.quantita + 1;
-        return await carrelloRepository.updateQuantita(itemEsistente.id, nuovaQuantita);
+        return await carrelloRepository.updateQuantita(
+            itemEsistente.id,
+            itemEsistente.quantita + quantita
+        );
     }
+
     return await carrelloRepository.createItem(
-        carrelloId,
+        utenteId,
         giocoId,
         quantita
     );

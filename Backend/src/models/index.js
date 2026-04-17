@@ -8,7 +8,7 @@ const CheckoutRighe = require('./CheckoutRighe');
 const Checkout = require('./Checkout');
 const Magazzino = require('./Magazzino');
 
-Utenti.hasOne(Carrello, {
+/* Utenti.hasOne(Carrello, {
   foreignKey: {
     name: 'id_utente'
   },
@@ -20,7 +20,7 @@ Carrello.belongsTo(Utenti, {
     name: 'id_utente'
   },
   as: 'utente'
-});
+}); */
 
 Giochi.belongsToMany(Categoria, {
   through: 'ponte_giochi_categorie',
@@ -38,9 +38,9 @@ Categoria.belongsToMany(Giochi, {
   timestamps: false
 });
 
-Carrello.belongsToMany(Giochi, {
+/* Carrello.belongsToMany(Giochi, {
   through: OrdiniCarrello,
-  foreignKey: 'id_carrello',
+  foreignKey: 'id_utente',
   otherKey: 'id_gioco',
   as: 'giochi'
 });
@@ -48,17 +48,19 @@ Carrello.belongsToMany(Giochi, {
 Giochi.belongsToMany(Carrello, {
   through: OrdiniCarrello,
   foreignKey: 'id_gioco',
-  otherKey: 'id_carrello'
+  otherKey: 'id_utente'
 });
 
 Carrello.hasMany(OrdiniCarrello, {
-  foreignKey: 'id_carrello',
+  foreignKey: 'id_utente',
   as: 'items'
 });
 
 OrdiniCarrello.belongsTo(Carrello, {
-  foreignKey: 'id_carrello'
-});
+  foreignKey: 'id_utente'
+}); */
+
+
 
 OrdiniCarrello.belongsTo(Giochi, {
   foreignKey: 'id_gioco',

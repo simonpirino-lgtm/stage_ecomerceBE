@@ -1,6 +1,6 @@
 export interface OrdiniCarrello {
   id: number;
-  id_carrello: number;
+  id_utente: number;
   id_gioco: number;
   quantita: number;
 }

@@ -1,23 +1,34 @@
 const carrelloService = require('../services/carrello.service');
 
-const getCarrello = async (req, res) => 
-    {
+const getCarrello = async (req, res) => {
     try {
-        const utenteId =req.params.id;
+        const utenteId = req.params.id;
+
         const carrello = await carrelloService.recuperaCarrelloCompleto(utenteId);
+
+        console.log("CARRELLO RESULT:", JSON.stringify(carrello, null, 2));
+
         res.status(200).json(carrello);
+
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("❌ ERRORE GET CARRELLO:", error); // 🔥 QUESTO È FONDAMENTALE
+
+        res.status(500).json({
+            error: error.message,
+            stack: error.stack
+        });
     }
 };
 
 const aggiungi = async (req, res) => {
     try {
-        const { carrelloId, giocoId, quantita} = req.body;
-        //const utenteId = req.user ? req.user.id : 1;
-        await carrelloService.aggiungiProdotto(carrelloId, giocoId, quantita);
+        const { utenteId, giocoId, quantita } = req.body;
+
+        await carrelloService.aggiungiProdotto(utenteId, giocoId, quantita);
+
         res.status(200).json({ message: "Prodotto aggiunto" });
     } catch (error) {
+        console.error(error); // 🔥 IMPORTANTISSIMO
         res.status(500).json({ error: error.message });
     }
 };

@@ -10,7 +10,7 @@ const OrdiniCarrello = sequelize.define('OrdiniCarrello',
         autoIncrement: true,
         allowNull: false
     },
-    id_carrello: 
+    id_utente: 
     {
         type: DataTypes.INTEGER(11),
         allowNull: false

@@ -70,16 +70,14 @@ export class CarrelloPageComponent implements OnInit {
    * La logica di controllo (se <= 0 rimuovi) rimane qui per l'esperienza utente.
    */
   cambiaQuantita(item: any, modifica: number): void {
-    const nuovaQty = (item.quantita || 1) + modifica;
+    const nuovaQty = item.quantita + modifica;
 
     if (nuovaQty <= 0) {
       this.rimuovi(item.id);
     } else {
       this.carrelloService.updateQuantita(item.id, nuovaQty).subscribe({
-        next: () => {
-          this.caricaCarrello();
-        },
-        error: (err) => console.error('Errore durante aggiornamento quantità:', err)
+        next: () => this.caricaCarrello(),
+        error: (err) => console.error(err)
       });
     }
   }
