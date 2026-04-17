@@ -188,8 +188,11 @@
 }
 
 .game-title {
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 2vw, 1rem); /* minimo, viewport-based, massimo */
     margin: 10px 0;
+    white-space: nowrap;   /* forza una sola linea */
+    overflow: hidden;      /* taglia il testo se troppo lungo */
+    text-overflow: ellipsis; /* aggiunge "..." se tagliato */
 }
 
 .price {
@@ -200,7 +203,7 @@
 }
 
 .btn-add {
-    background: #007bff;
+    background: #ff7a51;
     color: white;
     padding: 10px;
     width: 100%;
@@ -249,4 +252,45 @@
     50% { transform: translateY(-50%) translateX(3px); }
     75% { transform: translateY(-50%) translateX(-2px); }
     100% { transform: translateY(-50%) translateX(0); }
+}
+
+.cart-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 13px;
+  right: 100px;
+
+  background: #ff2e2e;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+  animation: popBadgee 0.2s ease-out;
+}
+
+@keyframes popBadgee {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

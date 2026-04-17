@@ -17,13 +17,27 @@
 
         <h2>{{ item.gioco.titolo }}</h2>
 
-        <p>€ {{ item.gioco.prezzo }}</p>
+        <p class="cart-price">€ {{ item.gioco.prezzo }}</p> 
 
-        <button (click)="cambiaQuantita(item, -1)">-</button>
+        <div class="cart-actions">
 
-        <span>{{ item.quantita }}</span>
+        <div class="qty-control-vertical">
 
-        <button (click)="cambiaQuantita(item, 1)">+</button>
+          <button class="qty-btn plus" (click)="cambiaQuantita(item, 1)">
+            +
+          </button>
+
+          <span class="qty-number">{{ item.quantita }}</span>
+
+          <button class="qty-btn minus" (click)="cambiaQuantita(item, -1)">
+            -
+          </button>
+
+        </div>
+
+        <p class="cart-price-tot">€ {{ (item.gioco.prezzo * item.quantita).toFixed(2) }}</p>
+
+      </div>
 
       </div>
 
@@ -48,6 +62,7 @@
       <div class="summary-row"> 
         <span class="free">Spedizione GRATIS</span>
       </div>
+      <br>
       <hr>
 
       <div class="summary-total">

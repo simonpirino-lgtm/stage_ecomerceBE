@@ -60,7 +60,7 @@ const eliminaProdotto = async (id) => {
 const calcolaTotaleCarrello = async (utenteId) => {
     const items = await carrelloRepository.getCartByUtente(utenteId);
 
-    console.log("ITEMS PER TOTALE:", items);
+    /* console.log("ITEMS PER TOTALE:", items); */
 
     const subtotale = items.reduce((acc, item) => {
         const prezzo = parseFloat(item.gioco?.prezzo || 0);
@@ -68,18 +68,18 @@ const calcolaTotaleCarrello = async (utenteId) => {
     }, 0);
 
     const totaleArticoli = items.reduce((acc, item) => {
-        console.log("QTA:", item.quantita);
+        /* console.log("QTA:", item.quantita); */
         return acc + (item.quantita || 0);
     }, 0);
 
     const totalePrezzo = items.reduce((acc, item) => {
         const prezzo = parseFloat(item.prezzo_unitario || item.gioco?.prezzo || 0);
-        console.log("PREZZO:", prezzo, "QTA:", item.quantita);
+        /* console.log("PREZZO:", prezzo, "QTA:", item.quantita); */
         return acc + (prezzo * (item.quantita || 0));
     }, 0);
 
-    console.log("TOTALE ARTICOLI:", totaleArticoli);
-    console.log("TOTALE PREZZO:", totalePrezzo);
+    /* console.log("TOTALE ARTICOLI:", totaleArticoli);
+    console.log("TOTALE PREZZO:", totalePrezzo); */
 
     return { 
         totaleArticoli, 
