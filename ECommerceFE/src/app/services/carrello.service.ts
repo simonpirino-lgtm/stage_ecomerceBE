@@ -40,9 +40,12 @@ export class CarrelloService {
    * Aggiunge un prodotto al carrello.
    * Nota: ho cambiato l'endpoint in '/aggiungi' per farlo coincidere con la rotta backend.
    */
-  aggiungi(carrelloId: number, giocoId: number, quantita: number): Observable<any> 
-  {
-    return this.http.post(`${this.apiUrl}/aggiungi`, { carrelloId, giocoId , quantita});
+  aggiungi(utenteId: number, giocoId: number, quantita: number) {
+    return this.http.post(`${this.apiUrl}/aggiungi`, {
+      utenteId,
+      giocoId,
+      quantita
+    });
   }
 
   /**

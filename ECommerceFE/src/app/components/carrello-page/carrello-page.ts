@@ -86,11 +86,8 @@ export class CarrelloPageComponent implements OnInit {
       this.rimuovi(item.id);
     } else {
       this.carrelloService.updateQuantita(item.id, nuovaQty).subscribe({
-        next: () => {
-          // Dopo l'aggiornamento, ricarichiamo tutto per avere i nuovi totali dal server
-          this.caricaCarrello();
-        },
-        error: (err) => console.error('Errore durante l\'aggiornamento quantità:', err)
+        next: () => this.caricaCarrello(),
+        error: (err) => console.error(err)
       });
     }
   }

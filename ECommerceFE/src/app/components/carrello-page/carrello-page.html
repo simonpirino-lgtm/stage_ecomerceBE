@@ -9,30 +9,23 @@
 
   <div class="container-cart">
     <div class="items-list">
-    @for (carrello of items; track carrello.id) {
-    
-      @for (gioco of carrello.giochi; track gioco.id) {
+    @for (item of items; track item.id) {
 
-        <div class="cart-card">
-          <div class="cart-image-wrapper">
-            <img [src]="gioco.image_url" [alt]="gioco.titolo" class="cart-image">
-          </div>
-          
-          <div class="cart-details">
-            <h2 class="cart-game-title">{{ gioco.titolo }}</h2>
-            <p class="cart-price">€ {{ gioco.prezzo }}</p>
-          </div>
+      <div class="cart-card">
 
-          <div class="cart-actions">
-            <div class="qty-control">
-              <button (click)="cambiaQuantita(gioco, -1)">-</button>
-              <span>{{ gioco.OrdiniCarrello?.quantita || 1 }}</span>
-              <button (click)="cambiaQuantita(gioco, 1)">+</button>
-            </div>
-          </div>
-        </div>
+        <img [src]="item.gioco.image_url">
 
-      }
+        <h2>{{ item.gioco.titolo }}</h2>
+
+        <p>€ {{ item.gioco.prezzo }}</p>
+
+        <button (click)="cambiaQuantita(item, -1)">-</button>
+
+        <span>{{ item.quantita }}</span>
+
+        <button (click)="cambiaQuantita(item, 1)">+</button>
+
+      </div>
 
     } @empty {
       <div class="empty-state">
