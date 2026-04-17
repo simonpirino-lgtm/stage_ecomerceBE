@@ -5,7 +5,10 @@ const findItem = async (carrelloId, giocoId) => {
 };
 
 const updateQuantita = async (id, quantita) => {
-    return await Carrello.update({ quantita }, { where: { id } });
+    return await OrdiniCarrello.update(
+        { quantita },
+        { where: { id } }
+    );
 };
 
 const createItem = async (carrelloId, giocoId, quantita) => {
@@ -24,7 +27,7 @@ const getCartByUtente = async (utenteId) => {
 };
 
 const deleteItem = async (id) => {
-    return await Carrello.destroy({ where: { id } });
+    return await OrdiniCarrello.destroy({ where: { id } });
 };
 
 module.exports = { findItem, updateQuantita, createItem, getCartByUtente, deleteItem };

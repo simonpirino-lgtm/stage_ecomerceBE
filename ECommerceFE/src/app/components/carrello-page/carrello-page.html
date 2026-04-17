@@ -25,9 +25,9 @@
 
           <div class="cart-actions">
             <div class="qty-control">
-              <button (click)="cambiaQuantita(gioco, -1)">-</button>
+              <button (click)="cambiaQuantita(gioco.OrdiniCarrello, -1)">-</button>
               <span>{{ gioco.OrdiniCarrello?.quantita || 1 }}</span>
-              <button (click)="cambiaQuantita(gioco, 1)">+</button>
+              <button (click)="cambiaQuantita(gioco.OrdiniCarrello, 1)">+</button>
             </div>
           </div>
         </div>

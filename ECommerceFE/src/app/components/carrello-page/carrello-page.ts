@@ -71,16 +71,15 @@ export class CarrelloPageComponent implements OnInit {
    */
   cambiaQuantita(item: any, modifica: number): void {
     const nuovaQty = (item.quantita || 1) + modifica;
-    
+
     if (nuovaQty <= 0) {
       this.rimuovi(item.id);
     } else {
       this.carrelloService.updateQuantita(item.id, nuovaQty).subscribe({
         next: () => {
-          // Dopo l'aggiornamento, ricarichiamo tutto per avere i nuovi totali dal server
           this.caricaCarrello();
         },
-        error: (err) => console.error('Errore durante l\'aggiornamento quantità:', err)
+        error: (err) => console.error('Errore durante aggiornamento quantità:', err)
       });
     }
   }
