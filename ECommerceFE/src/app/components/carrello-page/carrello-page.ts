@@ -18,6 +18,8 @@ export class CarrelloPageComponent implements OnInit {
   totaleArticoli: number = 0;
   subtotale: number = 0;
   totalePrezzo: number = 0;
+  iva: number = 0;
+  totale: number = 0;
 
   // Injection dei servizi
   private carrelloService = inject(CarrelloService);
@@ -64,7 +66,8 @@ export class CarrelloPageComponent implements OnInit {
         this.items = risposta.items || [];
         this.totaleArticoli = risposta.totaleArticoli || 0;
         this.subtotale = risposta.subtotale || 0;
-        this.totalePrezzo = risposta.subtotale || 0; // Usa subtotale come totalePrezzo
+        this.iva = risposta.iva || 0;
+        this.totale = risposta.totale || 0;
         
         this.cdr.detectChanges(); // Forza il refresh della UI
       },

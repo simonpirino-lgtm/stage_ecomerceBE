@@ -1,30 +1,30 @@
 const carrelloRepository = require('../repository/carrello.repository');
 
+const IVA_PERCENTUALE = 0.22;
+
 const recuperaCarrelloCompleto = async (utenteId) => {
-    const carrelli = await carrelloRepository.getCartByUtente(utenteId);
-    
-    // Flat gli items e calcola i totali
-    let items = [];
-    let totaleArticoli = 0;
-    let subtotale = 0;
-    
-    carrelli.forEach(carrello => {
-        if (carrello.giochi && carrello.giochi.length > 0) {
-            carrello.giochi.forEach(gioco => {
-                items.push(gioco);
-                const quantita = gioco.OrdiniCarrello?.quantita || 0;
-                const prezzo = parseFloat(gioco.prezzo) || 0;
-                
-                totaleArticoli += quantita;
-                subtotale += (prezzo * quantita);
-            });
-        }
-    });
+
+    const items = await carrelloRepository.getCartByUtente(utenteId);
+
+    const totaleArticoli = items.reduce((acc, item) => {
+        return acc + (item.quantita || 0);
+    }, 0);
+
+    const subtotale = items.reduce((acc, item) => {
+        const prezzo = parseFloat(item.gioco?.prezzo || 0);
+        const qta = item.quantita || 0;
+        return acc + (prezzo * qta);
+    }, 0);
+
+    const iva = subtotale * IVA_PERCENTUALE;
+    const totale = subtotale + iva;
 
     return {
-        items: carrelli, // Mantieni la struttura originale Carrello -> giochi
+        items,
         totaleArticoli,
-        subtotale
+        subtotale,
+        iva,
+        totale
     };
 };
 
@@ -58,24 +58,31 @@ const eliminaProdotto = async (id) => {
     return await carrelloRepository.deleteItem(id);
 };
 const calcolaTotaleCarrello = async (utenteId) => {
-    const items = await carrelloRepository.getCartItemsByUtente(utenteId);
+    const items = await carrelloRepository.getCartByUtente(utenteId);
 
-    const totaleArticoli = items.reduce((acc, item) => acc + (item.quantita || 0), 0);
-    const totalePrezzo = items.reduce((acc, item) => {
-        const prezzo = parseFloat(item.gioco?.prezzo) || 0;
-        return acc + (prezzo * item.quantita);
+    console.log("ITEMS PER TOTALE:", items);
+
+    const totaleArticoli = items.reduce((acc, item) => {
+        console.log("QTA:", item.quantita);
+        return acc + (item.quantita || 0);
     }, 0);
 
-    return {
-        totaleArticoli,
-        totalePrezzo
-    };
-}
+    const totalePrezzo = items.reduce((acc, item) => {
+        const prezzo = parseFloat(item.prezzo_unitario || item.gioco?.prezzo || 0);
+        console.log("PREZZO:", prezzo, "QTA:", item.quantita);
+        return acc + (prezzo * (item.quantita || 0));
+    }, 0);
+
+    console.log("TOTALE ARTICOLI:", totaleArticoli);
+    console.log("TOTALE PREZZO:", totalePrezzo);
+
+    return { totaleArticoli, totalePrezzo };
+};
 module.exports = { 
     recuperaCarrelloCompleto, 
     aggiungiProdotto, 
     aggiornaQuantita, 
     sommaQuantitaProdotti,
     eliminaProdotto ,
-    calcolaTotaleCarrello
+    calcolaTotaleCarrello,
 };

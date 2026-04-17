@@ -4,7 +4,7 @@
         <i class="fas fa-arrow-left arrow"></i>
       </button>
     <h1 class="title">Il Tuo Carrello</h1>
-    <div class="item-count">{{ getTotaleArticoli() }} Giochi pronti</div>
+    <div class="item-count">{{ totaleArticoli }} Giochi pronti</div>
   </div>
 
   <div class="container-cart">
@@ -36,19 +36,23 @@
 
     @if(items.length){
     <div class="summary-box">
-      <h3>Riepilogo Ordine</h3>
+      <h3>Riepilogo Ordine</h3><br>
       <div class="summary-row">
-        <span>Subtotale</span>
-        <span>€ {{ getTotaleArticoli().toFixed(2) }}</span>
+        <span>Subtotale: </span>
+        <span>{{ getTotaleArticoli().toFixed(2) }} €</span>
       </div>
       <div class="summary-row">
-       
+        <span>IVA (22%): </span>
+        <span>{{ iva.toFixed(2) }} €</span>
+      </div>
+      <div class="summary-row"> 
         <span class="free">Spedizione GRATIS</span>
       </div>
       <hr>
+
       <div class="summary-total">
         <span>Totale</span>
-        <span>€ {{ getTotaleArticoli().toFixed(2) }}</span>
+        <span>€ {{ totale.toFixed(2) }}</span>
       </div>
       <button class="btn-checkout">Procedi al Pagamento</button>
     </div>

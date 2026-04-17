@@ -1,4 +1,4 @@
-const { Carrello, OrdiniCarrello, Giochi } = require('../models');
+const { OrdiniCarrello, Giochi } = require('../models');
 
 const findItem = async (utenteId, giocoId) => {
     return await OrdiniCarrello.findOne({
@@ -36,9 +36,12 @@ const getCartItemsByUtente = async (utenteId) => {
 };
 
 const getCartByUtente = async (utenteId) => {
-    return await Carrello.findAll({
+    return await OrdiniCarrello.findAll({
         where: { id_utente: utenteId },
-        include: ['giochi'] // Assicurati che l'associazione 'Gioco' sia definita nei modelli
+        include: [{
+            model: Giochi,
+            as: 'gioco'
+        }]
     });
 };
 

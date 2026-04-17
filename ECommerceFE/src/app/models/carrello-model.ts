@@ -26,4 +26,6 @@ export interface CarrelloResponse {
   items: CarrelloDati[];
   totaleArticoli: number;
   subtotale: number | null;
+  iva: number;
+  totale: number;
 }
