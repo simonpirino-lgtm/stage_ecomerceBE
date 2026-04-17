@@ -111,9 +111,33 @@
 
 .cart-price {
     color: #28a745;
+    display: flex;
+    font-family: 'Orbitron', sans-serif;
     font-weight: bold;
     font-size: 1.2rem;
     margin: 5px 0 0 0;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+     width: 15%;
+}
+
+.cart-price-tot {
+  display: flex; /* sotto il totale */
+  justify-content: space-between;
+  min-width: 70px;
+  align-items: center;
+  right: 1000;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  color: #ff3a3a;
+  opacity: 0.8;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.cart-price-tot:hover {
+    transform: scale(1.1); /* leggero ingrandimento al passaggio */
 }
 
 /* Controlli */
@@ -121,8 +145,20 @@
     margin-left: auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-control-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    background: rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    border-radius: 20px;
 }
 
 .qty-control {
@@ -142,6 +178,25 @@
     transform: scale(1.15);
     background: #ec3c14;
     color: white;
+}
+
+.qty-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.05s ease;
+
+    box-shadow: 0 4px 10px rgba(192, 105, 18, 0.15);
 }
 
 .btn-remove {
@@ -253,3 +308,48 @@
         transform: translateX(-8px);
     }
 }
+
+.qty-btn.plus {
+    background: #ffab84;
+    color: white;
+}
+
+.qty-btn.plus:hover {
+    transform: scale(1.1);
+    background: #76fbad;
+}
+
+.qty-btn.minus {
+    background: #ffab84;
+    color: white;
+}
+
+.qty-btn.minus:hover {
+    transform: scale(1.1);
+    background: #ff4a36;
+}
+
+.qty-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+.qty-btn:active {
+    transform: scale(0.9);
+}
+
+.item-count {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+    color: #fff;
+
+    transition: all 0.1s ease;
+}
+
+.item-count:hover {
+    scale: 1.05;
+    color: #8dffaf;
+}
+

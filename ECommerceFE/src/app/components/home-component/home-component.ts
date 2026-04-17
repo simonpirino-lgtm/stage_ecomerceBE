@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   searchTerm: string = '';
   transforms: { [id: number]: string } = {};
 
+  cartCount: number = 0;
+
   user: any = null;
   showMenu = false;
 
@@ -42,6 +44,8 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    this.caricaCartCount();
+
     this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
     this.giochiService.getGiochi().subscribe({
@@ -62,7 +66,8 @@ export class HomeComponent implements OnInit {
 
     this.carrelloService.aggiungi(this.user.id, gioco.id, 1).subscribe({
       next: (res) => {
-        console.log('Prodotto aggiunto:', res);
+        /* console.log('Prodotto aggiunto:', res); */
+        this.caricaCartCount();
       },
       error: (err) => console.error("Errore aggiunta carrello:", err)
     });
@@ -191,5 +196,16 @@ export class HomeComponent implements OnInit {
     document.body.appendChild(burst);
 
     setTimeout(() => burst.remove(), 600);
+  }
+
+  caricaCartCount() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    this.carrelloService.getTotaleArticoli(user.id).subscribe({
+      next: (res: any) => {
+        this.cartCount = res.totaleArticoli || 0;
+      },
+      error: (err) => console.error(err)
+    });
   }
 }

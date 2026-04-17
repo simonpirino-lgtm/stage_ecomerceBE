@@ -14,7 +14,7 @@ const register = async ({ userid, password }) => {
     id_utente: newUser.id
   });
 
-  console.log("🛒 CARRELLO CREATO PER USER:", newUser.id);
+  /* console.log("🛒 CARRELLO CREATO PER USER:", newUser.id); */
 
   return newUser;
 };
