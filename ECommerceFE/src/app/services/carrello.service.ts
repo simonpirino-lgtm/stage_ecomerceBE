@@ -16,7 +16,9 @@ export interface CarrelloItem {
 export interface CarrelloResponse {
   items: CarrelloItem[];
   totaleArticoli: number;
-  subtotale: number;
+  subtotale: number | null;
+  iva: number;
+  totale: number;
 }
 
 @Injectable({
