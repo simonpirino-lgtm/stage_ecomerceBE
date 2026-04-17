@@ -6,7 +6,7 @@ const getCarrello = async (req, res) => {
 
         const carrello = await carrelloService.recuperaCarrelloCompleto(utenteId);
 
-        console.log("CARRELLO RESULT:", JSON.stringify(carrello, null, 2));
+        /* console.log("CARRELLO RESULT:", JSON.stringify(carrello, null, 2)); */
 
         res.status(200).json(carrello);
 

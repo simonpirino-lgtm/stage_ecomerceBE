@@ -67,7 +67,7 @@ export class LoginComponent {
       // REGISTER
       this.authService.register(payload).subscribe({
         next: (res: any) => {
-          console.log("🧪 REGISTER RESPONSE BACKEND:", res); // 🔥 QUI
+          /* console.log("🧪 REGISTER RESPONSE BACKEND:", res); */ // 🔥 QUI
           if (!res) {
             // backend può ritornare null se utente esiste
             this.triggerError('User already exists');
@@ -78,7 +78,7 @@ export class LoginComponent {
             return;
           }
 
-          console.log('User created successfully:', res);
+          /* console.log('User created successfully:', res); */
           const userData = res.utente || res;
           localStorage.setItem('user', JSON.stringify(userData));
           this.router.navigate(['/home']);

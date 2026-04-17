@@ -40,8 +40,12 @@
     💰 Credito € {{ user?.credito }}
   </div>
 
-  <div class="sidebar-item" style="--i:3" (click)="goToCart()">
+  <div class="sidebar-item cart-item" style="--i:3" (click)="goToCart()">
     🛒 Carrello
+
+    <span class="cart-badge" *ngIf="cartCount > 0">
+      {{ cartCount }}
+    </span>
   </div>
 
   <div class="sidebar-item logout" style="--i:4" (click)="logout()">
