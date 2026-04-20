@@ -16,11 +16,12 @@
         placeholder="Cerca un gioco..."
       >
 
-      <select class="genre-select" [(ngModel)]="selectedGenre">
+      <select class="genre-select" [(ngModel)]="selectedGenre" (change)="onCategoryChange()">
         <option value="">Tutti i generi</option>
-        <option *ngFor="let genre of generi" [value]="genre">
-          {{ genre }}
-        </option>
+
+        @for (genre of generi; track genre) {
+          <option [value]="genre">{{ genre }}</option>
+        }
       </select>
     </div>
   </div>

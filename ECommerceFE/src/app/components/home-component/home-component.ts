@@ -48,14 +48,35 @@ export class HomeComponent implements OnInit {
 
     this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
+    // 🔹 carico giochi
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
         this.giochiModel = data;
-        this.generi = Array.from(new Set(data.map(g => g.categoria))).sort();
         this.cdr.detectChanges();
       },
       error: (err) => console.error("Errore caricamento:", err)
     });
+
+    // 🔹 carico categorie dal backend
+    this.giochiService.getNomeCategoria().subscribe({
+      next: (categorie: string[]) => {
+        this.generi = categorie;
+      },
+      error: (err) => console.error("Errore categorie:", err)
+    });
+  }
+
+  onCategoryChange() {
+    if (!this.selectedGenre) {
+      this.giochiService.getGiochi().subscribe(data => {
+        this.giochiModel = data;
+      });
+    } else {
+      this.giochiService.getGiochiCategoria(this.selectedGenre)
+        .subscribe(data => {
+          this.giochiModel = data;
+        });
+    }
   }
 
   /* -------------------------

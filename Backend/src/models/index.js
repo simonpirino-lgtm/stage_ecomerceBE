@@ -7,6 +7,7 @@ const Giochi = require('./Giochi');
 const CheckoutRighe = require('./CheckoutRighe');
 const Checkout = require('./Checkout');
 const Magazzino = require('./Magazzino');
+/* const PonteGiochiCategorie = require('./PonteGiochiCategorie'); */
 
 /* Utenti.hasOne(Carrello, {
   foreignKey: {
