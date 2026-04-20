@@ -68,12 +68,25 @@ export class HomeComponent implements OnInit {
   }
 
   get giochiFiltrati() {
-    const term = this.searchTerm.toLowerCase().trim();
-
-    return this.giochiModel.filter(gioco =>
-      gioco.titolo.toLowerCase().includes(term)
-    );
+  // Se non c'è né ricerca né categoria, restituisci tutto
+  if (!this.searchTerm && !this.selectedGenre) {
+    return this.giochiModel;
   }
+
+  const term = this.searchTerm.toLowerCase().trim();
+
+  return this.giochiModel.filter(gioco => {
+    // 1. Logica per le lettere INIZIALI (startsWith)
+    // Se preferisci cercare ovunque, usa .includes(term)
+    const matchRicerca = gioco.titolo.toLowerCase().startsWith(term);
+
+    // 2. Logica per la CATEGORIA
+    // Se selectedGenre è vuoto, il match è sempre vero
+    const matchCategoria = !this.selectedGenre || gioco.categoria === this.selectedGenre;
+
+    return matchRicerca && matchCategoria;
+  });
+}
 
   onCategoryChange(genre: string) {
     this.selectedGenre = genre;
