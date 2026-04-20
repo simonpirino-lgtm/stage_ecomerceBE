@@ -27,7 +27,7 @@ Giochi.belongsToMany(Categoria, {
   through: 'ponte_giochi_categorie',
   foreignKey: 'id_gioco',
   otherKey: 'id_categoria',
-  as: 'categorie',
+  as: 'categoria',
   timestamps: false
 });
 
