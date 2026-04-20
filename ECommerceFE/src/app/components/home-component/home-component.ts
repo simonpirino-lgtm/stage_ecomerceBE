@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, HostListener, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -218,7 +219,7 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => burst.remove(), 600);
   }
-
+  //metodo per aggiornare il contatore del carrello
   caricaCartCount() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 

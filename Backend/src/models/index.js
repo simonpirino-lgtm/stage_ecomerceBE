@@ -1,6 +1,5 @@
 const Utenti = require('./Utenti');
 const Carrello = require('./Carrello');
-
 const Categoria = require('./Categoria');
 const OrdiniCarrello = require('./OrdiniCarrello');
 const Giochi = require('./Giochi');
@@ -27,7 +26,7 @@ Giochi.belongsToMany(Categoria, {
   through: 'ponte_giochi_categorie',
   foreignKey: 'id_gioco',
   otherKey: 'id_categoria',
-  as: 'categorie',
+  as: 'categoria',
   timestamps: false
 });
 
