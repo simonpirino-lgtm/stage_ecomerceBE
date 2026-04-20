@@ -120,6 +120,7 @@
 
 .sidebar-item:hover {
     background: #c05959;
+    margin-left: 2%;
 }
 
 /* STAGGER FIX (ORA FUNZIONA DAVVERO) */
@@ -165,6 +166,7 @@
     transform: translateY(-5px);
     box-shadow: 0 12px 25px rgba(0,0,0,0.15);
     filter: brightness(1.15);
+    background: linear-gradient(#d96e5109,#ea2424,#db5353);
 }
 
 /* IMAGE */
@@ -204,16 +206,20 @@
 
 .btn-add {
     background: #ff7a51;
-    color: white;
+    color: rgb(46, 25, 88);
     padding: 10px;
     width: 100%;
     border: none;
     cursor: pointer;
     border-radius: 10px;
+    font-size: medium;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
 }
 
 .btn-add:hover {
     background: #66ffba;
+    color: #424242;
 }
 
 /* ANIMAZIONI EXTRA */

@@ -76,7 +76,7 @@
 .cart-card img {
     width: 150px;
     height: 85px;
-    object-fit: cover;
+    object-fit: contain;
     flex-shrink: 0;
     display: block;
 
@@ -218,6 +218,15 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 
     animation: fadeSlideIn2 0.35s ease-out;
+}
+
+.summary-row {
+    margin-left: 27%;
+}
+
+.summary-row:hover {
+    scale: 1.05;
+    font-weight: bold;
 }
 
 

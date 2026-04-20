@@ -57,8 +57,9 @@
 <!-- CONTENUTO -->
 <div class="main-content" [class.shift]="showMenu">
   <div class="container">
-    @for(gioco of giochiModel; track gioco.id) 
-    {
+    <!-- @for(gioco of giochiFiltrati; track gioco.id)
+    { -->
+    @for(gioco of giochiModel; track gioco.id) {
       <div class="product-card">
 
         <div class="image-wrapper">
