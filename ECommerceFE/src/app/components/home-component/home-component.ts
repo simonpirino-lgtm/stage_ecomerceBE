@@ -67,6 +67,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  get giochiFiltrati() {
+    const term = this.searchTerm.toLowerCase().trim();
+
+    return this.giochiModel.filter(gioco =>
+      gioco.titolo.toLowerCase().includes(term)
+    );
+  }
+
   onCategoryChange(genre: string) {
     this.selectedGenre = genre;
 
