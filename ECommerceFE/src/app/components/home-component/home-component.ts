@@ -241,18 +241,4 @@ export class HomeComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
-  get giochiFiltrati()
-   {
-  return this.giochiModel.filter(gioco => {
-    // 1. Filtro per Nome (searchTerm)
-    const matchNome = gioco.titolo.toLowerCase().includes(this.searchTerm.toLowerCase());
-    
-    // 2. Filtro per Categoria (selectedGenre)
-    // Se non c'è nulla di selezionato, passano tutti
-    const matchCategoria = this.selectedGenre === '' || gioco.categoria === this.selectedGenre;
-    
-
-    return matchNome && matchCategoria;
-  });
-}   
 }
