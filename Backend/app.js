@@ -2,8 +2,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-
-const carrelloRoutes = require('./src/routes/carrello.route'); 
+const cookieParser = require('cookie-parser');
+//const carrelloRoutes = require('./src/routes/carrello.route'); 
 
 const routes = require('./src/routes');  /// Importa il router centralizzato
 
@@ -14,6 +14,8 @@ const app = express();
 
 // Permette ad Express di leggere i dati inviati in formato JSON nel corpo della richiesta (req.body)
 app.use(express.json());
+
+app.use(cookieParser());
 
 // Permette di leggere e gestire i cookie inviati dal client (req.cookies)
 

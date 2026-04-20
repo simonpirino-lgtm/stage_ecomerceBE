@@ -17,5 +17,4 @@ router.use('/carrello', carrelloRoute);
 
 router.use('/categorie', categorieRoutes);
 
-
 module.exports = router;

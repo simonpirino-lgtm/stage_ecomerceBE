@@ -48,7 +48,7 @@ export class LoginComponent {
 
     if (this.isLogin) {
       // LOGIN
-      this.authService.login(payload).subscribe({
+      this.authService.login(this.form.userid, this.form.password).subscribe({
         next: (res: any) => {
           if (!res || res?.message === 'User not found') {
             this.triggerError('Wrong username or password');
@@ -56,7 +56,7 @@ export class LoginComponent {
           }
 
           console.log('Saving user:', res);
-          localStorage.setItem('user', JSON.stringify(res));
+          localStorage.setItem('user', JSON.stringify(res.user));
           this.router.navigate(['/home']);
         },
         error: (err) => {
@@ -65,7 +65,7 @@ export class LoginComponent {
       });
     } else {
       // REGISTER
-      this.authService.register(payload).subscribe({
+      this.authService.register(this.form.userid, this.form.password).subscribe({
         next: (res: any) => {
           /* console.log("🧪 REGISTER RESPONSE BACKEND:", res); */ // 🔥 QUI
           if (!res) {
