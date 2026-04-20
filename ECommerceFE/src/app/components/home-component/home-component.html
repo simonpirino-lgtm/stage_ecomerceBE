@@ -16,7 +16,7 @@
         placeholder="Cerca un gioco..."
       >
 
-      <select class="genre-select" [(ngModel)]="selectedGenre" (change)="onCategoryChange()">
+      <select class="genre-select" [(ngModel)]="selectedGenre" (ngModelChange)="onCategoryChange($event)">
         <option value="">Tutti i generi</option>
 
         @for (genre of generi; track genre) {

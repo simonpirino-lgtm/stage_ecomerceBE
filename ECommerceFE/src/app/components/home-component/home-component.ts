@@ -66,17 +66,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onCategoryChange() {
-    if (!this.selectedGenre) {
-      this.giochiService.getGiochi().subscribe(data => {
+  onCategoryChange(genre: string) {
+    this.selectedGenre = genre;
+
+    const request = genre
+      ? this.giochiService.getGiochiCategoria(genre)
+      : this.giochiService.getGiochi();
+
+    request.subscribe({
+      next: (data) => {
         this.giochiModel = data;
-      });
-    } else {
-      this.giochiService.getGiochiCategoria(this.selectedGenre)
-        .subscribe(data => {
-          this.giochiModel = data;
-        });
-    }
+        this.cdr.detectChanges(); // opzionale ma utile
+      },
+      error: (err) => console.error(err)
+    });
   }
 
   /* -------------------------
