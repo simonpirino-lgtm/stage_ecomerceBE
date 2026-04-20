@@ -1,8 +1,14 @@
 const giochiRepo = require('../repository/giochi.repository');
 
-const findAll = async () => 
-{
+const findAll = async () => {
     return await giochiRepo.findAll();
-}
+};
 
-module.exports = {findAll};
+const getGamesByCategory = async (nome) => {
+    return await giochiRepo.getGamesByCategory(nome);
+};
+
+module.exports = {
+    findAll,
+    getGamesByCategory
+};
