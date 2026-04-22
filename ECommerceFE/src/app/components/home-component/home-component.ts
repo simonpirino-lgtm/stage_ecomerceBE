@@ -137,6 +137,10 @@ export class HomeComponent implements OnInit {
     this.showMenu = false;
   }
 
+  goToCredit() {
+    this.router.navigate(['/credito'])
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['/']);

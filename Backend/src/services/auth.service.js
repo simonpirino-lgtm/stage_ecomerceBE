@@ -33,4 +33,19 @@ const login = async ({ userid, password }) => {
   return user; // login corretto
 };
 
-module.exports = { login, register, getUtenteByUserid, creaUtente };
+const addCredit = async (userId, amount) => {
+  console.log("USER ID:", userId); // DEBUG
+
+  const user = await Utenti.findByPk(userId);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  user.credito = (user.credito || 0) + amount;
+  await user.save();
+
+  return user;
+};
+
+module.exports = { login, register, getUtenteByUserid, creaUtente, addCredit };

@@ -69,6 +69,10 @@
   font-size: medium;
 }
 
+.auth-box button:active{
+  scale: 0.95;
+}
+
 
 /* ERROR */
 .error {

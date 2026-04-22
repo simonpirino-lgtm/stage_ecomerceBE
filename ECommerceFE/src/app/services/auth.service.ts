@@ -26,5 +26,19 @@ export class AuthService {
     return !!this.getToken();
   }
 
+  addCredit(amount: number) {
+    const token = localStorage.getItem('token');
+
+    return this.http.post(
+      `${this.baseUrl}/api/v1/credito`,
+      { amount },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+
 
 }

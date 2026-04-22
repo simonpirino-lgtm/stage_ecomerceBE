@@ -1,0 +1,13 @@
+<div class="credit-box">
+  <h3>Aggiungi credito</h3>
+
+  <input
+    type="number"
+    [(ngModel)]="amount"
+    placeholder="Inserisci importo"
+  />
+
+  <button (click)="addCredit()">Aggiungi</button>
+
+  <p *ngIf="message">{{ message }}</p>
+</div>
