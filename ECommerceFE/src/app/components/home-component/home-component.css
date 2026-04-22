@@ -323,3 +323,35 @@
     opacity: 1;
   }
 }
+
+
+.nomecarrello {
+  perspective: 1000px;
+}
+
+.animated-title {
+  display: inline-block;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  color: #ffffff;
+}
+
+/* LOOP */
+.spinning {
+  animation: coinLoop 1.2s linear infinite;
+}
+
+/* animazione */
+@keyframes coinLoop {
+  0% {
+    transform: rotateY(0deg) rotateX(10deg);
+  }
+
+  50% {
+    transform: rotateY(180deg) rotateX(-10deg);
+  }
+
+  100% {
+    transform: rotateY(360deg) rotateX(10deg);
+  }
+}

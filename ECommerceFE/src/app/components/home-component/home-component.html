@@ -7,7 +7,14 @@
 
   <!-- CENTRO -->
   <div class="nomecarrello">
-    <h1 class="title">Benvenuto su GameStore!</h1>
+    <h1 
+      #titleEl
+      class="title animated-title"
+      (mouseenter)="onHover()"
+      (mouseleave)="onLeave()"
+    >
+      Benvenuto, {{user.userid}}!
+    </h1>
 
     <div class="search-row">
       <input 
