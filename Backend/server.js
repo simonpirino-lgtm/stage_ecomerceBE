@@ -2,10 +2,8 @@
 require('dotenv').config();
 const app = require('./app');
 const sequelize = require('./src/config/db');
- cors = require('cors');
-const carrelloRoute = require('./src/routes/index');
 
-app.use(cors());
+// CORS è già configurato in app.js, non applicare di nuovo qui
 
 const PORT = process.env.PORT || 3000;
 

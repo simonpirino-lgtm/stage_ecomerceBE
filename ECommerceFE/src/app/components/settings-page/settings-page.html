@@ -1,46 +1,45 @@
 <div class="page-wrapper">
-  <button class="back-btn">
+  <button class="back-btn" (click)="goBack()">
     <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
   </button>
 
   <div class="header-section">
-    <h1 class="title">Sicurezza Account</h1>
-    <p class="item-count">Conferma la tua identità per continuare</p>
+    <h1 class="title">Impostazioni Account</h1>
+    <p class="item-count">Modifica le tue credenziali in sicurezza</p>
   </div>
 
   <div class="credit-box">
     <div class="security-notice">
       <span class="icon">🔒</span>
-      <p>Per modificare le credenziali, inserisci prima quelle <strong>attuali</strong> per garantire la sicurezza del tuo account.</p>
+      <p>Conferma i dati <strong>attuali</strong> per procedere alla modifica.</p>
     </div>
 
     <form (ngSubmit)="saveChanges()">
-      <div class="security-step">
-        <div class="form-group">
-          <label>ID Utente Attuale</label>
-          <input type="text" [(ngModel)]="userData.oldUserid" name="oldUserid" placeholder="Username attuale">
-        </div>
-        <div class="form-group">
-          <label>Password Attuale</label>
-          <input type="password" [(ngModel)]="userData.oldPassword" name="oldPassword" placeholder="••••••••">
-        </div>
+      <div class="form-group">
+        <label>User ID Attuale</label>
+        <input type="text" [(ngModel)]="userData.oldUserid" name="oldUserid" readonly style="opacity: 0.7; background: #eee;">
+      </div>
+      <div class="form-group">
+        <label>Password Attuale</label>
+        <input type="password" [(ngModel)]="userData.oldPassword" name="oldPassword" placeholder="Password attuale">
       </div>
 
-      <hr class="divider">
+      <hr class="divider" style="margin: 20px 0; border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
 
       <div class="form-group">
-        <label class="new-label">Nuovo Nome Utente</label>
+        <label style="color: #1b5ed6;">Nuovo Username</label>
         <input type="text" [(ngModel)]="userData.newUserid" name="newUserid" placeholder="Nuovo username">
       </div>
-
       <div class="form-group">
-        <label class="new-label">Nuova Password</label>
+        <label style="color: #1b5ed6;">Nuova Password</label>
         <input type="password" [(ngModel)]="userData.newPassword" name="newPassword" placeholder="Nuova password">
       </div>
 
       <button type="submit" class="save-btn">Aggiorna Credenziali</button>
     </form>
 
-    <p *ngIf="message" class="status-message">{{ message }}</p>
+    <p *ngIf="message" [style.color]="isError ? 'red' : 'green'" style="text-align: center; margin-top: 15px; font-weight: bold;">
+      {{ message }}
+    </p>
   </div>
 </div>
