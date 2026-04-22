@@ -12,6 +12,7 @@ const COOKIE_OPTIONS =
   // secure: false permette il cookie su HTTP (sviluppo locale).
   // In produzione impostare true: il cookie verrà inviato solo su HTTPS
   sameSite: 'lax',
+  path: '/',
   // sameSite: 'lax' → protezione base contro CSRF.
   // Il cookie viene inviato nelle navigazioni GET cross-site ma non
   // nelle richieste POST cross-site non solicitate
@@ -75,6 +76,9 @@ const login = async (req, res) => {
 const refresh = async (req, res) => {
   // Legge il refreshToken dal cookie (reso disponibile da cookie-parser)
   const refreshToken = req.cookies.refreshToken;
+
+  console.log("COOKIE RECEIVED:", req.cookies);
+  console.log("REFRESH TOKEN:", refreshToken);
 
   // Se il cookie non esiste (mai loggato, cookie scaduto, o già fatto logout)
   if (!refreshToken) {
