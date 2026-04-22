@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, HostListener, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -67,12 +68,25 @@ export class HomeComponent implements OnInit {
   }
 
   get giochiFiltrati() {
-    const term = this.searchTerm.toLowerCase().trim();
-
-    return this.giochiModel.filter(gioco =>
-      gioco.titolo.toLowerCase().includes(term)
-    );
+  // Se non c'è né ricerca né categoria, restituisci tutto
+  if (!this.searchTerm && !this.selectedGenre) {
+    return this.giochiModel;
   }
+
+  const term = this.searchTerm.toLowerCase().trim();
+
+  return this.giochiModel.filter(gioco => {
+    // 1. Logica per le lettere INIZIALI (startsWith)
+    // Se preferisci cercare ovunque, usa .includes(term)
+    const matchRicerca = gioco.titolo.toLowerCase().startsWith(term);
+
+    // 2. Logica per la CATEGORIA
+    // Se selectedGenre è vuoto, il match è sempre vero
+    const matchCategoria = !this.selectedGenre || gioco.categoria === this.selectedGenre;
+
+    return matchRicerca && matchCategoria;
+  });
+}
 
   onCategoryChange(genre: string) {
     this.selectedGenre = genre;
@@ -233,7 +247,7 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => burst.remove(), 600);
   }
-
+  //metodo per aggiornare il contatore del carrello
   caricaCartCount() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 

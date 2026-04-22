@@ -15,4 +15,16 @@ const findAll = async () => {
   return await Utenti.findAll();
 };
 
-module.exports = { getUtenteByUserid, creaUtente, findAll };
+const salvaRefreshToken = async (id, refreshToken) => {
+  return await Utenti.update({ refreshToken }, { where: { id } });
+};
+
+const getUtenteByRefreshToken = async (refreshToken) => {
+  return await Utenti.findOne({ where: { refreshToken } });
+};
+
+const deleteRefreshToken = async (refreshToken) => {
+  return await Utenti.update({ refreshToken: null }, { where: { refreshToken } });
+}
+
+module.exports = { getUtenteByUserid, creaUtente, findAll, salvaRefreshToken, getUtenteByRefreshToken, deleteRefreshToken }; 
