@@ -123,4 +123,8 @@ export class AuthService {
       }
     );
   }
+  // Aggiungi questo metodo nella classe AuthService
+updateProfile(data: { newUserid?: string, newPassword?: string }): Observable<any> {
+  return this.http.patch(`${this.baseUrl}/utenti/update-me`, data);
+}
 }
