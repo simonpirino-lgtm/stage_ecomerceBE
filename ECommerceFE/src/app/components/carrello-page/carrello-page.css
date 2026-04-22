@@ -362,3 +362,53 @@
     color: #8dffaf;
 }
 
+.empty-state {
+    grid-column: 1 / -1;
+    background: #ffffff;
+    color: rgb(36, 35, 34);
+    padding: 50px 20px;
+    border-radius: 16px;
+    text-align: center;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+
+    animation: emptyFadeIn 0.5s ease-out;
+    font-family: 'Orbitron', sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 300px;
+    margin: 0 auto;
+}
+
+.empty-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+    animation: floatIcon 2s ease-in-out infinite;
+}
+
+.empty-state h2 {
+    margin: 10px 0;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+}
+
+@keyframes emptyFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatIcon {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
