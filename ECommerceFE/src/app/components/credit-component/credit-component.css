@@ -51,7 +51,9 @@
 
 .item-count {
   font-size: 16px; /* 🔥 più leggibile */
-  color: #666;
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #381a1a;
   margin-top: 6px;
 }
 

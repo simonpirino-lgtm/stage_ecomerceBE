@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router'
@@ -17,7 +17,10 @@ export class CreditComponent {
   message: string = '';
   currentCredit: number = 0;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadCredit();
@@ -44,14 +47,13 @@ export class CreditComponent {
       next: (res: any) => {
         console.log("RISPOSTA BACKEND:", res);
 
-        // 🔥 FIX: aggiorna credito in tempo reale
         this.currentCredit = res.credito;
-
-        // 🔥 FIX: messaggio corretto
         this.message = 'Credito aggiornato: ' + res.credito;
 
-        // 🔥 FIX opzionale: reset input
         this.amount = 0;
+
+        // 🔥 forza aggiornamento UI
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.log("ERRORE BACKEND:", err);
