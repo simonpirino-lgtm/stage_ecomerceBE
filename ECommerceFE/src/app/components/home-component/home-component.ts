@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, HostListener, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
   searchTerm: string = '';
   transforms: { [id: number]: string } = {};
 
+  private authService = inject(AuthService);
+
   cartCount: number = 0;
 
   user: any = null;
@@ -35,7 +37,6 @@ export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
-  
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -47,48 +48,44 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    // 🔥 NUOVO: ricarica dati freschi dal backend
+    this.authService.getMe().subscribe({
+      next: (res: any) => {
+        this.user.credito = res.credito;
+
+        // 🔥 aggiorna anche localStorage
+        localStorage.setItem('user', JSON.stringify(this.user));
+      },
+      error: (err) => {
+        console.log("Errore getMe:", err);
+      }
+    });
+
     this.caricaCartCount();
 
     this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
-    // 🔹 carico giochi
     this.giochiService.getGiochi().subscribe({
       next: (data: GiochiModel[]) => {
         this.giochiModel = data;
         this.cdr.detectChanges();
-      },
-      error: (err) => console.error("Errore caricamento:", err)
+      }
     });
 
-    // 🔹 carico categorie dal backend
     this.giochiService.getNomeCategoria().subscribe({
       next: (categorie: string[]) => {
         this.generi = categorie;
-      },
-      error: (err) => console.error("Errore categorie:", err)
+      }
     });
   }
 
   get giochiFiltrati() {
-  // Se non c'è né ricerca né categoria, restituisci tutto
-  if (!this.searchTerm && !this.selectedGenre) {
-    return this.giochiModel;
+    const term = this.searchTerm.toLowerCase().trim();
+
+    return this.giochiModel.filter(gioco =>
+      gioco.titolo.toLowerCase().includes(term)
+    );
   }
-
-  const term = this.searchTerm.toLowerCase().trim();
-
-  return this.giochiModel.filter(gioco => {
-    // 1. Logica per le lettere INIZIALI (startsWith)
-    // Se preferisci cercare ovunque, usa .includes(term)
-    const matchRicerca = gioco.titolo.toLowerCase().startsWith(term);
-
-    // 2. Logica per la CATEGORIA
-    // Se selectedGenre è vuoto, il match è sempre vero
-    const matchCategoria = !this.selectedGenre || gioco.categoria === this.selectedGenre;
-
-    return matchRicerca && matchCategoria;
-  });
-}
 
   onCategoryChange(genre: string) {
     this.selectedGenre = genre;
@@ -249,7 +246,7 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => burst.remove(), 600);
   }
-  //metodo per aggiornare il contatore del carrello
+
   caricaCartCount() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
