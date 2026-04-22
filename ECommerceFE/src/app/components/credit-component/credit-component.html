@@ -1,13 +1,26 @@
-<div class="credit-box">
-  <h3>Aggiungi credito</h3>
+<div class="page-wrapper">
 
-  <input
-    type="number"
-    [(ngModel)]="amount"
-    placeholder="Inserisci importo"
-  />
+  <button class="back-btn" [routerLink]="['/home']">
+    <i class="fas fa-arrow-left"></i>
+  </button>
 
-  <button (click)="addCredit()">Aggiungi</button>
+  <div class="header-section">
+    <h1 class="title">Credito</h1>
+    <div class="item-count">Gestisci il tuo saldo</div>
+  </div>
 
-  <p *ngIf="message">{{ message }}</p>
+  <div class="credit-box">
+    <h3>Aggiungi credito</h3>
+
+    <input
+      type="number"
+      [(ngModel)]="amount"
+      placeholder="Inserisci importo"
+    />
+
+    <button (click)="addCredit()">Aggiungi</button>
+
+    <p *ngIf="message">{{ message }}</p>
+  </div>
+
 </div>

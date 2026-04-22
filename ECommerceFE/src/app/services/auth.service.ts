@@ -106,11 +106,15 @@ export class AuthService {
     // !! converte il valore in boolean: null → false, stringa → true
   }
 
+  getMe() {
+    return this.http.get('http://localhost:3000/api/v1/me');
+  }
+
   addCredit(amount: number) {
     const token = localStorage.getItem('token');
 
     return this.http.post(
-      `${this.baseUrl}/api/v1/credito`,
+      'http://localhost:3000/api/v1/credito',
       { amount },
       {
         headers: {

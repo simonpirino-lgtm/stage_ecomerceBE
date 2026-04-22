@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'
+import { RouterLink } from '@angular/router'
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-credit-component',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './credit-component.html',
   styleUrl: './credit-component.css',
 })
@@ -15,8 +15,24 @@ import { AuthService } from '../../services/auth.service';
 export class CreditComponent {
   amount: number = 0;
   message: string = '';
+  currentCredit: number = 0;
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.loadCredit();
+  }
+
+  loadCredit() {
+    this.authService.getMe().subscribe({
+      next: (res: any) => {
+        this.currentCredit = res.credito;
+      },
+      error: (err) => {
+        console.log("Errore caricamento credito", err);
+      }
+    });
+  }
 
   addCredit() {
     if (this.amount <= 0) {
@@ -26,14 +42,19 @@ export class CreditComponent {
 
     this.authService.addCredit(this.amount).subscribe({
       next: (res: any) => {
-        this.message = 'Credito aggiornato: ' + res.credit;
+        console.log("RISPOSTA BACKEND:", res);
 
-        // aggiorna anche localStorage
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        user.credito = res.credito;
-        localStorage.setItem('user', JSON.stringify(user));
+        // 🔥 FIX: aggiorna credito in tempo reale
+        this.currentCredit = res.credito;
+
+        // 🔥 FIX: messaggio corretto
+        this.message = 'Credito aggiornato: ' + res.credito;
+
+        // 🔥 FIX opzionale: reset input
+        this.amount = 0;
       },
-      error: () => {
+      error: (err) => {
+        console.log("ERRORE BACKEND:", err);
         this.message = 'Errore durante aggiornamento';
       }
     });

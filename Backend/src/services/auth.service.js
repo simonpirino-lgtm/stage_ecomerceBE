@@ -85,19 +85,41 @@ const refresh = async (refreshToken) => {
   return { accessToken: newAccessToken, newRefreshToken };
 };
 
-const addCredit = async (userId, amount) => {
-  console.log("USER ID:", userId); // DEBUG
-
+const getMe = async (userId) => {
   const user = await Utenti.findByPk(userId);
 
   if (!user) {
     throw new Error('User not found');
   }
 
-  user.credito = (user.credito || 0) + amount;
-  await user.save();
-
-  return user;
+  return {
+    id: user.id,
+    userid: user.userid,
+    credito: Number(user.credito)
+  };
 };
 
-module.exports = { login, register, getUtenteByUserid, creaUtente, addCredit };
+const addCredit = async (userId, amount) => {
+  const user = await Utenti.findByPk(userId);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const current = Number(user.credito);
+  const add = Number(amount);
+
+  const result = current + add;
+
+  user.credito = Math.round(result * 100) / 100;
+
+  await user.save();
+
+  return {
+    id: user.id,
+    userid: user.userid,
+    credito: Number(user.credito)
+  };
+};
+
+module.exports = { login, register, getUtenteByUserid, creaUtente, addCredit, getMe};

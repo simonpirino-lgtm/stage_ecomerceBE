@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { addCredit } = require('../services/auth.service');
-const authMiddleware = require('../middleware/auth');
+const { verifyToken } = require('../services/auth.middleware');
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
+    console.log("REQ USER:", req.user);
+    console.log("BODY:", req.body);
+
     const userId = req.user.id;
     const { amount } = req.body;
 
@@ -21,5 +24,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
 
 module.exports = router;
