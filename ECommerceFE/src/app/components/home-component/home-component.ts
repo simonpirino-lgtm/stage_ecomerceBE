@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -254,6 +254,31 @@ export class HomeComponent implements OnInit {
         this.cartCount = res.totaleArticoli || 0;
       },
       error: (err) => console.error(err)
+    });
+  }
+
+  @ViewChild('titleEl') titleEl!: ElementRef;
+
+  isLeaving = false;
+
+  onHover() {
+    const el = this.titleEl.nativeElement;
+    el.classList.add('spinning');
+    this.isLeaving = false;
+  }
+
+  onLeave() {
+    this.isLeaving = true;
+  }
+
+  ngAfterViewInit() {
+    const el = this.titleEl.nativeElement;
+
+    el.addEventListener('animationiteration', () => {
+      if (this.isLeaving) {
+        el.classList.remove('spinning');
+        this.isLeaving = false;
+      }
     });
   }
 }

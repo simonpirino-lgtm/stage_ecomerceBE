@@ -396,6 +396,14 @@
     text-transform: uppercase;
 }
 
+.empty-state p {
+    opacity: 0.9;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-style: italic;
+}
+
 @keyframes emptyFadeIn {
     from {
         opacity: 0;
