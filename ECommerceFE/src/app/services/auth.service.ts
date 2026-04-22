@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 
 interface LoginResponse {
   accessToken: string;
@@ -20,6 +20,19 @@ interface UserData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+  initAuth(): Observable<any> {
+    return this.refreshToken().pipe(
+      tap(res => {
+        this.accessTokenSignal.set(res.accessToken);
+      }),
+      catchError(err => {
+        this.accessTokenSignal.set(null);
+        this.userSignal.set(null);
+        return of(null);
+      })
+    );
+  }
   private readonly http   = inject(HttpClient);
   private readonly router = inject(Router);
 
@@ -107,21 +120,11 @@ export class AuthService {
   }
 
   getMe() {
-    return this.http.get('http://localhost:3000/api/v1/me');
+    return this.http.get('http://localhost:3000/api/v1/utenti/me');
   }
 
   addCredit(amount: number) {
-    const token = localStorage.getItem('token');
-
-    return this.http.post(
-      'http://localhost:3000/api/v1/credito',
-      { amount },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    return this.http.post('http://localhost:3000/api/v1/credito', { amount });
   }
   // Aggiungi questo metodo nella classe AuthService
 updateProfile(data: { newUserid?: string, newPassword?: string }): Observable<any> {

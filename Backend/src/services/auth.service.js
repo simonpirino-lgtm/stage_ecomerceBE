@@ -63,7 +63,7 @@ const refresh = async (refreshToken) => {
   jwt.verify(refreshToken, REFRESH_TOK);
 
  
-  const user = await authRepo.getUserByRefreshToken(refreshToken);
+  const user = await authRepo.getUtenteByRefreshToken(refreshToken);
   if (!user) return null; // token non trovato nel DB → già invalidato
 
   // 3. Genera il nuovo access token
@@ -83,6 +83,11 @@ const refresh = async (refreshToken) => {
   await authRepo.salvaRefreshToken(user.id, newRefreshToken);
 
   return { accessToken: newAccessToken, newRefreshToken };
+};
+
+const logout = async (refreshToken) => {
+  if (!refreshToken) return;
+  await authRepo.deleteRefreshToken(refreshToken);
 };
 
 const getMe = async (userId) => {
@@ -126,4 +131,13 @@ const addCredit = async (userId, amount) => {
 
 // Aggiungi questo metodo nella classe AuthService
 
-module.exports = { login, register, getUtenteByUserid, creaUtente, addCredit, getMe};
+module.exports = {
+  login,
+  register,
+  getUtenteByUserid,
+  creaUtente,
+  addCredit,
+  getMe,
+  logout,
+  refresh
+};
