@@ -5,6 +5,7 @@ import { GiochiModel } from '../../models/giochi-model';
 import { GiochiService } from '../../services/giochi-service';
 import { Router } from '@angular/router';
 import { CarrelloService } from '../../services/carrello.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home-component',
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
 
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
+  private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
   
@@ -157,7 +159,7 @@ export class HomeComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('user');
-    this.router.navigate(['/']);
+    this.authService.logout();
   }
 
   /* -------------------------

@@ -111,16 +111,6 @@ export class AuthService {
   }
 
   addCredit(amount: number) {
-    const token = localStorage.getItem('token');
-
-    return this.http.post(
-      'http://localhost:3000/api/v1/credito',
-      { amount },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    return this.http.post('http://localhost:3000/api/v1/credito', { amount });
   }
 }
