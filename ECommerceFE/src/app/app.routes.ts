@@ -5,6 +5,7 @@ import { CarrelloPageComponent } from './components/carrello-page/carrello-page'
 import { AuthGuard } from './services/authguard.service';
 import { ErrorComponent } from './components/error.component/error.component';
 import { CreditComponent } from './components/credit-component/credit-component';
+import { SettingsPageComponent } from './components/settings-page/settings-page';
 
 
 
@@ -15,8 +16,8 @@ export const routes: Routes = [
   { path: 'home', canActivate: [AuthGuard], component:HomeComponent},
   { path: 'carrello', canActivate: [AuthGuard], component: CarrelloPageComponent},
   { path: 'credito', canActivate: [AuthGuard], component: CreditComponent},
-
-
+  {path: 'account' , canActivate :[AuthGuard], component: SettingsPageComponent},
+ 
 
   { path: '**', component: ErrorComponent}
 ];

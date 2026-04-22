@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit {
 
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
-  private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
@@ -141,7 +140,7 @@ export class HomeComponent implements OnInit {
      NAV
   -------------------------- */
   goToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/account']);
     this.showMenu = false;
   }
 

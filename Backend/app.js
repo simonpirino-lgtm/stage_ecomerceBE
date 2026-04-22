@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-//const carrelloRoutes = require('./src/routes/carrello.route'); 
+
+
 
 const routes = require('./src/routes');  /// Importa il router centralizzato
 
@@ -67,6 +68,7 @@ app.use((err, req, res, next) =>
         errore: err.message || "Si è verificato un errore interno al server" 
     });
 });
+
 
 // Esporta l'istanza dell'app per essere utilizzata dal file di avvio (es. index.js o server.js)
 module.exports = app;
