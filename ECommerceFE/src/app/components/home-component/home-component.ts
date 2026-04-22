@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
      NAV
   -------------------------- */
   goToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/account']);
     this.showMenu = false;
   }
 

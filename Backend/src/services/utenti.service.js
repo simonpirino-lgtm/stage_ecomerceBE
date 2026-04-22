@@ -1,5 +1,6 @@
 const { getUtenteByUserid, creaUtente } = require('../repository/auth.repository');
 const { Carrello } = require('../models');
+const utentiRepository = require('../repository/utenti.repository');
 const bcrypt = require('bcrypt');
 
 const register = async ({ userid, password }) => {
@@ -29,4 +30,23 @@ const login = async ({ userid, password }) => {
   return user;
 };
 
-module.exports = { register, login };
+const updateProfile = async (id, { newUserid, newPassword }) => {
+    const updateData = {};
+
+    if (newUserid) {
+        updateData.userid = newUserid;
+    }
+
+    if (newPassword) {
+        // Criptiamo la nuova password prima di salvarla
+        const salt = await bcrypt.genSalt(10);
+        updateData.password = await bcrypt.hash(newPassword, salt);
+    }
+
+    if (Object.keys(updateData).length === 0) return null;
+
+    return await utentiRepository.updateUtente(id, updateData);
+};
+
+
+module.exports = { register, login ,updateProfile};

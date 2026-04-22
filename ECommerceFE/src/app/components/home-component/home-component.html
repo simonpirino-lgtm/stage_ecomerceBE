@@ -24,7 +24,7 @@
       >
 
       <select class="genre-select" [(ngModel)]="selectedGenre" (ngModelChange)="onCategoryChange($event)">
-        <option value="">Tutti i generi</option>
+        <option value="">Tutti i Generi</option>
 
         @for (genre of generi; track genre) {
           <option [value]="genre">{{ genre }}</option>

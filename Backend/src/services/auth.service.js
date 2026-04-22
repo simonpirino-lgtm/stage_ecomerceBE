@@ -125,7 +125,11 @@ const addCredit = async (userId, amount) => {
     userid: user.userid,
     credito: Number(user.credito)
   };
+
 };
+// Aggiungi questo metodo nella classe AuthService
+
+// Aggiungi questo metodo nella classe AuthService
 
 module.exports = {
   login,

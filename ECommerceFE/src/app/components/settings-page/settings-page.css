@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+* { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+
+.page-wrapper {
+  min-height: 100vh;
+  background: #ff6427;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.credit-box {
+  background: #d4ff78; /* Lime color */
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.security-notice {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.divider {
+  text-align: center;
+  margin: 25px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  line-height: 0.1em;
+}
+
+.divider span {
+  background: #d4ff78;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 10px 0 5px 5px;
+}
+
+.blue-label { color: #1b5ed6; }
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  margin-bottom: 5px;
+  outline: none;
+}
+
+.readonly-input { background: rgba(255,255,255,0.5); color: #666; cursor: not-allowed; }
+
+.save-btn {
+  width: 100%;
+  padding: 15px;
+  background: #fcbf25;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover { background: #1b5ed6; color: white; transform: translateY(-2px); }
+
+.status-message {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 15px;
+  font-weight: 600;
+}
+.error { color: #d32f2f; }
+.success { color: #2e7d32; }
