@@ -1,0 +1,26 @@
+<div class="page-wrapper">
+
+  <button class="back-btn" [routerLink]="['/home']">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+
+  <div class="header-section">
+    <h1 class="title">Credito</h1>
+    <div class="item-count">Gestisci il tuo saldo</div>
+  </div>
+
+  <div class="credit-box">
+    <h3>Aggiungi credito</h3>
+
+    <input
+      type="number"
+      [(ngModel)]="amount"
+      placeholder="Inserisci importo"
+    />
+
+    <button (click)="addCredit()">Aggiungi</button>
+
+    <p *ngIf="message">{{ message }}</p>
+  </div>
+
+</div>

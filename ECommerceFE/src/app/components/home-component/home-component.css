@@ -88,6 +88,9 @@
     backface-visibility: hidden;
 
     will-change: transform, opacity;
+
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -118,7 +121,7 @@
     transition: transform 2.6s ease, opacity 0.6s ease;
 }
 
-.sidebar-item:hover {
+.sidebar-item:not(.logout):hover {
     background: #c05959;
     margin-left: 2%;
 }
@@ -132,7 +135,27 @@
 }
 
 .logout {
-    color: red;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    color: white;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    transition-delay: 0s !important;
+}
+
+.logout:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.logout:active {
+  transform: scale(0.95);
 }
 
 /* CONTENUTO SHIFT */

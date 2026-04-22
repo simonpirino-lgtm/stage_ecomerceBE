@@ -85,12 +85,41 @@ const refresh = async (refreshToken) => {
   return { accessToken: newAccessToken, newRefreshToken };
 };
 
-const logout = async (refreshToken) => {
-  // Imposta refreshToken = null nel DB per quel token
-  // Anche se il cookie rimane nel browser, il token non sarà più trovato nel DB
-  if (refreshToken) {
-    await authRepo.deleteRefreshToken(refreshToken);
+const getMe = async (userId) => {
+  const user = await Utenti.findByPk(userId);
+
+  if (!user) {
+    throw new Error('User not found');
   }
+
+  return {
+    id: user.id,
+    userid: user.userid,
+    credito: Number(user.credito)
+  };
 };
 
-module.exports = { login, register, getUtenteByUserid, creaUtente ,refresh,logout};
+const addCredit = async (userId, amount) => {
+  const user = await Utenti.findByPk(userId);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const current = Number(user.credito);
+  const add = Number(amount);
+
+  const result = current + add;
+
+  user.credito = Math.round(result * 100) / 100;
+
+  await user.save();
+
+  return {
+    id: user.id,
+    userid: user.userid,
+    credito: Number(user.credito)
+  };
+};
+
+module.exports = { login, register, getUtenteByUserid, creaUtente, addCredit, getMe};
