@@ -6,7 +6,11 @@
 
   <div class="header-section">
     <h1 class="title">Credito</h1>
-    <div class="item-count">Al momento hai {{currentCredit}} €</div>
+    <!-- <div class="item-count">Al momento hai <span class="credit-value">{{ currentCredit }} €</span></div> -->
+    <div *ngIf="loading">Al momento hai ...</div>
+      <div *ngIf="!loading">
+        Al momento hai <span class="credit-value">{{ currentCredit }} €</span>
+      </div>
   </div>
 
   <div class="credit-box">

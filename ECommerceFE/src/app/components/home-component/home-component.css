@@ -355,3 +355,32 @@
     transform: rotateY(360deg) rotateX(10deg);
   }
 }
+
+/* ORARIO */
+@keyframes coinLoopClockwise {
+  0% {
+    transform: rotateY(0deg) rotateX(10deg);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(10deg);
+  }
+}
+
+/* ANTI-ORARIO */
+@keyframes coinLoopCounter {
+  0% {
+    transform: rotateY(0deg) rotateX(10deg);
+  }
+  100% {
+    transform: rotateY(-360deg) rotateX(10deg);
+  }
+}
+
+/* classi */
+.spin-right {
+  animation: coinLoopClockwise 1.2s linear infinite;
+}
+
+.spin-left {
+  animation: coinLoopCounter 1.2s linear infinite;
+}

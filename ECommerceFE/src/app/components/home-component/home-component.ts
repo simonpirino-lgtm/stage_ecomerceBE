@@ -24,6 +24,9 @@ export class HomeComponent implements OnInit {
 
   cartCount: number = 0;
 
+  isHovering = false;
+  isLeaving = false;
+
   user: any = null;
   showMenu = false;
 
@@ -259,16 +262,39 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('titleEl') titleEl!: ElementRef;
 
-  isLeaving = false;
 
-  onHover() {
-    const el = this.titleEl.nativeElement;
-    el.classList.add('spinning');
+  onHover(event: MouseEvent) {
+    this.isHovering = true;
     this.isLeaving = false;
+
+    this.onMoveTitle(event); // imposta subito direzione corretta
   }
 
   onLeave() {
+    this.isHovering = false;
     this.isLeaving = true;
+  }
+
+  onMoveTitle(event: MouseEvent) {
+    if (!this.isHovering) return; // 🔥 BLOCCO fondamentale
+
+    const el = this.titleEl.nativeElement;
+    const rect = el.getBoundingClientRect();
+
+    const mouseX = event.clientX;
+    const centerX = rect.left + rect.width / 2;
+
+    if (mouseX > centerX) {
+      if (!el.classList.contains('spin-right')) {
+        el.classList.remove('spin-left');
+        el.classList.add('spin-right');
+      }
+    } else {
+      if (!el.classList.contains('spin-left')) {
+        el.classList.remove('spin-right');
+        el.classList.add('spin-left');
+      }
+    }
   }
 
   ngAfterViewInit() {
@@ -276,7 +302,7 @@ export class HomeComponent implements OnInit {
 
     el.addEventListener('animationiteration', () => {
       if (this.isLeaving) {
-        el.classList.remove('spinning');
+        el.classList.remove('spin-left', 'spin-right');
         this.isLeaving = false;
       }
     });

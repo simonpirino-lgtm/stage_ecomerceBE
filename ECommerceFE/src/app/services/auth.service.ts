@@ -127,7 +127,7 @@ export class AuthService {
     return this.http.post('http://localhost:3000/api/v1/credito', { amount });
   }
   // Aggiungi questo metodo nella classe AuthService
-updateProfile(data: { newUserid?: string, newPassword?: string }): Observable<any> {
-  return this.http.patch(`${this.baseUrl}/utenti/update-me`, data);
-}
+  updateProfile(data: { newUserid?: string, newPassword?: string }): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/utenti/update-me`, data);
+  }
 }

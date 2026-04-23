@@ -14,6 +14,7 @@ const Utenti = sequelize.define(
         {
             type: DataTypes.STRING(500),
             allowNull: false,
+            unique: true
         },
         password: 
         {

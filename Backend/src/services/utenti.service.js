@@ -34,13 +34,23 @@ const updateProfile = async (id, { newUserid, newPassword }) => {
     const updateData = {};
 
     if (newUserid) {
+        const existingUser = await getUtenteByUserid(newUserid);
+
+        // ⚠️ Se esiste ed è un altro utente → errore
+        if (existingUser && existingUser.id !== id) {
+            throw new Error('USERNAME_ALREADY_EXISTS');
+        }
+
         updateData.userid = newUserid;
     }
 
     if (newPassword) {
-        // Criptiamo la nuova password prima di salvarla
         const salt = await bcrypt.genSalt(10);
         updateData.password = await bcrypt.hash(newPassword, salt);
+    }
+
+    if (newPassword || newUserid) {
+        updateData.refreshToken = null;
     }
 
     if (Object.keys(updateData).length === 0) return null;
