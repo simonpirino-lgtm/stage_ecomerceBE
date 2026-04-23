@@ -26,13 +26,27 @@ export class CreditComponent {
     this.loadCredit();
   }
 
-  loadCredit() {
+  /* loadCredit() {
     this.authService.getMe().subscribe({
       next: (res: any) => {
         this.currentCredit = res.credito;
       },
       error: (err) => {
         console.log("Errore caricamento credito", err);
+      }
+    });
+  } */
+  loading = true;
+  loadCredit() {
+    //this.loading = true;
+
+    this.authService.getMe().subscribe({
+      next: (res: any) => {
+        this.currentCredit = res.credito;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
       }
     });
   }
@@ -51,6 +65,8 @@ export class CreditComponent {
         this.message = 'Credito aggiornato: ' + res.credito;
 
         this.amount = 0;
+
+        this.loadCredit();
 
         // 🔥 forza aggiornamento UI
         this.cdr.detectChanges();

@@ -10,7 +10,8 @@
     <h1 
       #titleEl
       class="title animated-title"
-      (mouseenter)="onHover()"
+      (mouseenter)="onHover($event)"
+      (mousemove)="onMoveTitle($event)"
       (mouseleave)="onLeave()"
     >
       Benvenuto, {{user.userid}}!

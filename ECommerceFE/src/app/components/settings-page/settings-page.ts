@@ -93,11 +93,21 @@ export class SettingsPageComponent implements OnInit {
               this.userData.oldPassword = '';
               
               this.cd.detectChanges();
+
+              // logout
+              setTimeout(() => {
+                localStorage.removeItem('user');
+                localStorage.removeItem('accessToken');
+                this.router.navigate(['/']);
+              }, 1000);
             },
             error: (updateErr: any) => {
-              this.message = 'Errore durante l\'aggiornamento del profilo';
+              if (updateErr.status === 409) {
+                this.message = 'Username già esistente!';
+              } else {
+                this.message = 'Errore durante l\'aggiornamento del profilo';
+              }
               this.isError = true;
-              console.error('Update error:', updateErr);
             }
           });
         }
