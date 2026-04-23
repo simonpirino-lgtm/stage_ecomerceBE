@@ -6,6 +6,9 @@ const Giochi = require('./Giochi');
 const CheckoutRighe = require('./CheckoutRighe');
 const Checkout = require('./Checkout');
 const Magazzino = require('./Magazzino');
+const Libreria = require('./Libreria');
+
+
 /* const PonteGiochiCategorie = require('./PonteGiochiCategorie'); */
 
 /* Utenti.hasOne(Carrello, {
@@ -60,16 +63,26 @@ OrdiniCarrello.belongsTo(Carrello, {
   foreignKey: 'id_utente'
 }); */
 
-Utenti.hasMany(models.Libreria, {
+Utenti.hasMany(Libreria, {
   foreignKey: 'id_utente',
   as: 'libreria'
 });
 
-Giochi.hasMany(models.Libreria, {
+Giochi.hasMany(Libreria, {
   foreignKey: 'id_gioco',
   as: 'librerie'
 });
 
+
+Libreria.belongsTo(Utenti, {
+  foreignKey: 'id_utente',
+  as: 'utente'
+});
+
+Libreria.belongsTo(Giochi, {
+  foreignKey: 'id_gioco',
+  as: 'gioco'
+});
 
 
 OrdiniCarrello.belongsTo(Giochi, {
@@ -116,5 +129,6 @@ module.exports = {
   Giochi,
   Checkout,
   CheckoutRighe,
-  Magazzino
+  Magazzino,
+  Libreria
 };
