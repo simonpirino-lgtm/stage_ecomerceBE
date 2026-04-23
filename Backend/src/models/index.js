@@ -60,6 +60,16 @@ OrdiniCarrello.belongsTo(Carrello, {
   foreignKey: 'id_utente'
 }); */
 
+Utenti.hasMany(models.Libreria, {
+  foreignKey: 'id_utente',
+  as: 'libreria'
+});
+
+Giochi.hasMany(models.Libreria, {
+  foreignKey: 'id_gioco',
+  as: 'librerie'
+});
+
 
 
 OrdiniCarrello.belongsTo(Giochi, {
