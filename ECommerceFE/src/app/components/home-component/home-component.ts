@@ -38,6 +38,8 @@ export class HomeComponent implements OnInit {
   generi: string[] = [];
   menuIcon!: HTMLElement;
 
+  isThemeChanging = false;
+
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
@@ -226,6 +228,18 @@ export class HomeComponent implements OnInit {
 
   togglePriceFilter() {
     this.showPriceFilter = !this.showPriceFilter;
+  }
+
+  toggleTheme() {
+    document.body.classList.add('theme-switching');
+
+    setTimeout(() => {
+      this.isDark = this.theme.toggle();
+    }, 150);
+
+    setTimeout(() => {
+      document.body.classList.remove('theme-switching');
+    }, 650);
   }
 
   ngAfterViewInit() {
