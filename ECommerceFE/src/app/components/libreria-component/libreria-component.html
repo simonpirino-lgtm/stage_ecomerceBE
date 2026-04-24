@@ -1,38 +1,102 @@
 <div class="main-content">
-  <div class="container">
-    <h1 style="color: white; font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">
-      La Mia Libreria
-    </h1>
 
-    <div class="games-grid">
-      @for (item of mieigiochi; track item.id) {
-        <div class="product-card">
-          
-          <div class="image-wrapper">
-            <img [src]="item.gioco?.image_url || 'assets/placeholder.jpg'" 
-                 class="product-image" 
-                 [alt]="item.gioco?.titolo">
-          </div>
+  <!-- HEADER -->
+  <div class="library-header">
 
-          <div class="card-content">
-            <h2 class="game-title">{{ item.gioco?.titolo }}</h2>
-            
-            <p class="quantity">Posseduti: <strong>{{ item.quantita }}</strong></p>
-            
-            <button class="btn-play" (click)="scaricaGioco(item.gioco)">
-              GIOCA ORA
-            </button>
-          </div>
-
-        </div>
-      } @empty {
-        <div class="empty-library">
-          <p style="color: #ccc; font-size: 1.2rem;">
-            Non hai ancora acquistato nessun gioco. 
-            <a routerLink="/home" style="color: #00ffcc; text-decoration: none;">Visita lo store!</a>
-          </p>
-        </div>
-      }
+    <div class="left">
+      <button class="back-btn" [routerLink]="['/home']">
+        <i class="fas fa-arrow-left"></i>
+      </button>
     </div>
+
+    <div class="right">
+      <div class="welcome">
+        Bentornato, <strong>{{ user?.userid }}</strong>!
+      </div>
+
+      <div class="credit">
+        Credito: <strong>{{ user?.credito || 0 }}€</strong>
+      </div>
+    </div>
+
   </div>
+
+  <!-- TABLE -->
+  <div class="table-container">
+
+    <table class="library-table">
+
+      <thead>
+        <tr>
+          <th>Gioco</th>
+          <th>Titolo</th>
+          <th>Uscita</th>
+          <th>Descrizione</th>
+          <th>Qtà</th>
+          <th>Azione</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (item of mieigiochi; track item.id) {
+          <tr class="row">
+
+            <!-- IMMAGINE -->
+            <td>
+              <div class="cover">
+                <img [src]="item.gioco?.image_url || 'assets/placeholder.jpg'">
+              </div>
+            </td>
+
+            <!-- TITOLO -->
+            <td class="title">
+              {{ item.gioco?.titolo }}
+            </td>
+
+            <!-- DATA -->
+            <td>
+              {{ item.gioco?.datarilascio || '-' }}
+            </td>
+
+            <!-- DESCRIZIONE -->
+            <td>
+              <div class="desc">
+                {{ item.gioco?.descrizione }}
+              </div>
+            </td>
+
+            <!-- QUANTITA -->
+            <td class="qty">
+              {{ item.quantita }}
+            </td>
+
+            <!-- AZIONI -->
+            <td class="actions">
+
+              <button class="play" (click)="scaricaGioco(item.gioco)">
+                Gioca
+              </button>
+
+              @if (item.quantita > 1) {
+                <button class="gift">
+                  🎁
+                </button>
+              }
+
+            </td>
+
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty">
+              Nessun gioco nella libreria
+            </td>
+          </tr>
+        }
+      </tbody>
+
+    </table>
+
+  </div>
+
 </div>
