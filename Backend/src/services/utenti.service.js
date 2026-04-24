@@ -1,6 +1,6 @@
-const { getUtenteByUserid, creaUtente } = require('../repository/auth.repository');
+const { getUtenteByUserid, creaUtente } = require('../repositories/auth.repository');
 const { Carrello } = require('../models');
-const utentiRepository = require('../repository/utenti.repository');
+const utentiRepository = require('../repositories/utenti.repository');
 const bcrypt = require('bcrypt');
 
 const register = async ({ userid, password }) => {

@@ -1,50 +1,34 @@
-import { ChangeDetectorRef, Component, Injectable, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router'
+import { FormsModule } from '@angular/forms'; // FONDAMENTALE PER ngModel
 import { GiochiService } from '../../services/giochi-service';
 import { AuthService } from '../../services/auth.service';
-import { ThemeService } from '../../services/theme.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-libreria',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './libreria-component.html',
   styleUrls: ['./libreria-component.css']
 })
-@Injectable({
-  providedIn: 'root'
-})
 export class LibreriaComponent implements OnInit {
   private giochiService = inject(GiochiService);
-  private cdr = inject(ChangeDetectorRef)
-
-  user: any = null;
+  private cdr = inject(ChangeDetectorRef);
+  private authService = inject(AuthService);
   
   mieigiochi: any[] = [];
-  isLoading: boolean = true; // Per mostrare un eventuale loader
-  
-  constructor(private authService: AuthService, public theme: ThemeService) {}
-
+  utenti: any[] = []; // Inizializzalo sempre come array vuoto
+  utenteSelezionato: any = null;
+  user: any = null;
+  isLoading: boolean = true;
 
   ngOnInit(): void {
-    this.theme.init();
     const storedUser = localStorage.getItem('user');
+    if (storedUser) this.user = JSON.parse(storedUser);
 
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-    }
-
-    // opzionale ma consigliato: refresh dati backend
-    this.authService.getMe().subscribe({
-      next: (res: any) => {
-        this.user.credito = res.credito;
-        localStorage.setItem('user', JSON.stringify(this.user));
-      },
-      error: (err) => console.error(err)
-    });
-    this.authService.initAuth().subscribe();
     this.caricaLibreria();
+    this.caricaUtenti();
   }
 
   caricaLibreria() {
@@ -53,9 +37,7 @@ export class LibreriaComponent implements OnInit {
       next: (res) => {
         this.mieigiochi = res;
         this.isLoading = false;
-        console.log('Giochi caricati:', res);
         this.cdr.detectChanges();
-
       },
       error: (err) => {
         this.isLoading = false;
@@ -64,9 +46,40 @@ export class LibreriaComponent implements OnInit {
     });
   }
 
-  // Metodo per il pulsante Scarica/Gioca
+    caricaUtenti() {
+    this.giochiService.getListaUtenti().subscribe({
+      next: (res) => {
+        this.utenti = res;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        // Log specific details: status code and the message from the server
+        console.error(`Error Code: ${err.status}\nMessage: ${err.message}`);
+        if (err.error) console.error("Server Body:", err.error);
+      }
+    });
+  }
+
+  eseguiRegalo(item: any) {
+    if (!this.utenteSelezionato) {
+      alert("Seleziona un utente prima di regalare!");
+      return;
+    }
+
+    const confirmRegalo = confirm(`Vuoi regalare una copia di ${item.gioco.titolo}?`);
+    if (!confirmRegalo) return;
+
+    // Chiamata al service (implementazione sotto)
+    this.giochiService.regalaGioco(this.utenteSelezionato, item.gioco.id).subscribe({
+      next: () => {
+        alert("Regalo inviato!");
+        this.caricaLibreria(); // Aggiorna la tabella (quantità diminuirà)
+      },
+      error: (err) => alert("Errore: " + (err.error?.message || "Impossibile regalare"))
+    });
+  }
+
   scaricaGioco(gioco: any) {
     alert(`Avvio del download di: ${gioco.titolo}`);
-    // Qui in futuro potrai aggiungere la logica per aprire un link o cambiare stato
   }
 }

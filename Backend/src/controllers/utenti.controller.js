@@ -22,5 +22,15 @@ const updateProfile = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+const getAllUtenti = async (req, res) => {
+    try {
+        const utenti = await utentiRepo.findAll();
+        // req.user.id viene dal verifyToken
+        const altriUtenti = utenti.filter(u => u.id !== req.user.id);
+        res.status(200).json(altriUtenti);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
-module.exports = { updateProfile };
+module.exports = { updateProfile , getAllUtenti};

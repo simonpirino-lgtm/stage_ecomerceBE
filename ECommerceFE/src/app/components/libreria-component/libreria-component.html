@@ -66,24 +66,32 @@
             </td>
 
             <!-- QUANTITA -->
-            <td class="qty">
-              {{ item.quantita }}
-            </td>
+           <td class="actions">
 
-            <!-- AZIONI -->
-            <td class="actions">
+  <td class="actions">
+  <button class="play" (click)="scaricaGioco(item.gioco)">
+    Gioca
+  </button>
 
-              <button class="play" (click)="scaricaGioco(item.gioco)">
-                Gioca
-              </button>
+  @if (item.quantita > 1) {
+    <div class="gift-container" style="margin-top: 10px;">
+      
+      <select [(ngModel)]="utenteSelezionato" class="user-select">
+        <option [ngValue]="null" disabled selected>Regala a...</option>
+        
+        @for (u of utenti; track u.id) {
+          <option [value]="u.id">
+             {{ u.userid }} </option>
+        }
+      </select>
 
-              @if (item.quantita > 1) {
-                <button class="gift">
-                  🎁
-                </button>
-              }
+      <button class="gift-btn" (click)="eseguiRegalo(item)">
+        🎁 Invia
+      </button>
 
-            </td>
+    </div>
+  }
+</td>
 
           </tr>
         } @empty {

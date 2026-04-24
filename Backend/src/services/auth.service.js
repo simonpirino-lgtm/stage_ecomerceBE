@@ -1,7 +1,7 @@
 const Utenti = require("../models/Utenti");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const authRepo = require('../repository/auth.repository');
+const authRepo = require('../repositories/auth.repository');
 const ACCESS_TOK = process.env.JWT_SECRET || 'dev_access_secret';
 const REFRESH_TOK = process.env.JWT_REFRESH || 'dev_refresh_secret';
 
