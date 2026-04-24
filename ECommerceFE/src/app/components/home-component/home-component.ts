@@ -24,8 +24,8 @@ export class HomeComponent implements OnInit {
   searchTerm: string = '';
   transforms: { [id: number]: string } = {};
 
-  // Partiamo dalla metà (100)
-  maxPrice: number = 100; 
+  // NUOVO: Proprietà per il filtro prezzo
+  maxPrice: number = 60; 
 
   private authService = inject(AuthService);
   cartCount: number = 0;
@@ -215,8 +215,17 @@ export class HomeComponent implements OnInit {
     if (mouseX > centerX) {
       el.classList.remove('spin-left'); el.classList.add('spin-right');
     } else {
-      el.classList.remove('spin-right'); el.classList.add('spin-left');
+      if (!el.classList.contains('spin-left')) {
+        el.classList.remove('spin-right');
+        el.classList.add('spin-left');
+      }
     }
+  }
+
+  showPriceFilter: boolean = false;
+
+  togglePriceFilter() {
+    this.showPriceFilter = !this.showPriceFilter;
   }
 
   ngAfterViewInit() {
