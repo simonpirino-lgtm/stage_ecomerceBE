@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, HostListener, ViewChild, ElementRef, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -6,6 +6,7 @@ import { GiochiService } from '../../services/giochi-service';
 import { Router } from '@angular/router';
 import { CarrelloService } from '../../services/carrello.service';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-home-component',
@@ -14,6 +15,12 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './home-component.html',
   styleUrls: ['./home-component.css'],
 })
+
+@Injectable({
+  providedIn: 'root'
+})
+
+
 export class HomeComponent implements OnInit {
 
   giochiModel: GiochiModel[] = [];
@@ -42,19 +49,12 @@ export class HomeComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  ngOnInit() {
-    const savedTheme = localStorage.getItem('theme') ?? 'light';
+  constructor(public theme: ThemeService) {}
+  
+  ngOnInit() {    
+    this.theme.init();
+    this.isDark = this.theme.isDark();
 
-    this.isDark = savedTheme === 'dark';
-
-    document.body.classList.toggle('dark-theme', this.isDark);
-
-    if (this.isDark) {
-      document.body.classList.add('dark-theme');
-    } else {
-      document.body.classList.remove('dark-theme');
-    }
-    
     const storedUser = localStorage.getItem('user');
 
     if (storedUser) {
@@ -309,14 +309,6 @@ export class HomeComponent implements OnInit {
         el.classList.add('spin-left');
       }
     }
-  }
-
-  toggleTheme() {
-    this.isDark = !this.isDark;
-
-    document.body.classList.toggle('dark-theme', this.isDark);
-
-    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
   }
 
   ngAfterViewInit() {

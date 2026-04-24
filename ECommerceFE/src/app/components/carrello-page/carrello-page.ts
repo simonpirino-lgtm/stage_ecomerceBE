@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CarrelloService, CarrelloResponse } from '../../services/carrello.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-carrello-page',
@@ -10,6 +11,11 @@ import { CarrelloService, CarrelloResponse } from '../../services/carrello.servi
   templateUrl: './carrello-page.html',
   styleUrls: ['./carrello-page.css']
 })
+
+@Injectable({
+  providedIn: 'root'
+})
+
 export class CarrelloPageComponent implements OnInit {
   // Dati del carrello
   items: any[] = [];
@@ -25,7 +31,10 @@ export class CarrelloPageComponent implements OnInit {
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
 
+  constructor(public theme: ThemeService) {}
+
   ngOnInit(): void {
+    this.theme.init();
     this.caricaCarrello();
   }
 
