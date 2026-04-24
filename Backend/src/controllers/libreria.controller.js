@@ -1,21 +1,15 @@
-const { Libreria, Giochi } = require('../models');
-
+const libreriaRepository = require('../repository/libreria.repository');
 const getMiaLibreria = async (req, res) => {
   try {
-    const utenteId = req.user.id; // Preso dal middleware verifyToken
+    // req.user.id viene popolato dal middleware verifyToken
+    const utenteId = req.user.id; 
 
-    // Cerchiamo tutti i record nella libreria dell'utente e "includiamo" i dati del gioco
-    const laMiaLibreria = await Libreria.findAll({
-      where: { id_utente: utenteId },
-      include: [{
-        model: Giochi,
-        as: 'gioco' // ATTENZIONE: Assicurati che l'alias corrisponda a quello in models/index.js
-      }]
-    });
+    // Usiamo il metodo della repository che mi hai inviato
+    const giochi = await libreriaRepository.findAllByUserId(utenteId);
 
-    res.status(200).json(laMiaLibreria);
+    res.status(200).json(giochi);
   } catch (error) {
-    console.error("ERRORE RECUPERO LIBRERIA:", error);
+    console.error("ERRORE CONTROLLER LIBRERIA:", error);
     res.status(500).json({ error: error.message });
   }
 };

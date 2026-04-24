@@ -130,4 +130,9 @@ export class AuthService {
   updateProfile(data: { newUserid?: string, newPassword?: string }): Observable<any> {
     return this.http.patch(`${this.baseUrl}/utenti/update-me`, data);
   }
+  updateUserSignal(updatedUser: any) {
+  // Dato che userSignal è privato, usiamo il setter del signal
+  // Se avevi dichiarato: private readonly userSignal = signal<UserData | null>(null);
+  this.userSignal.set(updatedUser);
+}
 }

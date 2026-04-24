@@ -9,28 +9,24 @@ import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throw
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 
-// Variabili di modulo condivise tra tutte le invocazioni dell'interceptor
-// Necessarie per coordinare il refresh quando più richieste ricevono 401 in parallelo
+// Stato condiviso per gestire il refresh del token in parallelo
 let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<string | null>(null);
-// null = nessun refresh in corso o refresh fallito
-// stringa = il nuovo token dopo un refresh riuscito
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router      = inject(Router);
 
-  // Le route auth non hanno bisogno del Bearer token
-  // (e non devono essere intercettate per evitare loop infiniti)
+  // 1. Saltiamo l'intercettazione per le rotte di Login/Refresh/Logout
+  // per evitare loop infiniti se il server risponde 401 su queste
   if (isAuthRoute(req.url)) {
     return next(req);
   }
 
-  // Aggiunge il token alla richiesta e la esegue
+  // 2. Aggiunge il Bearer Token (preso dal Signal di AuthService) e procede
   return next(addAuthToken(req, authService)).pipe(
     catchError((error: unknown) => {
-      // Intercetta solo gli errori 401 (non autorizzato / token scaduto)
-      // Gli altri errori (400, 404, 500...) vengono propagati normalmente
+      // 3. Se riceviamo 401 (Unauthorized), proviamo a rigenerare il token
       if (error instanceof HttpErrorResponse && error.status === 401) {
         return handle401Error(req, next, authService, router);
       }
@@ -39,28 +35,38 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   );
 };
 
-// Determina se la richiesta è verso una route di autenticazione
-// Queste route non richiedono il token e non devono essere intercettate
+/**
+ * Esclude le chiamate di autenticazione dall'aggiunta del Bearer Token
+ */
 function isAuthRoute(url: string): boolean {
-  return (
-    url.includes('/api/v1/auth/login')   ||
-    url.includes('/api/v1/auth/refresh') ||
-    url.includes('/api/v1/auth/logout')
-  );
+  const authEndpoints = [
+    '/api/v1/auth/login',
+    '/api/v1/auth/refresh',
+    '/api/v1/auth/logout'
+  ];
+  return authEndpoints.some(endpoint => url.includes(endpoint));
 }
 
-// Clona la richiesta aggiungendo l'header Authorization
-// Le richieste HTTP sono immutabili in Angular → si usa .clone() per modificarle
+/**
+ * Clona la richiesta originale inserendo l'header Authorization con il token attuale
+ */
 function addAuthToken(req: HttpRequest<unknown>, authService: AuthService): HttpRequest<unknown> {
-  const token = authService.getToken();
-  if (!token) return req; // nessun token in memoria → manda la richiesta com'è
+  const token = authService.getToken(); // Legge dal Signal dell'AuthService
+  
+  if (!token) {
+    return req; 
+  }
+
   return req.clone({
-    setHeaders: { Authorization: `Bearer ${token}` }
-    // Aggiunge (o sovrascrive) l'header Authorization alla copia della richiesta
+    setHeaders: {
+      Authorization: `Bearer ${token}`
+    }
   });
 }
 
-// Gestisce il caso in cui una richiesta riceve 401
+/**
+ * Gestisce il recupero del Token se scaduto (Errore 401)
+ */
 function handle401Error(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
@@ -69,41 +75,33 @@ function handle401Error(
 ): Observable<any> {
 
   if (!isRefreshing) {
-    // Questa è la prima richiesta che riceve 401: fa il refresh
     isRefreshing = true;
     refreshTokenSubject.next(null);
-    // next(null) segnala alle altre richieste in attesa che il refresh è in corso
 
+    // Chiamata al backend per ottenere un nuovo Access Token usando il Refresh Cookie
     return authService.refreshToken().pipe(
       switchMap((response) => {
-        // Refresh riuscito
         isRefreshing = false;
         refreshTokenSubject.next(response.accessToken);
-        // next(token) sblocca tutte le richieste che stavano aspettando
 
-        // Riprova la richiesta originale con il nuovo token
+        // Riesegue la richiesta originale con il nuovo token appena ottenuto
         return next(addAuthToken(req, authService));
       }),
       catchError((error) => {
-        // Refresh fallito (cookie scaduto, token non nel DB, ecc.)
         isRefreshing = false;
         refreshTokenSubject.next(null);
 
-        // Forza il logout: azzera i signal e naviga al login
+        // Se anche il refresh fallisce, l'utente deve rifare il login
         authService.logout();
         return throwError(() => error);
       })
     );
   }
 
-  // Un refresh è già in corso (isRefreshing = true)
-  // Questa richiesta aspetta che il BehaviorSubject emetta il nuovo token
+  // Se un refresh è già in corso, mettiamo le altre richieste in "attesa"
   return refreshTokenSubject.pipe(
     filter((token) => token !== null),
-    // filter aspetta finché il token non è null (cioè finché il refresh non completa)
     take(1),
-    // take(1) completa l'Observable dopo aver ricevuto il primo valore non-null
     switchMap(() => next(addAuthToken(req, authService)))
-    // Riprova la richiesta con il nuovo token ora disponibile nel signal
   );
 }

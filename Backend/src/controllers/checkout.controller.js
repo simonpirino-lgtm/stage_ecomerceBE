@@ -1,9 +1,9 @@
-const checkoutService = require('../services/checkout.service');
+const checkoutService = require('../services/checkout.service'); // Controlla che il percorso sia giusto!
 
 const checkout = async (req, res) => {
   try {
-    const utenteId = req.user.id; // 🔥 PERFETTO nel tuo caso
-
+   console.log("UTENTE CHE TENTA IL CHECKOUT:", req.user); // <--- AGGIUNGI QUESTO
+    const utenteId = req.user.id;
     const result = await checkoutService.checkout(utenteId);
 
     res.status(200).json(result);

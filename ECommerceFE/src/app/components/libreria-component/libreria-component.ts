@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GiochiService } from '../../services/giochi-service';
-import { GiochiModel } from '../../models/giochi-model';
 
 @Component({
   selector: 'app-libreria',
@@ -13,22 +12,31 @@ import { GiochiModel } from '../../models/giochi-model';
 export class LibreriaComponent implements OnInit {
   private giochiService = inject(GiochiService);
   
-  // Usiamo un array di any perché la libreria restituisce l'oggetto Libreria + l'oggetto Gioco joinato
   mieigiochi: any[] = [];
+  isLoading: boolean = true; // Per mostrare un eventuale loader
 
   ngOnInit(): void {
     this.caricaLibreria();
   }
 
   caricaLibreria() {
+    this.isLoading = true;
     this.giochiService.getLibreria().subscribe({
       next: (res) => {
         this.mieigiochi = res;
-        console.log('Giochi in libreria:', res);
+        this.isLoading = false;
+        console.log('Giochi caricati:', res);
       },
       error: (err) => {
-        console.error('Errore nel recupero della libreria:', err);
+        this.isLoading = false;
+        console.error('Errore libreria:', err);
       }
     });
+  }
+
+  // Metodo per il pulsante Scarica/Gioca
+  scaricaGioco(gioco: any) {
+    alert(`Avvio del download di: ${gioco.titolo}`);
+    // Qui in futuro potrai aggiungere la logica per aprire un link o cambiare stato
   }
 }

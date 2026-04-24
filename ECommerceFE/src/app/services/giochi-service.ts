@@ -45,7 +45,7 @@ export class GiochiService
     LIBRERIA UTENTE
 -------------------------- */
 getLibreria(): Observable<any[]> {
-  // Usiamo baseUrl che hai già definito e puntiamo alla rotta libreria
+  // Nota: l'URL deve corrispondere a dove hai montato le libreriaRoute nel file index delle rotte
   return this.http.get<any[]>(`${this.baseUrl}/libreria`);
 }
 }
