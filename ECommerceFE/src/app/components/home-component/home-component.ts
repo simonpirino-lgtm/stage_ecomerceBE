@@ -15,33 +15,27 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './home-component.html',
   styleUrls: ['./home-component.css'],
 })
-
 @Injectable({
   providedIn: 'root'
 })
-
-
 export class HomeComponent implements OnInit {
 
   giochiModel: GiochiModel[] = [];
   searchTerm: string = '';
   transforms: { [id: number]: string } = {};
 
+  // NUOVO: Proprietà per il filtro prezzo
+  maxPrice: number = 200; 
+
   private authService = inject(AuthService);
-
   cartCount: number = 0;
-
   isHovering = false;
   isLeaving = false;
-
   user: any = null;
   showMenu = false;
-
   isDark = false;
-
   selectedGenre: string = '';
   generi: string[] = [];
-
   menuIcon!: HTMLElement;
 
   private giochiService = inject(GiochiService);
@@ -64,12 +58,9 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    // 🔥 NUOVO: ricarica dati freschi dal backend
     this.authService.getMe().subscribe({
       next: (res: any) => {
         this.user.credito = res.credito;
-
-        // 🔥 aggiorna anche localStorage
         localStorage.setItem('user', JSON.stringify(this.user));
       },
       error: (err) => {
@@ -78,7 +69,6 @@ export class HomeComponent implements OnInit {
     });
 
     this.caricaCartCount();
-
     this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
     this.giochiService.getGiochi().subscribe({
@@ -95,11 +85,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // AGGIORNATO: Filtra per nome E per prezzo
   get giochiFiltrati() {
     const term = this.searchTerm.toLowerCase().trim();
 
     return this.giochiModel.filter(gioco =>
-      gioco.titolo.toLowerCase().includes(term)
+      gioco.titolo.toLowerCase().includes(term) && gioco.prezzo <= this.maxPrice
     );
   }
 
@@ -113,30 +104,23 @@ export class HomeComponent implements OnInit {
     request.subscribe({
       next: (data) => {
         this.giochiModel = data;
-        this.cdr.detectChanges(); // opzionale ma utile
+        this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });
   }
 
-  /* -------------------------
-     CARRELLO
-  -------------------------- */
   aggiungiAlCarrello(gioco: GiochiModel, imgElement: HTMLElement) {
     this.animateToCart(imgElement);
 
     this.carrelloService.aggiungi(this.user.id, gioco.id, 1).subscribe({
       next: (res) => {
-        /* console.log('Prodotto aggiunto:', res); */
         this.caricaCartCount();
       },
       error: (err) => console.error("Errore aggiunta carrello:", err)
     });
   }
 
-  /* -------------------------
-     MENU TOGGLE
-  -------------------------- */
   toggleMenu(event: MouseEvent) {
     event.stopPropagation();
     this.showMenu = !this.showMenu;
@@ -145,17 +129,12 @@ export class HomeComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   handleClick(event: Event) {
     const target = event.target as HTMLElement;
-
     if (target.closest('.sidebar') || target.closest('.menu-icon')) {
       return;
     }
-
     this.showMenu = false;
   }
 
-  /* -------------------------
-     NAV
-  -------------------------- */
   goToProfile() {
     this.router.navigate(['/account']);
     this.showMenu = false;
@@ -169,7 +148,8 @@ export class HomeComponent implements OnInit {
   goToCredit() {
     this.router.navigate(['/credito'])
   }
- logout() {
+
+  logout() {
     localStorage.removeItem('user');
     this.authService.logout();
   }
@@ -179,9 +159,6 @@ export class HomeComponent implements OnInit {
     this.showMenu = false;
   }
    
-  /* -------------------------
-     HOVER EFFECT
-  -------------------------- */
   onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
     this.transforms[gioco.id] = 'scale(1.2)';
   }
@@ -189,13 +166,10 @@ export class HomeComponent implements OnInit {
   onMouseMove(event: MouseEvent, gioco: GiochiModel) {
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
-
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-
     const rotateX = ((y - centerY) / centerY) * -15;
     const rotateY = ((x - centerX) / centerX) * 15;
 
@@ -207,25 +181,19 @@ export class HomeComponent implements OnInit {
     delete this.transforms[gioco.id];
   }
 
-  /* -------------------------
-     ANIMAZIONE CARRELLO
-  -------------------------- */
   animateToCart(img: HTMLElement) {
-
     const rect = img.getBoundingClientRect();
     const menuIcon = this.menuIcon;
     const cartRect = menuIcon.getBoundingClientRect();
 
     const clone = img.cloneNode(true) as HTMLElement;
     clone.classList.add('flying-image');
-
     clone.style.top = rect.top + 'px';
     clone.style.left = rect.left + 'px';
     clone.style.width = rect.width + 'px';
     clone.style.height = rect.height + 'px';
 
     document.body.appendChild(clone);
-
     menuIcon.classList.add('magnet');
 
     setTimeout(() => {
@@ -235,41 +203,32 @@ export class HomeComponent implements OnInit {
       clone.style.height = '30px';
       clone.style.opacity = '0.5';
       clone.style.filter = 'brightness(0.6)';
-
       menuIcon.classList.add('pulse');
     }, 10);
 
     setTimeout(() => {
       clone.remove();
-
       this.createBurst(cartRect);
-
       menuIcon.classList.add('vibrate');
-
       setTimeout(() => {
         menuIcon.classList.remove('vibrate');
         menuIcon.classList.remove('pulse');
         menuIcon.classList.remove('magnet');
       }, 300);
-
     }, 700);
   }
 
   createBurst(rect: DOMRect) {
     const burst = document.createElement('div');
     burst.classList.add('cart-burst');
-
     burst.style.top = rect.top + rect.height / 2 - 80 + 'px';
     burst.style.left = rect.left + rect.width / 2 - 80 + 'px';
-
     document.body.appendChild(burst);
-
     setTimeout(() => burst.remove(), 600);
   }
 
   caricaCartCount() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-
     this.carrelloService.getTotaleArticoli(user.id).subscribe({
       next: (res: any) => {
         this.cartCount = res.totaleArticoli || 0;
@@ -280,12 +239,10 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('titleEl') titleEl!: ElementRef;
 
-
   onHover(event: MouseEvent) {
     this.isHovering = true;
     this.isLeaving = false;
-
-    this.onMoveTitle(event); // imposta subito direzione corretta
+    this.onMoveTitle(event);
   }
 
   onLeave() {
@@ -294,11 +251,9 @@ export class HomeComponent implements OnInit {
   }
 
   onMoveTitle(event: MouseEvent) {
-    if (!this.isHovering) return; // 🔥 BLOCCO fondamentale
-
+    if (!this.isHovering) return; 
     const el = this.titleEl.nativeElement;
     const rect = el.getBoundingClientRect();
-
     const mouseX = event.clientX;
     const centerX = rect.left + rect.width / 2;
 
@@ -317,7 +272,6 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit() {
     const el = this.titleEl.nativeElement;
-
     el.addEventListener('animationiteration', () => {
       if (this.isLeaving) {
         el.classList.remove('spin-left', 'spin-right');
