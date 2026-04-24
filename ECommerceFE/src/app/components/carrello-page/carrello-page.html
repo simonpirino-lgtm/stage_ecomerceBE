@@ -71,7 +71,9 @@
         <span>Totale</span>
         <span>€ {{ totale.toFixed(2) }}</span>
       </div>
-      <button class="btn-checkout">Procedi al Pagamento</button>
+      <button class="btn-checkout" (click)="checkout()">
+        Procedi al Pagamento
+      </button>
     </div>
   }
   </div>
