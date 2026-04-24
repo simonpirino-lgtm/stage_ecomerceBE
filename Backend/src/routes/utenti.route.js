@@ -16,6 +16,7 @@ router.get('/me', verifyToken, async (req, res) => {
 });
 router.patch('/update-me', verifyToken, utentiController.updateProfile);
 
-// Le tue rotte esistenti...
+// Le tue rotte esistenti...  
+router.get('/all', verifyToken, utentiController.getAllUtenti);
 
 module.exports = router;

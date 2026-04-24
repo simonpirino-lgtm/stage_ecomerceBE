@@ -48,4 +48,12 @@ getLibreria(): Observable<any[]> {
   // Nota: l'URL deve corrispondere a dove hai montato le libreriaRoute nel file index delle rotte
   return this.http.get<any[]>(`${this.baseUrl}/libreria`);
 }
+getListaUtenti(): Observable<any[]> {
+  // Aggiunto /all per combaciare con router.get('/all', ...)
+  return this.http.get<any[]>(`${this.baseUrl}/utenti/all`);
+}
+
+regalaGioco(idDestinatario: number, idGioco: number): Observable<any> {
+  return this.http.post(`${this.baseUrl}/libreria/regala`, { idDestinatario, idGioco });
+}
 }

@@ -1,4 +1,4 @@
-const carrelloRepository = require('../repository/carrello.repository');
+const carrelloRepository = require('../repositories/carrello.repository');
 
 const IVA_PERCENTUALE = 0.22;
 
