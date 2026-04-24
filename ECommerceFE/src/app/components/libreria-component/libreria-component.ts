@@ -46,38 +46,29 @@ export class LibreriaComponent implements OnInit {
     });
   }
 
-    caricaUtenti() {
-    this.giochiService.getListaUtenti().subscribe({
-      next: (res) => {
-        this.utenti = res;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        // Log specific details: status code and the message from the server
-        console.error(`Error Code: ${err.status}\nMessage: ${err.message}`);
-        if (err.error) console.error("Server Body:", err.error);
-      }
-    });
-  }
+// Metodo per caricare gli utenti (chiamalo nel ngOnInit)
+caricaUtenti() {
+  this.giochiService.getListaUtenti().subscribe({
+    next: (res) => {
+      console.log("Utenti ricevuti:", res);
+      this.utenti = res; 
+      this.cdr.detectChanges(); // Forza Angular a vedere i nuovi dati nella select
+    },
+    error: (err) => console.error("Errore caricamento utenti:", err)
+  });
+}
 
-  eseguiRegalo(item: any) {
-    if (!this.utenteSelezionato) {
-      alert("Seleziona un utente prima di regalare!");
-      return;
-    }
+eseguiRegalo(item: any) {
+  if (!this.utenteSelezionato) return;
 
-    const confirmRegalo = confirm(`Vuoi regalare una copia di ${item.gioco.titolo}?`);
-    if (!confirmRegalo) return;
-
-    // Chiamata al service (implementazione sotto)
-    this.giochiService.regalaGioco(this.utenteSelezionato, item.gioco.id).subscribe({
-      next: () => {
-        alert("Regalo inviato!");
-        this.caricaLibreria(); // Aggiorna la tabella (quantità diminuirà)
-      },
-      error: (err) => alert("Errore: " + (err.error?.message || "Impossibile regalare"))
-    });
-  }
+  this.giochiService.regalaGioco(this.utenteSelezionato, item.id_gioco).subscribe({
+    next: (res) => {
+      alert("Gioco regalato con successo!");
+      this.caricaLibreria(); // Ricarica per aggiornare le quantità
+    },
+    error: (err) => alert("Errore: " + (err.error?.error || "Impossibile regalare"))
+  });
+}
 
   scaricaGioco(gioco: any) {
     alert(`Avvio del download di: ${gioco.titolo}`);
