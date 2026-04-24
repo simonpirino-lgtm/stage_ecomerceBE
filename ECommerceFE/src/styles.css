@@ -1,6 +1,9 @@
 :root {
   --bg-main: #d96f51;
   --bg-header: #ec3c14;
+  --bg-header2: #ec3c14;
+
+  --login-link: #0b2b2b;
 
   --bg-card-1: #d96f51;
   --bg-card-2: #ea2424;
@@ -8,9 +11,15 @@
 
   --bg-card-1-h: #d96e5109;
 
+  --auth-box: #430606;
+  --auth-box-btn: #f79c88;
+
   --genre-select: #222;
 
+  --game-title-c: #131313;
+
   --menu-icon: #e1ff00b8;
+  --menu-icon2: #dfdfdfb8;
 
   --btn-add-bg: #ff7a51;
   --btn-add-col: #2e1958;
@@ -23,22 +32,34 @@
 
   --sidebar-h: #b44343;
 
+  --logout-hover: #0000004d;
+
   --hover-bright: 1.15;
 }
 
 body.dark-theme {
   --bg-main: #383636;
-  --bg-header: #1e1e1e;
+  --bg-header: #231e1e;
+  --bg-header2: #666363;
 
-  --bg-card-1: #433636;
+
+  --login-link: #d6ffff;
+
+  --bg-card-1: #4f4c56;
   --bg-card-2: #2a2a2a;
   --bg-card-3: #231e1e;
 
-  --bg-card-1-h: #433636;
+  --bg-card-1-h: #342d2d;
+
+  --auth-box: #dadada;
+  --auth-box-btn: #dcdcdc;
 
   --genre-select: #e6e6e6;
 
+  --game-title-c: #e7e7e7;
+
   --menu-icon: #dfdfdfb8;
+  --menu-icon-2: #ff2727;
 
   --btn-add-bg: #c0c0c0;
   --btn-add-col: #2e1958;
@@ -50,6 +71,8 @@ body.dark-theme {
   --text-color-b: #2f2e2e;
 
   --sidebar-h: #2e2e2e;
+
+  --logout-hover: #ffeeee4d;
 
   --hover-bright: 1.3;
 }

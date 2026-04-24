@@ -3,20 +3,20 @@
 
 .cart-wrapper {
     min-height: 100vh;
-    background-color: #d96f51;
+    background-color: var(--bg-main);
     padding: 20px;
     font-family: 'Segoe UI', sans-serif;
 }
 
 .header-section {
-    background-color: #ec3c14;
+    background-color: var(--bg-header2);
     padding: 30px;
     border-radius: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px #00000033;
 }
 
 .title {
@@ -51,7 +51,7 @@
     padding: 15px;
     margin-bottom: 15px;
     gap: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px #0000001a;
 
     animation: fadeSlideIn 0.35s ease-out;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -59,7 +59,7 @@
 
 .cart-card:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px #00000033;
 }
 
 @keyframes fadeSlideIn {
@@ -156,7 +156,7 @@
     justify-content: center;
     gap: 8px;
 
-    background: rgba(0, 0, 0, 0.05);
+    background: #0000000d;
     padding: 10px;
     border-radius: 20px;
 }
@@ -196,7 +196,7 @@
 
     transition: all 0.05s ease;
 
-    box-shadow: 0 4px 10px rgba(192, 105, 18, 0.15);
+    box-shadow: 0 4px 10px #c0691226;
 }
 
 .btn-remove {
@@ -215,7 +215,7 @@
     padding: 25px;
     border-radius: 15px;
     height: fit-content;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px #00000033;
 
     animation: fadeSlideIn2 0.35s ease-out;
 }
@@ -244,7 +244,7 @@
 .summary-total {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.5rem;
-    color: #ec3c14;
+    color: #ec3c14; /* lascio */ 
     display: flex;
     justify-content: space-between;
     margin: 20px 0;
@@ -281,7 +281,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: rgba(255, 174, 0, 0.478);
+    background: #ffae007a;
     transition: left 0.5s ease;
 }
 
@@ -365,12 +365,12 @@
 .empty-state {
     grid-column: 1 / -1;
     background: #ffffff;
-    color: rgb(36, 35, 34);
+    color: #242322;
     padding: 50px 20px;
     border-radius: 16px;
     text-align: center;
 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 25px #00000040;
 
     animation: emptyFadeIn 0.5s ease-out;
     font-family: 'Orbitron', sans-serif;

@@ -16,7 +16,7 @@
     transform: translateY(-50%);
     font-size: 28px;
     cursor: pointer;
-    color: white;
+    color: var(--menu-icon-2);
     z-index: 999;
     box-shadow: 0px 0px 0px 3px var(--menu-icon);
 }
@@ -82,7 +82,7 @@
 
     pointer-events: none;
 
-    box-shadow: -12px 0 25px 5px #4b1c0740;
+    box-shadow: -12px 0 25px 5px #4b1c0740; /* lascio */
     border-radius: 15px 0px 15px 0px;
     transform: translate3d(0,0,0);
     backface-visibility: hidden;
@@ -151,7 +151,7 @@
 
 .logout:hover {
   transform: scale(1.05);
-  box-shadow: 0 5px 15px #0000004d;
+  box-shadow: 0 5px 15px var(--logout-hover);
 }
 
 .logout:active {
@@ -191,7 +191,7 @@
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 25px #00000026;
+    box-shadow: 0 12px 25px #00000026; /* lascio */
     filter: brightness(1.15);
     background: linear-gradient(
       var(--bg-card-1-h),
@@ -223,6 +223,7 @@
 .game-title {
     font-size: clamp(0.8rem, 2vw, 1rem); /* minimo, viewport-based, massimo */
     margin: 10px 0;
+    color: var(--game-title-c);
     white-space: nowrap;   /* forza una sola linea */
     overflow: hidden;      /* taglia il testo se troppo lungo */
     text-overflow: ellipsis; /* aggiunge "..." se tagliato */
