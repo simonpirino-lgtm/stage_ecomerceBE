@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -10,6 +11,9 @@ import { AuthService } from '../../services/auth.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './settings-page.html',
   styleUrl: './settings-page.css'
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class SettingsPageComponent implements OnInit {
   
@@ -26,10 +30,14 @@ export class SettingsPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public theme: ThemeService
   ) {}
 
+  
+
   ngOnInit() {
+    this.theme.init();
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       const user = JSON.parse(savedUser);

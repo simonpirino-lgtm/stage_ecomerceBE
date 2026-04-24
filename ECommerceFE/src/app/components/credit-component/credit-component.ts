@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router'
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-credit-component',
@@ -12,6 +13,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './credit-component.css',
 })
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class CreditComponent {
   amount: number = 0;
   message: string = '';
@@ -19,10 +24,12 @@ export class CreditComponent {
 
   constructor(
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public theme: ThemeService
   ) {}
 
   ngOnInit() {
+    this.theme.init();
     this.loadCredit();
   }
 
