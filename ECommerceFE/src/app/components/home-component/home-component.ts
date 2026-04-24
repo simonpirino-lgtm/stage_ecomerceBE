@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   transforms: { [id: number]: string } = {};
 
   // NUOVO: Proprietà per il filtro prezzo
-  maxPrice: number = 200; 
+  maxPrice: number = 60; 
 
   private authService = inject(AuthService);
   cartCount: number = 0;
@@ -268,6 +268,12 @@ export class HomeComponent implements OnInit {
         el.classList.add('spin-left');
       }
     }
+  }
+
+  showPriceFilter: boolean = false;
+
+  togglePriceFilter() {
+    this.showPriceFilter = !this.showPriceFilter;
   }
 
   ngAfterViewInit() {

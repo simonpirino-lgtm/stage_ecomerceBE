@@ -22,24 +22,28 @@
         placeholder="Cerca un gioco..."
       >
 
-      <div class="price-filter-wrapper">
-        <span class="price-label">Max: {{ maxPrice }}€</span>
-        <input 
-          type="range" 
-          [(ngModel)]="maxPrice" 
-          min="0" 
-          max="200" 
-          step="5"
-          class="price-slider"
-        >
-      </div>
-
       <select class="genre-select" [(ngModel)]="selectedGenre" (ngModelChange)="onCategoryChange($event)">
         <option value="">Tutti i Generi</option>
         @for (genre of generi; track genre) {
           <option [value]="genre">{{ genre }}</option>
         }
       </select>
+
+      <div class="price-filter-container">
+        <button class="price-btn" (click)="togglePriceFilter()">
+          💲
+        </button>
+
+        <div class="price-popup" *ngIf="showPriceFilter">
+          <label>Prezzo max: {{ maxPrice }}€</label>
+          <input 
+            type="range" 
+            min="0" 
+            max="60" 
+            [(ngModel)]="maxPrice"
+          />
+        </div>
+      </div>
     </div>
   </div>
 
