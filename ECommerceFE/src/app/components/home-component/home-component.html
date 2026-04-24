@@ -1,26 +1,13 @@
 <div class="header-section">
-
-  <div class="menu-icon" (click)="toggleMenu($event)">
-    ☰
-  </div>
+  <div class="menu-icon" (click)="toggleMenu($event)">☰</div>
 
   <div class="nomecarrello">
-    <h1 
-      #titleEl
-      class="title animated-title"
-      (mouseenter)="onHover($event)"
-      (mousemove)="onMoveTitle($event)"
-      (mouseleave)="onLeave()"
-    >
+    <h1 #titleEl class="title animated-title" (mouseenter)="onHover($event)" (mousemove)="onMoveTitle($event)" (mouseleave)="onLeave()">
       Benvenuto, {{user.userid}}!
     </h1>
 
     <div class="search-row">
-      <input 
-        type="text" 
-        [(ngModel)]="searchTerm" 
-        placeholder="Cerca un gioco..."
-      >
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca un gioco...">
 
       <div class="price-filter-wrapper">
         <span class="price-label">Max: {{ maxPrice }}€</span>
@@ -28,10 +15,9 @@
           type="range" 
           [(ngModel)]="maxPrice" 
           min="0" 
-          max="200" 
-          step="5"
-          class="price-slider"
-        >
+          max="60" 
+          step="5" 
+          class="price-slider">
       </div>
 
       <select class="genre-select" [(ngModel)]="selectedGenre" (ngModelChange)="onCategoryChange($event)">
@@ -42,38 +28,20 @@
       </select>
     </div>
   </div>
-
 </div>
 
 <div class="sidebar" [class.open]="showMenu">
   <div class="sidebar-header">
-    <span class="user">
-      👤 {{ user?.userid }}
-    </span>
-    <button class="theme-toggle" (click)="theme.toggle()">
-      {{ isDark ? '🌙' : '☀️' }}
-    </button>
+    <span class="user">👤 {{ user?.userid }}</span>
+    <button class="theme-toggle" (click)="theme.toggle()">{{ isDark ? '🌙' : '☀️' }}</button>
   </div>
-
-  <div class="sidebar-item" style="--i:2" (click)="goToCredit()">
-    💰 Credito € {{ user?.credito }}
-  </div>
-
+  <div class="sidebar-item" style="--i:2" (click)="goToCredit()">💰 Credito € {{ user?.credito }}</div>
   <div class="sidebar-item cart-item" style="--i:3" (click)="goToCart()">
-    🛒 Carrello
-    <span class="cart-badge" *ngIf="cartCount > 0">
-      {{ cartCount }}
-    </span>
+    🛒 Carrello <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
   </div>
-  <div class="sidebar-item" style="--i:4" (click)="goToLibrary()">
-    📜 Libreria
-  </div>
-  <div class="sidebar-item" style="--i:1" (click)="goToProfile()">
-    ⚙️ Account
-  </div>
-  <div class="sidebar-item logout" style="--i:5" (click)="logout()">
-    ↪️ Logout
-  </div>
+  <div class="sidebar-item" style="--i:4" (click)="goToLibrary()">📜 Libreria</div>
+  <div class="sidebar-item" style="--i:1" (click)="goToProfile()">⚙️ Account</div>
+  <div class="sidebar-item logout" style="--i:5" (click)="logout()">↪️ Logout</div>
 </div>
 
 <div class="main-content" [class.shift]="showMenu">
@@ -81,23 +49,16 @@
     @for(gioco of giochiFiltrati; track gioco.id) {
       <div class="product-card">
         <div class="image-wrapper">
-          <img 
-            #gameImg
-            [src]="gioco.image_url" 
-            class="product-image"
+          <img #gameImg [src]="gioco.image_url" class="product-image"
             (mouseenter)="onMouseEnter($event, gioco)"
             (mousemove)="onMouseMove($event, gioco)"
             (mouseleave)="onMouseLeave(gioco)"
-            [style.transform]="transforms[gioco.id] || ''"
-          >
+            [style.transform]="transforms[gioco.id] || ''">
         </div>
-
         <div class="card-content">
           <h2 class="game-title">{{gioco.titolo}}</h2>
           <p class="price">€ {{gioco.prezzo}}</p><br>
-          <button class="btn-add" (click)="aggiungiAlCarrello(gioco, gameImg)">
-            Aggiungi al Carrello
-          </button>
+          <button class="btn-add" (click)="aggiungiAlCarrello(gioco, gameImg)">Aggiungi al Carrello</button>
         </div>
       </div>
     }
