@@ -63,9 +63,7 @@ export class HomeComponent implements OnInit {
         this.user.credito = res.credito;
         localStorage.setItem('user', JSON.stringify(this.user));
       },
-      error: (err) => {
-        console.log("Errore getMe:", err);
-      }
+      error: (err) => console.log("Errore getMe:", err)
     });
 
     this.caricaCartCount();
@@ -85,18 +83,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // AGGIORNATO: Filtra per nome E per prezzo
+  // GETTER AGGIORNATO: Ordine dal più grande al più piccolo
   get giochiFiltrati() {
     const term = this.searchTerm.toLowerCase().trim();
 
-    return this.giochiModel.filter(gioco =>
-      gioco.titolo.toLowerCase().includes(term) && gioco.prezzo <= this.maxPrice
-    );
+    return this.giochiModel
+      .filter(gioco => 
+        gioco.titolo.toLowerCase().includes(term) && 
+        gioco.prezzo <= this.maxPrice
+      )
+      // b - a ordina dal prezzo più alto al più basso
+      .sort((a, b) => b.prezzo - a.prezzo);
   }
 
   onCategoryChange(genre: string) {
     this.selectedGenre = genre;
-
     const request = genre
       ? this.giochiService.getGiochiCategoria(genre)
       : this.giochiService.getGiochi();
@@ -112,12 +113,9 @@ export class HomeComponent implements OnInit {
 
   aggiungiAlCarrello(gioco: GiochiModel, imgElement: HTMLElement) {
     this.animateToCart(imgElement);
-
     this.carrelloService.aggiungi(this.user.id, gioco.id, 1).subscribe({
-      next: (res) => {
-        this.caricaCartCount();
-      },
-      error: (err) => console.error("Errore aggiunta carrello:", err)
+      next: () => this.caricaCartCount(),
+      error: (err) => console.error("Errore carrello:", err)
     });
   }
 
@@ -129,35 +127,16 @@ export class HomeComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   handleClick(event: Event) {
     const target = event.target as HTMLElement;
-    if (target.closest('.sidebar') || target.closest('.menu-icon')) {
-      return;
+    if (!target.closest('.sidebar') && !target.closest('.menu-icon')) {
+      this.showMenu = false;
     }
-    this.showMenu = false;
   }
 
-  goToProfile() {
-    this.router.navigate(['/account']);
-    this.showMenu = false;
-  }
-
-  goToCart() {
-    this.router.navigate(['/carrello']);
-    this.showMenu = false;
-  }
-
-  goToCredit() {
-    this.router.navigate(['/credito'])
-  }
-
-  logout() {
-    localStorage.removeItem('user');
-    this.authService.logout();
-  }
-
-  goToLibrary() {
-    this.router.navigate(['/libreria']);
-    this.showMenu = false;
-  }
+  goToProfile() { this.router.navigate(['/account']); this.showMenu = false; }
+  goToCart() { this.router.navigate(['/carrello']); this.showMenu = false; }
+  goToCredit() { this.router.navigate(['/credito']); }
+  logout() { localStorage.removeItem('user'); this.authService.logout(); }
+  goToLibrary() { this.router.navigate(['/libreria']); this.showMenu = false; }
    
   onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
     this.transforms[gioco.id] = 'scale(1.2)';
@@ -172,48 +151,37 @@ export class HomeComponent implements OnInit {
     const centerY = rect.height / 2;
     const rotateX = ((y - centerY) / centerY) * -15;
     const rotateY = ((x - centerX) / centerX) * 15;
-
-    this.transforms[gioco.id] =
-      `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    this.transforms[gioco.id] = `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
 
-  onMouseLeave(gioco: GiochiModel) {
-    delete this.transforms[gioco.id];
-  }
+  onMouseLeave(gioco: GiochiModel) { delete this.transforms[gioco.id]; }
 
   animateToCart(img: HTMLElement) {
     const rect = img.getBoundingClientRect();
     const menuIcon = this.menuIcon;
     const cartRect = menuIcon.getBoundingClientRect();
-
     const clone = img.cloneNode(true) as HTMLElement;
     clone.classList.add('flying-image');
     clone.style.top = rect.top + 'px';
     clone.style.left = rect.left + 'px';
     clone.style.width = rect.width + 'px';
     clone.style.height = rect.height + 'px';
-
     document.body.appendChild(clone);
     menuIcon.classList.add('magnet');
-
     setTimeout(() => {
       clone.style.top = cartRect.top + 'px';
       clone.style.left = cartRect.left + 'px';
       clone.style.width = '30px';
       clone.style.height = '30px';
       clone.style.opacity = '0.5';
-      clone.style.filter = 'brightness(0.6)';
       menuIcon.classList.add('pulse');
     }, 10);
-
     setTimeout(() => {
       clone.remove();
       this.createBurst(cartRect);
       menuIcon.classList.add('vibrate');
       setTimeout(() => {
-        menuIcon.classList.remove('vibrate');
-        menuIcon.classList.remove('pulse');
-        menuIcon.classList.remove('magnet');
+        menuIcon.classList.remove('vibrate', 'pulse', 'magnet');
       }, 300);
     }, 700);
   }
@@ -230,38 +198,22 @@ export class HomeComponent implements OnInit {
   caricaCartCount() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.carrelloService.getTotaleArticoli(user.id).subscribe({
-      next: (res: any) => {
-        this.cartCount = res.totaleArticoli || 0;
-      },
+      next: (res: any) => this.cartCount = res.totaleArticoli || 0,
       error: (err) => console.error(err)
     });
   }
 
   @ViewChild('titleEl') titleEl!: ElementRef;
-
-  onHover(event: MouseEvent) {
-    this.isHovering = true;
-    this.isLeaving = false;
-    this.onMoveTitle(event);
-  }
-
-  onLeave() {
-    this.isHovering = false;
-    this.isLeaving = true;
-  }
-
+  onHover(event: MouseEvent) { this.isHovering = true; this.isLeaving = false; this.onMoveTitle(event); }
+  onLeave() { this.isHovering = false; this.isLeaving = true; }
   onMoveTitle(event: MouseEvent) {
     if (!this.isHovering) return; 
     const el = this.titleEl.nativeElement;
     const rect = el.getBoundingClientRect();
     const mouseX = event.clientX;
     const centerX = rect.left + rect.width / 2;
-
     if (mouseX > centerX) {
-      if (!el.classList.contains('spin-right')) {
-        el.classList.remove('spin-left');
-        el.classList.add('spin-right');
-      }
+      el.classList.remove('spin-left'); el.classList.add('spin-right');
     } else {
       if (!el.classList.contains('spin-left')) {
         el.classList.remove('spin-right');
