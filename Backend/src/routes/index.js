@@ -8,7 +8,7 @@ const creditRoute =require('./credit.route')
 const carrelloRoute = require('./carrello.route');
 const categorieRoutes = require('./categorie.route');
 const checkoutRoutes = require('./checkout.route');
-
+const libreriaRoute = require('./libreria.routes')
 
 router.use('/utenti', utentiRoute);
 
@@ -23,6 +23,8 @@ router.use('/carrello', carrelloRoute);
 router.use('/checkout', checkoutRoutes);
 
 router.use('/categorie', categorieRoutes);
+
+router.use('/libreria', libreriaRoute);
 
 
 module.exports = router;

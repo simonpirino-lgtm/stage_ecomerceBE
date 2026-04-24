@@ -24,6 +24,8 @@ export class CarrelloPageComponent implements OnInit {
   // Injection dei servizi
   private carrelloService = inject(CarrelloService);
   private cdr = inject(ChangeDetectorRef);
+  authService: any;
+  router: any;
 
   ngOnInit(): void {
     this.caricaCarrello();
@@ -108,17 +110,32 @@ export class CarrelloPageComponent implements OnInit {
     });
   }
 
-  checkout(): void {
+checkout(): void {
     this.carrelloService.checkout().subscribe({
-      next: () => {
-        alert("Acquisto completato");
-        this.caricaCarrello(); // aggiorna UI
+      next: (res) => {
+        alert("Acquisto riuscito!");
+
+        // 1. Recuperiamo i dati aggiornati dal server
+        this.authService.getMe().subscribe({
+          next: (user: any) => {
+            // 2. Aggiorniamo il Signal nell'AuthService (vedi punto sotto)
+            this.authService.updateUserSignal(user); 
+            
+            // 3. Navighiamo alla libreria
+            this.router.navigate(['/library']);
+          },
+          error: (err: any) => {
+            console.error("Errore nel recupero dati utente post-checkout", err);
+            // Navighiamo comunque anche se il refresh del credito fallisce
+            this.router.navigate(['/library']);
+          }
+        });
       },
       error: (err) => {
-        console.error(err);
-        alert("Errore checkout");
+        console.error("Errore checkout", err);
+        alert("Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente"));
       }
     });
   }
-
 }
+

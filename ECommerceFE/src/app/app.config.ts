@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([authInterceptor])
+    withInterceptors([authInterceptor])
       // withInterceptors registra l'interceptor funzionale nell'HttpClient.
       // Da questo momento, OGNI richiesta HTTP dell'app passerà per authInterceptor.
       // L'array può contenere più interceptor, eseguiti nell'ordine indicato.

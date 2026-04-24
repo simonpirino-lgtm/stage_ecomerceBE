@@ -4,8 +4,6 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-
-
 const routes = require('./src/routes');  /// Importa il router centralizzato
 
 const app = express();
