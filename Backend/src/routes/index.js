@@ -7,6 +7,8 @@ const authRoute = require('./auth.route');
 const creditRoute =require('./credit.route')
 const carrelloRoute = require('./carrello.route');
 const categorieRoutes = require('./categorie.route');
+const checkoutRoutes = require('./checkout.route');
+
 
 router.use('/utenti', utentiRoute);
 
@@ -17,6 +19,8 @@ router.use('/giochi',giochiRoute);
 router.use('/credito', creditRoute);
 
 router.use('/carrello', carrelloRoute);
+
+router.use('/checkout', checkoutRoutes);
 
 router.use('/categorie', categorieRoutes);
 

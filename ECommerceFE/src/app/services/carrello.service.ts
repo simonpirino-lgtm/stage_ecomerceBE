@@ -71,4 +71,8 @@ export class CarrelloService {
     return this.http.get<{ totaleArticoli: number; totalePrezzo: number }>(`${this.apiUrl}/totale/${id}`);
   }
 
+  checkout() {
+    return this.http.post('http://localhost:3000/api/v1/checkout', {});
+  }
+
 }

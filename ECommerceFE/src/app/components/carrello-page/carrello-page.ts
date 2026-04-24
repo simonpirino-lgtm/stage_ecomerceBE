@@ -108,4 +108,17 @@ export class CarrelloPageComponent implements OnInit {
     });
   }
 
+  checkout(): void {
+    this.carrelloService.checkout().subscribe({
+      next: () => {
+        alert("Acquisto completato");
+        this.caricaCarrello(); // aggiorna UI
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Errore checkout");
+      }
+    });
+  }
+
 }
