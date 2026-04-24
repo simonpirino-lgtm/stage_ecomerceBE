@@ -1,6 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GiochiService } from '../../services/giochi-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-libreria',
@@ -11,11 +12,15 @@ import { GiochiService } from '../../services/giochi-service';
 })
 export class LibreriaComponent implements OnInit {
   private giochiService = inject(GiochiService);
+  private cdr = inject(ChangeDetectorRef)
   
   mieigiochi: any[] = [];
   isLoading: boolean = true; // Per mostrare un eventuale loader
+  
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.initAuth().subscribe();
     this.caricaLibreria();
   }
 
@@ -26,6 +31,8 @@ export class LibreriaComponent implements OnInit {
         this.mieigiochi = res;
         this.isLoading = false;
         console.log('Giochi caricati:', res);
+        this.cdr.detectChanges();
+
       },
       error: (err) => {
         this.isLoading = false;
