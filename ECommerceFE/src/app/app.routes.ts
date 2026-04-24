@@ -6,6 +6,8 @@ import { AuthGuard } from './services/authguard.service';
 import { ErrorComponent } from './components/error.component/error.component';
 import { CreditComponent } from './components/credit-component/credit-component';
 import { SettingsPageComponent } from './components/settings-page/settings-page';
+import { LibreriaComponent } from './components/libreria-component/libreria-component';
+
 
 
 
@@ -16,9 +18,8 @@ export const routes: Routes = [
   { path: 'home', canActivate: [AuthGuard], component:HomeComponent},
   { path: 'carrello', canActivate: [AuthGuard], component: CarrelloPageComponent},
   { path: 'credito', canActivate: [AuthGuard], component: CreditComponent},
-  {path: 'account' , canActivate :[AuthGuard], component: SettingsPageComponent},
- 
-
+  { path: 'account' , canActivate :[AuthGuard], component: SettingsPageComponent},
+  { path : 'libreria', canActivate : [AuthGuard], component: LibreriaComponent},
   { path: '**', component: ErrorComponent}
 ];
  

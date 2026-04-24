@@ -41,9 +41,6 @@
 
   <div class="sidebar-header">👤 {{ user?.userid }}</div>
 
-  <div class="sidebar-item" style="--i:1" (click)="goToProfile()">
-    ⚙️ Account
-  </div>
 
   <div class="sidebar-item" style="--i:2" (click)="goToCredit()">
     💰 Credito € {{ user?.credito }}
@@ -56,8 +53,14 @@
       {{ cartCount }}
     </span>
   </div>
+  <div class="sidebar-item" style="--i:4" (click)="goToLibrary()">
+    📜 Libreria
+  </div>
 
-  <div class="sidebar-item logout" style="--i:4" (click)="logout()">
+   <div class="sidebar-item" style="--i:1" (click)="goToProfile()">
+    ⚙️ Account
+  </div>
+  <div class="sidebar-item logout" style="--i:5" (click)="logout()">
     ↪️ Logout
   </div>
 

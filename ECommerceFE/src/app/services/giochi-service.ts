@@ -40,4 +40,12 @@ export class GiochiService
       .get<{ giochi: GiochiModel[] }>(`${this.baseUrl}/giochi/categoria/${nome}`)
       .pipe(map(response => response.giochi));
   }
+
+/* -------------------------
+    LIBRERIA UTENTE
+-------------------------- */
+getLibreria(): Observable<any[]> {
+  // Usiamo baseUrl che hai già definito e puntiamo alla rotta libreria
+  return this.http.get<any[]>(`${this.baseUrl}/libreria`);
+}
 }

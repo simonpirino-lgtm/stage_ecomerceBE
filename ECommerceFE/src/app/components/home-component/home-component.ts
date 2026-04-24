@@ -155,12 +155,16 @@ export class HomeComponent implements OnInit {
   goToCredit() {
     this.router.navigate(['/credito'])
   }
-
-  logout() {
+ logout() {
     localStorage.removeItem('user');
     this.authService.logout();
   }
 
+  goToLibrary() {
+    this.router.navigate(['/libreria']);
+    this.showMenu = false;
+  }
+   
   /* -------------------------
      HOVER EFFECT
   -------------------------- */

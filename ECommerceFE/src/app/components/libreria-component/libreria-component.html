@@ -1,0 +1,26 @@
+<div class="main-content">
+  <div class="container">
+    <h1 style="color: white; width: 100%; margin-bottom: 20px;">I miei Giochi</h1>
+
+    @for (item of mieigiochi; track item.id) {
+      <div class="product-card">
+        <div class="image-wrapper">
+          <img [src]="item.gioco.image_url" class="product-image">
+        </div>
+
+        <div class="card-content">
+          <h2 class="game-title">{{ item.gioco.titolo }}</h2>
+          <p class="price">Quantità: {{ item.quantita }}</p>
+          
+          <button class="btn-add" style="background: linear-gradient(45deg, #28a745, #218838);">
+            Scarica / Gioca
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div style="color: white; padding: 20px;">
+        <h3>La tua libreria è vuota. Corri a comprare qualcosa! 🎮</h3>
+      </div>
+    }
+  </div>
+</div>
