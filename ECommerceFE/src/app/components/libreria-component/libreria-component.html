@@ -73,20 +73,27 @@
     Gioca
   </button>
 
+<td class="actions">
+  <button class="play" (click)="scaricaGioco(item.gioco)">
+    Gioca
+  </button>
+
   @if (item.quantita > 1) {
-    <div class="gift-container" style="margin-top: 10px;">
+    <div class="gift-section" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
       
       <select [(ngModel)]="utenteSelezionato" class="user-select">
-        <option [ngValue]="null" disabled selected>Regala a...</option>
+        <option [ngValue]="null" disabled>Scegli un amico...</option>
         
         @for (u of utenti; track u.id) {
           <option [value]="u.id">
-             {{ u.userid }} </option>
+            {{ u.userid }} </option>
+        } @empty {
+          <option disabled>Nessun amico trovato</option>
         }
       </select>
 
-      <button class="gift-btn" (click)="eseguiRegalo(item)">
-        🎁 Invia
+      <button class="gift-btn" (click)="eseguiRegalo(item)" [disabled]="!utenteSelezionato">
+        🎁 Regala Copia
       </button>
 
     </div>
