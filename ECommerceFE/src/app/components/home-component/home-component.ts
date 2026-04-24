@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
   user: any = null;
   showMenu = false;
 
+  isDark = false;
+
   selectedGenre: string = '';
   generi: string[] = [];
 
@@ -41,6 +43,18 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit() {
+    const savedTheme = localStorage.getItem('theme') ?? 'light';
+
+    this.isDark = savedTheme === 'dark';
+
+    document.body.classList.toggle('dark-theme', this.isDark);
+
+    if (this.isDark) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+    
     const storedUser = localStorage.getItem('user');
 
     if (storedUser) {
@@ -299,6 +313,14 @@ export class HomeComponent implements OnInit {
         el.classList.add('spin-left');
       }
     }
+  }
+
+  toggleTheme() {
+    this.isDark = !this.isDark;
+
+    document.body.classList.toggle('dark-theme', this.isDark);
+
+    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
   }
 
   ngAfterViewInit() {

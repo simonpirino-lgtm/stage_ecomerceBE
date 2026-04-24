@@ -39,7 +39,17 @@
 <!-- SIDEBAR -->
 <div class="sidebar" [class.open]="showMenu">
 
-  <div class="sidebar-header">👤 {{ user?.userid }}</div>
+  <div class="sidebar-header">
+
+    <span class="user">
+      👤 {{ user?.userid }}
+    </span>
+
+    <button class="theme-toggle" (click)="toggleTheme()">
+      {{ isDark ? '🌙' : '☀️' }}
+    </button>
+
+  </div>
 
 
   <div class="sidebar-item" style="--i:2" (click)="goToCredit()">
