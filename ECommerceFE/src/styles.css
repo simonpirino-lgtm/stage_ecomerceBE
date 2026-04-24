@@ -99,9 +99,67 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: var(--bg-header);
+  transition: background-color 0.6s ease,
+              color 0.6s ease,
+              filter 0.6s ease;
+}
+
+body.theme-switching {
+  animation: themeMorph 0.6s ease;
+}
+
+@keyframes themeMorph {
+  0% {
+    filter: blur(0px) brightness(1);
+  }
+  40% {
+    filter: blur(2px) brightness(1.2);
+  }
+  100% {
+    filter: blur(0px) brightness(1);
+  }
 }
 
 app-root {
   display: block;
   min-height: 100vh;
+}
+
+.theme-overlay {
+  position: fixed;
+
+  top: var(--y, 50%);
+  left: var(--x, 50%);
+
+  width: 0;
+  height: 0;
+
+  background: black; /* colore del tema dark */
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform, width, height;
+}
+
+.theme-overlay.active {
+  animation: expandTheme 0.6s ease;
+  opacity: 1;
+}
+
+@keyframes expandTheme {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  100% {
+    width: 200vw;
+    height: 200vw;
+    opacity: 1;
+  }
 }
