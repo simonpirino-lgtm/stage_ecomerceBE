@@ -24,8 +24,8 @@ export class HomeComponent implements OnInit {
   searchTerm: string = '';
   transforms: { [id: number]: string } = {};
 
-  // Partiamo dalla metà (100)
-  maxPrice: number = 100; 
+  // NUOVO: Proprietà per il filtro prezzo
+  maxPrice: number = 60; 
 
   private authService = inject(AuthService);
   cartCount: number = 0;
@@ -37,6 +37,8 @@ export class HomeComponent implements OnInit {
   selectedGenre: string = '';
   generi: string[] = [];
   menuIcon!: HTMLElement;
+
+  isThemeChanging = false;
 
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
@@ -215,8 +217,29 @@ export class HomeComponent implements OnInit {
     if (mouseX > centerX) {
       el.classList.remove('spin-left'); el.classList.add('spin-right');
     } else {
-      el.classList.remove('spin-right'); el.classList.add('spin-left');
+      if (!el.classList.contains('spin-left')) {
+        el.classList.remove('spin-right');
+        el.classList.add('spin-left');
+      }
     }
+  }
+
+  showPriceFilter: boolean = false;
+
+  togglePriceFilter() {
+    this.showPriceFilter = !this.showPriceFilter;
+  }
+
+  toggleTheme() {
+    document.body.classList.add('theme-switching');
+
+    setTimeout(() => {
+      this.isDark = this.theme.toggle();
+    }, 150);
+
+    setTimeout(() => {
+      document.body.classList.remove('theme-switching');
+    }, 650);
   }
 
   ngAfterViewInit() {

@@ -409,3 +409,44 @@
   cursor: pointer;
   margin-left: auto;
 }
+
+/* BARRA PREZZO */
+
+.price-filter-container {
+  position: relative;
+  display: inline-block;
+}
+
+.price-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  background: var(--price-btn-m);
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.price-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #0000004d;
+}
+
+.price-popup {
+  position: absolute;
+  top: -15px;
+  left: 60px;
+  background: var(--price-popup);
+  color: var(--price-popup-c);
+  padding: 10px;
+  border-radius: 10px;
+  width: 180px;
+  box-shadow: 0 5px 15px #00000066;
+  z-index: 9999;
+}
+
+.price-popup input {
+  width: 100%;
+}
