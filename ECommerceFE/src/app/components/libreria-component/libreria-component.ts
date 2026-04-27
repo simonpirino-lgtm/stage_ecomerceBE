@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-libreria',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, RouterModule],
   templateUrl: './libreria-component.html',
   styleUrls: ['./libreria-component.css']
 })
@@ -17,7 +17,7 @@ export class LibreriaComponent implements OnInit {
 
   private giochiService = inject(GiochiService);
   private authService = inject(AuthService);
-
+  private toastService = inject(ToastService);
   mieigiochi = signal<any[]>([]);
   utenti = signal<any[]>([]);
   utenteSelezionato = signal<any>(null);
@@ -62,16 +62,14 @@ export class LibreriaComponent implements OnInit {
 
     if (!destinatario) return;
 
-    this.giochiService.regalaGioco(destinatario, item.id_gioco).subscribe({
-      next: () => {
-        this.toastService.success("Gioco regalato con successo!");
-        this.caricaLibreria();
-      },
-      error: (err) => {
-        this.toastService.success("Errore: " + (err.error?.error || "Impossibile regalare"));
-      }
-    });
-  }
+  this.giochiService.regalaGioco(this.utenteSelezionato(), item.id_gioco).subscribe({
+    next: (res) => {
+      this.toastService.success("Gioco regalato con successo!");
+      this.caricaLibreria(); // Ricarica per aggiornare le quantità
+    },
+    error: (err) => this.toastService.error("Errore: " + (err.error?.error || "Impossibile regalare"))
+  });
+}
 
   scaricaGioco(gioco: any) {
     this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
