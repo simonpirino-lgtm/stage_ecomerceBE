@@ -6,7 +6,7 @@ import { GiochiModel } from '../models/giochi-model';
 @Injectable({ providedIn: 'root' })
 export class GiochiAdminService {
   private http = inject(HttpClient);
-private baseUrl = `${environment.apiUrl}/giochi`;
+  baseUrl = `${environment.apiUrl}/giochi`;
 
   create(payload: Partial<GiochiModel>) {
     return this.http.post<{ gioco: GiochiModel }>(this.baseUrl, payload);
