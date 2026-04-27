@@ -63,7 +63,9 @@ export class HomeComponent implements OnInit {
         this.user.credito = res.credito;
         localStorage.setItem('user', JSON.stringify(this.user));
       },
-      error: (err) => console.log("Errore getMe:", err)
+      error: (err) => {
+        console.error("Errore caricamento utente:", err);
+      }
     });
 
     this.caricaCartCount();

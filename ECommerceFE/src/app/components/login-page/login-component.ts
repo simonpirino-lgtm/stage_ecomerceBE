@@ -62,13 +62,13 @@ export class LoginComponent {
       this.authService.login(this.form.userid, this.form.password).subscribe({
         next: (res: any) => {
           // Se arriva qui, il login è riuscito
-          console.log('Login successful:', res);
+         
           localStorage.setItem('user', JSON.stringify(res.user));
           this.router.navigate(['/home']);
         },
         error: (err) => {
           // Gestione degli errori (401, 500, ecc.)
-          console.log('Login error:', err);
+          
           if (err.status === 401) {
             this.triggerError('Username o password errati');
           } else {
@@ -80,7 +80,7 @@ export class LoginComponent {
       // REGISTER
       this.authService.register(this.form.userid, this.form.password).subscribe({
         next: (res: any) => {
-          console.log('Register response:', res);
+         
           if (!res) {
             this.triggerError('Errore durante la registrazione');
             return;
@@ -96,7 +96,7 @@ export class LoginComponent {
           this.router.navigate(['/home']);
         },
         error: (err) => {
-          console.log('Register error:', err);
+       
           if (err.status === 409) {
             this.triggerError('Utente già esistente');
           } else {

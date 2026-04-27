@@ -36,7 +36,7 @@ export class CreditComponent {
         this.currentCredit = res.credito;
       },
       error: (err) => {
-        console.log("Errore caricamento credito", err);
+        
       }
     });
   } */
@@ -62,7 +62,7 @@ export class CreditComponent {
 
     this.authService.addCredit(this.amount()).subscribe({
       next: (res: any) => {
-        console.log("RISPOSTA BACKEND:", res);
+       
 
         this.currentCredit.set(res.credito);
         this.message.set('Credito aggiornato: ' + res.credito);
@@ -75,7 +75,9 @@ export class CreditComponent {
         //this.cdr.detectChanges();
       },
       error: (err) => {
-        console.log("ERRORE BACKEND:", err);
+       
+        this.message.set('Errore durante aggiornamento');
+        console.error("ERRORE BACKEND:", err);
         this.message.set('Errore durante aggiornamento');
       }
     });

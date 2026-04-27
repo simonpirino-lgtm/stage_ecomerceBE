@@ -33,6 +33,14 @@ function verifyToken(req, res, next) {
     // jwt.verify ha lanciato: token scaduto, firma invalida, token malformato
     return res.status(401).json({ message: 'Token non valido o scaduto' });
   }
+
+
+}
+  function requireAdmin(req, res, next) {                    // ✅ NUOVO
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ message: 'Accesso negato: solo admin' });
+  }
+  next();
 }
 
-module.exports = { verifyToken };
+module.exports = { verifyToken, requireAdmin };

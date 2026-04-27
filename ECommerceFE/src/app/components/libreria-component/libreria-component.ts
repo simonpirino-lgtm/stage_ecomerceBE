@@ -50,7 +50,6 @@ export class LibreriaComponent implements OnInit {
 caricaUtenti() {
   this.giochiService.getListaUtenti().subscribe({
     next: (res) => {
-      console.log("Utenti ricevuti:", res);
       this.utenti.set(res);
     },
     error: (err) => console.error("Errore caricamento utenti:", err)

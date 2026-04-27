@@ -41,6 +41,9 @@
 </div>
 
 <div class="sidebar" [class.open]="showMenu">
+@if (authService.currentUser()?.role === 'admin') {
+  <a routerLink="/admin/giochi" class="menu-item">🎮 Gestione giochi</a>
+}
   <div class="sidebar-header">
     <span class="user">👤 {{ user?.userid }}</span>
     <button class="theme-toggle" (click)="toggleTheme()">{{ isDark ? '🌙' : '☀️' }}</button>

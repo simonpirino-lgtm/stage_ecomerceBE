@@ -2,7 +2,7 @@ const checkoutService = require('../services/checkout.service'); // Controlla ch
 
 const checkout = async (req, res) => {
   try {
-   console.log("UTENTE CHE TENTA IL CHECKOUT:", req.user); // <--- AGGIUNGI QUESTO
+    // <--- AGGIUNGI QUESTO
     const utenteId = req.user.id;
     const result = await checkoutService.checkout(utenteId);
 

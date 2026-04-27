@@ -5,8 +5,7 @@ const { verifyToken } = require('../services/auth.middleware');
 
 router.post('/', verifyToken, async (req, res) => {
   try {
-    console.log("REQ USER:", req.user);
-    console.log("BODY:", req.body);
+    
 
     const userId = req.user.id;
     const { amount } = req.body;

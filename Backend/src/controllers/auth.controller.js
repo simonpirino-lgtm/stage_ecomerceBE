@@ -77,8 +77,6 @@ const refresh = async (req, res) => {
   // Legge il refreshToken dal cookie (reso disponibile da cookie-parser)
   const refreshToken = req.cookies.refreshToken;
 
-  console.log("COOKIE RECEIVED:", req.cookies);
-  console.log("REFRESH TOKEN:", refreshToken);
 
   // Se il cookie non esiste (mai loggato, cookie scaduto, o già fatto logout)
   if (!refreshToken) {

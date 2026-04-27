@@ -26,5 +26,19 @@ const getGamesByCategory = async(categoryName) =>
     }
   });
 };
+const create = async (data) => Giochi.create(data);
 
-module.exports = {findAll, getCategoryName, getGamesByCategory};
+const update = async (id, data) => {
+    const gioco = await Giochi.findByPk(id);
+    if (!gioco) return null;
+    return gioco.update(data);
+};
+
+const remove = async (id) => {
+    const gioco = await Giochi.findByPk(id);
+    if (!gioco) return null;
+    await gioco.destroy();
+    return true;
+};
+
+module.exports = {findAll, getCategoryName, getGamesByCategory, create, update, remove};
