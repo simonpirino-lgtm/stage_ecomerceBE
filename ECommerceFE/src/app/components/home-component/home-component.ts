@@ -15,21 +15,23 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './home-component.html',
   styleUrls: ['./home-component.css'],
 })
-
 export class HomeComponent implements OnInit {
 
   giochiModel = signal<GiochiModel[]>([]);
   searchTerm = signal('');
   transforms: { [id: number]: string } = {};
 
-  // NUOVO: Proprietà per il filtro prezzo
   maxPrice = signal(60);
 
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   cartCount = signal(0);
+
   isHovering = false;
   isLeaving = false;
-  user: any = null;
+
+  // ✅ ORA DERIVA DA AUTH SERVICE
+  user = this.authService.currentUser;
+
   showMenu = false;
   isDark = false;
   selectedGenre = signal('');
@@ -40,28 +42,33 @@ export class HomeComponent implements OnInit {
 
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
-  //private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
   constructor(public theme: ThemeService) {}
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     this.theme.init();
     this.isDark = this.theme.isDark();
 
-    const storedUser = localStorage.getItem('user');
+    const user = this.authService.currentUser();
 
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-    } else {
+    if (!user) {
       this.router.navigate(['/']);
       return;
     }
 
     this.authService.getMe().subscribe({
       next: (res: any) => {
-        this.user.credito = res.credito;
-        localStorage.setItem('user', JSON.stringify(this.user));
+        const current = this.authService.currentUser();
+
+        if (current) {
+          const updatedUser = {
+            ...current,
+            credito: res.credito
+          };
+
+          this.authService.setCurrentUser(updatedUser);
+        }
       },
       error: (err) => {
         console.error("Errore caricamento utente:", err);
@@ -84,12 +91,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // GETTER AGGIORNATO: Ordine dal più grande al più piccolo
   giochiFiltrati = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
 
     return this.giochiModel()
-      .filter(gioco => 
+      .filter(gioco =>
         gioco.titolo.toLowerCase().includes(term) &&
         gioco.prezzo <= this.maxPrice()
       )
@@ -98,21 +104,25 @@ export class HomeComponent implements OnInit {
 
   onCategoryChange(genre: string) {
     this.selectedGenre.set(genre);
+
     const request = genre
       ? this.giochiService.getGiochiCategoria(genre)
       : this.giochiService.getGiochi();
 
     request.subscribe({
-      next: (data) => {
-        this.giochiModel.set(data);
-      },
+      next: (data) => this.giochiModel.set(data),
       error: (err) => console.error(err)
     });
   }
 
   aggiungiAlCarrello(gioco: GiochiModel, imgElement: HTMLElement) {
     this.animateToCart(imgElement);
-    this.carrelloService.aggiungi(this.user.id, gioco.id, 1).subscribe({
+
+    const user = this.authService.currentUser();
+
+    if (!user) return;
+
+    this.carrelloService.aggiungi(user.id, gioco.id, 1).subscribe({
       next: () => this.caricaCartCount(),
       error: (err) => console.error("Errore carrello:", err)
     });
@@ -134,9 +144,20 @@ export class HomeComponent implements OnInit {
   goToProfile() { this.router.navigate(['/account']); this.showMenu = false; }
   goToCart() { this.router.navigate(['/carrello']); this.showMenu = false; }
   goToCredit() { this.router.navigate(['/credito']); }
-  logout() { localStorage.removeItem('user'); this.authService.logout(); }
+  logout() { this.authService.logout(); }
   goToLibrary() { this.router.navigate(['/libreria']); this.showMenu = false; }
-   
+
+  caricaCartCount() {
+    const user = this.authService.currentUser();
+
+    if (!user) return;
+
+    this.carrelloService.getTotaleArticoli(user.id).subscribe({
+      next: (res: any) => this.cartCount.set(res.totaleArticoli || 0),
+      error: (err) => console.error(err)
+    });
+  }
+
   onMouseEnter(event: MouseEvent, gioco: GiochiModel) {
     this.transforms[gioco.id] = 'scale(1.2)';
   }
@@ -150,15 +171,19 @@ export class HomeComponent implements OnInit {
     const centerY = rect.height / 2;
     const rotateX = ((y - centerY) / centerY) * -15;
     const rotateY = ((x - centerX) / centerX) * 15;
-    this.transforms[gioco.id] = `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    this.transforms[gioco.id] =
+      `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
 
-  onMouseLeave(gioco: GiochiModel) { delete this.transforms[gioco.id]; }
+  onMouseLeave(gioco: GiochiModel) {
+    delete this.transforms[gioco.id];
+  }
 
   animateToCart(img: HTMLElement) {
     const rect = img.getBoundingClientRect();
     const menuIcon = this.menuIcon;
     const cartRect = menuIcon.getBoundingClientRect();
+
     const clone = img.cloneNode(true) as HTMLElement;
     clone.classList.add('flying-image');
     clone.style.top = rect.top + 'px';
@@ -166,7 +191,9 @@ export class HomeComponent implements OnInit {
     clone.style.width = rect.width + 'px';
     clone.style.height = rect.height + 'px';
     document.body.appendChild(clone);
+
     menuIcon.classList.add('magnet');
+
     setTimeout(() => {
       clone.style.top = cartRect.top + 'px';
       clone.style.left = cartRect.left + 'px';
@@ -175,10 +202,12 @@ export class HomeComponent implements OnInit {
       clone.style.opacity = '0.5';
       menuIcon.classList.add('pulse');
     }, 10);
+
     setTimeout(() => {
       clone.remove();
       this.createBurst(cartRect);
       menuIcon.classList.add('vibrate');
+
       setTimeout(() => {
         menuIcon.classList.remove('vibrate', 'pulse', 'magnet');
       }, 300);
@@ -194,25 +223,30 @@ export class HomeComponent implements OnInit {
     setTimeout(() => burst.remove(), 600);
   }
 
-  caricaCartCount() {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    this.carrelloService.getTotaleArticoli(user.id).subscribe({
-      next: (res: any) => this.cartCount.set(res.totaleArticoli || 0),
-      error: (err) => console.error(err)
-    });
+  @ViewChild('titleEl') titleEl!: ElementRef;
+
+  onHover(event: MouseEvent) {
+    this.isHovering = true;
+    this.isLeaving = false;
+    this.onMoveTitle(event);
   }
 
-  @ViewChild('titleEl') titleEl!: ElementRef;
-  onHover(event: MouseEvent) { this.isHovering = true; this.isLeaving = false; this.onMoveTitle(event); }
-  onLeave() { this.isHovering = false; this.isLeaving = true; }
+  onLeave() {
+    this.isHovering = false;
+    this.isLeaving = true;
+  }
+
   onMoveTitle(event: MouseEvent) {
-    if (!this.isHovering) return; 
+    if (!this.isHovering) return;
+
     const el = this.titleEl.nativeElement;
     const rect = el.getBoundingClientRect();
     const mouseX = event.clientX;
     const centerX = rect.left + rect.width / 2;
+
     if (mouseX > centerX) {
-      el.classList.remove('spin-left'); el.classList.add('spin-right');
+      el.classList.remove('spin-left');
+      el.classList.add('spin-right');
     } else {
       if (!el.classList.contains('spin-left')) {
         el.classList.remove('spin-right');
@@ -221,7 +255,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  showPriceFilter: boolean = false;
+  showPriceFilter = false;
 
   togglePriceFilter() {
     this.showPriceFilter = !this.showPriceFilter;
@@ -241,6 +275,7 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit() {
     const el = this.titleEl.nativeElement;
+
     el.addEventListener('animationiteration', () => {
       if (this.isLeaving) {
         el.classList.remove('spin-left', 'spin-right');

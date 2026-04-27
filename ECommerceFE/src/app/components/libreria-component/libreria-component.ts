@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // FONDAMENTALE PER ngModel
+import { FormsModule } from '@angular/forms';
 import { GiochiService } from '../../services/giochi-service';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
@@ -13,20 +13,19 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./libreria-component.css']
 })
 export class LibreriaComponent implements OnInit {
+
   private giochiService = inject(GiochiService);
-  //private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
-  
+
   mieigiochi = signal<any[]>([]);
   utenti = signal<any[]>([]);
   utenteSelezionato = signal<any>(null);
   isLoading = signal(true);
-  user: any = null;
+
+  // ✅ ORA DERIVA DA AUTH SERVICE (NO LOCALSTORAGE)
+  user = this.authService.currentUser;
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) this.user = JSON.parse(storedUser);
-
     this.caricaLibreria();
     this.caricaUtenti();
   }
@@ -46,27 +45,30 @@ export class LibreriaComponent implements OnInit {
     });
   }
 
-// Metodo per caricare gli utenti (chiamalo nel ngOnInit)
-caricaUtenti() {
-  this.giochiService.getListaUtenti().subscribe({
-    next: (res) => {
-      this.utenti.set(res);
-    },
-    error: (err) => console.error("Errore caricamento utenti:", err)
-  });
-}
+  caricaUtenti() {
+    this.giochiService.getListaUtenti().subscribe({
+      next: (res) => {
+        this.utenti.set(res);
+      },
+      error: (err) => console.error("Errore caricamento utenti:", err)
+    });
+  }
 
-eseguiRegalo(item: any) {
-  if (!this.utenteSelezionato) return;
+  eseguiRegalo(item: any) {
+    const destinatario = this.utenteSelezionato();
 
-  this.giochiService.regalaGioco(this.utenteSelezionato(), item.id_gioco).subscribe({
-    next: (res) => {
-      alert("Gioco regalato con successo!");
-      this.caricaLibreria(); // Ricarica per aggiornare le quantità
-    },
-    error: (err) => alert("Errore: " + (err.error?.error || "Impossibile regalare"))
-  });
-}
+    if (!destinatario) return;
+
+    this.giochiService.regalaGioco(destinatario, item.id_gioco).subscribe({
+      next: () => {
+        alert("Gioco regalato con successo!");
+        this.caricaLibreria();
+      },
+      error: (err) => {
+        alert("Errore: " + (err.error?.error || "Impossibile regalare"));
+      }
+    });
+  }
 
   scaricaGioco(gioco: any) {
     alert(`Avvio del download di: ${gioco.titolo}`);
