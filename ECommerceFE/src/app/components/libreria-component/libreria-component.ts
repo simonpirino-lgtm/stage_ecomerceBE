@@ -50,7 +50,7 @@ export class LibreriaComponent implements OnInit {
 caricaUtenti() {
   this.giochiService.getListaUtenti().subscribe({
     next: (res) => {
-      console.log("Utenti ricevuti:", res);
+      
       this.utenti = res; 
       this.cdr.detectChanges(); // Forza Angular a vedere i nuovi dati nella select
     },

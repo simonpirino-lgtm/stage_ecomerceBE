@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   // NUOVO: Proprietà per il filtro prezzo
   maxPrice: number = 60; 
 
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   cartCount: number = 0;
   isHovering = false;
   isLeaving = false;
@@ -65,7 +65,9 @@ export class HomeComponent implements OnInit {
         this.user.credito = res.credito;
         localStorage.setItem('user', JSON.stringify(this.user));
       },
-      error: (err) => console.log("Errore getMe:", err)
+      error: (err) => {
+        console.error("Errore caricamento utente:", err);
+      }
     });
 
     this.caricaCartCount();

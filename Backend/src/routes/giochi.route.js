@@ -10,5 +10,11 @@ router.get('/categoria/:nome', Controller.getGamesByCategory);
 
 router.get('/categorie', categorieController.findAll);
 
+
+// CRUD admin (NUOVI)
+router.post('/',         verifyToken, requireAdmin, Controller.create);
+router.patch('/:id',     verifyToken, requireAdmin, Controller.update);
+router.delete('/:id',    verifyToken, requireAdmin, Controller.remove);
+
 module.exports = router;
 

@@ -1,0 +1,36 @@
+<h2>Gestione giochi</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input formControlName="titolo"       placeholder="Titolo" />
+  <input formControlName="prezzo"       type="number" step="0.01" placeholder="Prezzo" />
+  <input formControlName="datarilascio" type="date" />
+  <input formControlName="sviluppatore" placeholder="Sviluppatore" />
+  <input formControlName="image_url"    placeholder="URL immagine" />
+  <textarea formControlName="descrizione" placeholder="Descrizione"></textarea>
+
+  <button type="submit" [disabled]="form.invalid">
+    {{ inEditing() ? 'Aggiorna' : 'Crea' }}
+  </button>
+  @if (inEditing()) {
+    <button type="button" (click)="annullaModifica()">Annulla</button>
+  }
+</form>
+
+<table>
+  <thead>
+    <tr><th>Titolo</th><th>Prezzo</th><th>Sviluppatore</th><th></th></tr>
+  </thead>
+  <tbody>
+    @for (g of giochi(); track g.id) {
+      <tr>
+        <td>{{ g.titolo }}</td>
+        <td>{{ g.prezzo | currency:'EUR' }}</td>
+        <td>{{ g.sviluppatore }}</td>
+        <td>
+          <button (click)="modifica(g)">Modifica</button>
+          <button (click)="elimina(g)">Elimina</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

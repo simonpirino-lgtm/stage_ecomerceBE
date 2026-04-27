@@ -3,19 +3,12 @@ const carrelloService = require('../services/carrello.service');
 const getCarrello = async (req, res) => {
     try {
         const utenteId = req.params.id;
-
         const carrello = await carrelloService.recuperaCarrelloCompleto(utenteId);
-
-        /* console.log("CARRELLO RESULT:", JSON.stringify(carrello, null, 2)); */
-
         res.status(200).json(carrello);
-
     } catch (error) {
-        console.error("❌ ERRORE GET CARRELLO:", error); // 🔥 QUESTO È FONDAMENTALE
-
+        console.error("ERRORE GET CARRELLO:", error);  // log lato server: stack incluso
         res.status(500).json({
-            error: error.message,
-            stack: error.stack
+            message: 'Errore nel recupero del carrello'  // ✅ messaggio generico al client
         });
     }
 };

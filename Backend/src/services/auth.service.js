@@ -42,7 +42,7 @@ const login = async ({ userid, password }) => {
   );
 
   const refreshToken =jwt.sign(
-    {id: user.id ,userid :user.userid},
+    {id: user.id ,userid :user.userid, role : user.role},
     REFRESH_TOK,
     {expiresIn : '7d'}
   );
@@ -54,7 +54,8 @@ const login = async ({ userid, password }) => {
     user: {
       id:      user.id,
       userid:  user.userid,
-      credito: user.credito
+      credito: user.credito,
+      role : user.role
     }
   }
 };
