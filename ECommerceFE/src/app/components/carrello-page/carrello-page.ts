@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, inject, Injectable } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject, Injectable, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CarrelloService, CarrelloResponse } from '../../services/carrello.service';
 import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-carrello-page',
@@ -12,26 +13,22 @@ import { ThemeService } from '../../services/theme.service';
   styleUrls: ['./carrello-page.css']
 })
 
-@Injectable({
-  providedIn: 'root'
-})
-
 export class CarrelloPageComponent implements OnInit {
   // Dati del carrello
-  items: any[] = [];
+  items = signal<any[]>([]);
   
   // Variabili popolate direttamente dai calcoli del Backend
-  totaleArticoli: number = 0;
-  subtotale: number = 0;
+  totaleArticoli = signal(0);
+  subtotale = signal(0);
+  iva = signal(0);
+  totale = signal(0);
   totalePrezzo: number = 0;
-  iva: number = 0;
-  totale: number = 0;
 
   // Injection dei servizi
   private carrelloService = inject(CarrelloService);
-  private cdr = inject(ChangeDetectorRef);
-  authService: any;
-  router: any;
+  //private cdr = inject(ChangeDetectorRef);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   constructor(public theme: ThemeService) {}
 
@@ -44,7 +41,7 @@ export class CarrelloPageComponent implements OnInit {
    * Restituisce il totale dei prezzi del carrello
    */
   getTotaleArticoli(): number {
-    return this.totaleArticoli;
+    return this.totaleArticoli();
   }
 
   /**
@@ -74,13 +71,13 @@ export class CarrelloPageComponent implements OnInit {
     this.carrelloService.getCarrello(userId).subscribe({
       next: (risposta: CarrelloResponse) => {
         // Assegnazione dei dati pronti dal backend
-        this.items = risposta.items || [];
-        this.totaleArticoli = risposta.totaleArticoli || 0;
-        this.subtotale = risposta.subtotale || 0;
-        this.iva = risposta.iva || 0;
-        this.totale = risposta.totale || 0;
+        this.items.set(risposta.items || []);
+        this.totaleArticoli.set(risposta.totaleArticoli || 0);
+        this.subtotale.set(risposta.subtotale || 0);
+        this.iva.set(risposta.iva || 0);
+        this.totale.set(risposta.totale || 0);
         
-        this.cdr.detectChanges(); // Forza il refresh della UI
+        //this.cdr.detectChanges(); // Forza il refresh della UI
       },
       error: (err) => {
         console.error('Errore durante il caricamento del carrello:', err);

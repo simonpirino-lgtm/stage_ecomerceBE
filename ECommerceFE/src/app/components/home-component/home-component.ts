@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, HostListener, ViewChild, ElementRef, Injectable } from '@angular/core';
+import { Component, inject, OnInit, HostListener, ViewChild, ElementRef, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -15,34 +15,32 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './home-component.html',
   styleUrls: ['./home-component.css'],
 })
-@Injectable({
-  providedIn: 'root'
-})
+
 export class HomeComponent implements OnInit {
 
-  giochiModel: GiochiModel[] = [];
-  searchTerm: string = '';
+  giochiModel = signal<GiochiModel[]>([]);
+  searchTerm = signal('');
   transforms: { [id: number]: string } = {};
 
   // NUOVO: Proprietà per il filtro prezzo
-  maxPrice: number = 60; 
+  maxPrice = signal(60);
 
-  authService = inject(AuthService);
-  cartCount: number = 0;
+  private authService = inject(AuthService);
+  cartCount = signal(0);
   isHovering = false;
   isLeaving = false;
   user: any = null;
   showMenu = false;
   isDark = false;
-  selectedGenre: string = '';
-  generi: string[] = [];
+  selectedGenre = signal('');
+  generi = signal<string[]>([]);
   menuIcon!: HTMLElement;
 
   isThemeChanging = false;
 
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
-  private cdr = inject(ChangeDetectorRef);
+  //private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
   constructor(public theme: ThemeService) {}
@@ -74,42 +72,39 @@ export class HomeComponent implements OnInit {
     this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
     this.giochiService.getGiochi().subscribe({
-      next: (data: GiochiModel[]) => {
-        this.giochiModel = data;
-        this.cdr.detectChanges();
+      next: (data) => {
+        this.giochiModel.set(data);
       }
     });
 
     this.giochiService.getNomeCategoria().subscribe({
-      next: (categorie: string[]) => {
-        this.generi = categorie;
+      next: (categorie) => {
+        this.generi.set(categorie);
       }
     });
   }
 
   // GETTER AGGIORNATO: Ordine dal più grande al più piccolo
-  get giochiFiltrati() {
-    const term = this.searchTerm.toLowerCase().trim();
+  giochiFiltrati = computed(() => {
+    const term = this.searchTerm().toLowerCase().trim();
 
-    return this.giochiModel
+    return this.giochiModel()
       .filter(gioco => 
-        gioco.titolo.toLowerCase().includes(term) && 
-        gioco.prezzo <= this.maxPrice
+        gioco.titolo.toLowerCase().includes(term) &&
+        gioco.prezzo <= this.maxPrice()
       )
-      // b - a ordina dal prezzo più alto al più basso
       .sort((a, b) => b.prezzo - a.prezzo);
-  }
+  });
 
   onCategoryChange(genre: string) {
-    this.selectedGenre = genre;
+    this.selectedGenre.set(genre);
     const request = genre
       ? this.giochiService.getGiochiCategoria(genre)
       : this.giochiService.getGiochi();
 
     request.subscribe({
       next: (data) => {
-        this.giochiModel = data;
-        this.cdr.detectChanges();
+        this.giochiModel.set(data);
       },
       error: (err) => console.error(err)
     });
@@ -202,7 +197,7 @@ export class HomeComponent implements OnInit {
   caricaCartCount() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.carrelloService.getTotaleArticoli(user.id).subscribe({
-      next: (res: any) => this.cartCount = res.totaleArticoli || 0,
+      next: (res: any) => this.cartCount.set(res.totaleArticoli || 0),
       error: (err) => console.error(err)
     });
   }

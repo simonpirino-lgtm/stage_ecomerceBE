@@ -9,13 +9,14 @@
     <div class="search-row">
       <input 
         type="text" 
-        [(ngModel)]="searchTerm" 
+        [ngModel]="searchTerm()" 
+        (ngModelChange)="searchTerm.set($event)"
         placeholder="Cerca un gioco..."
       >
 
-      <select class="genre-select" [(ngModel)]="selectedGenre" (ngModelChange)="onCategoryChange($event)">
+      <select class="genre-select" [ngModel]="selectedGenre()" (ngModelChange)="onCategoryChange($event)">
         <option value="">Tutti i Generi</option>
-        @for (genre of generi; track genre) {
+        @for (genre of generi(); track genre) {
           <option [value]="genre">{{ genre }}</option>
         }
       </select>
@@ -26,12 +27,12 @@
         </button>
 
         <div class="price-popup" *ngIf="showPriceFilter">
-          <label>Prezzo max: {{ maxPrice }}€</label>
+          <label>Prezzo max: {{ maxPrice() }}€</label>
           <input 
             type="range" 
             min="0" 
             max="60" 
-            [(ngModel)]="maxPrice"
+            [ngModel]="maxPrice()" (ngModelChange)="maxPrice.set($event)"
           />
         </div>
       </div>
@@ -49,7 +50,7 @@
   </div>
   <div class="sidebar-item" style="--i:2" (click)="goToCredit()">💰 Credito € {{ user?.credito }}</div>
   <div class="sidebar-item cart-item" style="--i:3" (click)="goToCart()">
-    🛒 Carrello <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+    🛒 Carrello <span class="cart-badge" *ngIf="cartCount() > 0">{{ cartCount() }}</span>
   </div>
   <div class="sidebar-item" style="--i:4" (click)="goToLibrary()">📜 Libreria</div>
   <div class="sidebar-item" style="--i:1" (click)="goToProfile()">⚙️ Account</div>
@@ -58,7 +59,7 @@
 
 <div class="main-content" [class.shift]="showMenu">
   <div class="container">
-    @for(gioco of giochiFiltrati; track gioco.id) {
+    @for(gioco of giochiFiltrati(); track gioco.id) {
       <div class="product-card">
         <div class="image-wrapper">
           <img #gameImg [src]="gioco.image_url" class="product-image"

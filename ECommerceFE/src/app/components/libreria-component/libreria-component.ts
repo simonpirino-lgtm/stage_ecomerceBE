@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // FONDAMENTALE PER ngModel
 import { GiochiService } from '../../services/giochi-service';
@@ -14,14 +14,14 @@ import { RouterModule } from '@angular/router';
 })
 export class LibreriaComponent implements OnInit {
   private giochiService = inject(GiochiService);
-  private cdr = inject(ChangeDetectorRef);
+  //private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   
-  mieigiochi: any[] = [];
-  utenti: any[] = []; // Inizializzalo sempre come array vuoto
-  utenteSelezionato: any = null;
+  mieigiochi = signal<any[]>([]);
+  utenti = signal<any[]>([]);
+  utenteSelezionato = signal<any>(null);
+  isLoading = signal(true);
   user: any = null;
-  isLoading: boolean = true;
 
   ngOnInit(): void {
     const storedUser = localStorage.getItem('user');
@@ -32,15 +32,15 @@ export class LibreriaComponent implements OnInit {
   }
 
   caricaLibreria() {
-    this.isLoading = true;
+    this.isLoading.set(true);
+
     this.giochiService.getLibreria().subscribe({
       next: (res) => {
-        this.mieigiochi = res;
-        this.isLoading = false;
-        this.cdr.detectChanges();
+        this.mieigiochi.set(res);
+        this.isLoading.set(false);
       },
       error: (err) => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error('Errore libreria:', err);
       }
     });
@@ -50,9 +50,7 @@ export class LibreriaComponent implements OnInit {
 caricaUtenti() {
   this.giochiService.getListaUtenti().subscribe({
     next: (res) => {
-      
-      this.utenti = res; 
-      this.cdr.detectChanges(); // Forza Angular a vedere i nuovi dati nella select
+      this.utenti.set(res);
     },
     error: (err) => console.error("Errore caricamento utenti:", err)
   });
@@ -61,7 +59,7 @@ caricaUtenti() {
 eseguiRegalo(item: any) {
   if (!this.utenteSelezionato) return;
 
-  this.giochiService.regalaGioco(this.utenteSelezionato, item.id_gioco).subscribe({
+  this.giochiService.regalaGioco(this.utenteSelezionato(), item.id_gioco).subscribe({
     next: (res) => {
       alert("Gioco regalato con successo!");
       this.caricaLibreria(); // Ricarica per aggiornare le quantità
