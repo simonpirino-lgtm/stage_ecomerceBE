@@ -373,7 +373,7 @@ export class HomeComponent {
   100% { transform: scale(0.2) translate(80vw, -50vh); opacity: 0; }
 }
 ```
-
+///////////////////////////////////////////////
 ---
 
 ### 9. Migrare login e settings a Reactive Forms

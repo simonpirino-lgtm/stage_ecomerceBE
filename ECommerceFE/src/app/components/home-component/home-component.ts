@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, HostListener, ViewChild, ElementRef, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, HostListener, ViewChild, ElementRef, signal, computed, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GiochiModel } from '../../models/giochi-model';
@@ -36,13 +36,14 @@ export class HomeComponent implements OnInit {
   isDark = false;
   selectedGenre = signal('');
   generi = signal<string[]>([]);
-  menuIcon!: HTMLElement;
+  @ViewChild('menuIcon') menuIcon!: ElementRef;
 
   isThemeChanging = false;
 
   private giochiService = inject(GiochiService);
   private carrelloService = inject(CarrelloService);
   private router = inject(Router);
+  private renderer = inject(Renderer2);
 
   constructor(public theme: ThemeService) {}
 
@@ -76,7 +77,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.caricaCartCount();
-    this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
+    //this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
     this.giochiService.getGiochi().subscribe({
       next: (data) => {
@@ -181,46 +182,61 @@ export class HomeComponent implements OnInit {
 
   animateToCart(img: HTMLElement) {
     const rect = img.getBoundingClientRect();
-    const menuIcon = this.menuIcon;
-    const cartRect = menuIcon.getBoundingClientRect();
+    const menuIconEl = this.menuIcon.nativeElement;
+    const cartRect = menuIconEl.getBoundingClientRect();
 
-    const clone = img.cloneNode(true) as HTMLElement;
-    clone.classList.add('flying-image');
-    clone.style.top = rect.top + 'px';
-    clone.style.left = rect.left + 'px';
-    clone.style.width = rect.width + 'px';
-    clone.style.height = rect.height + 'px';
-    document.body.appendChild(clone);
+    const clone = this.renderer.createElement('img');
 
-    menuIcon.classList.add('magnet');
+    this.renderer.setAttribute(clone, 'src', (img as HTMLImageElement).src);
+    this.renderer.addClass(clone, 'flying-image');
+
+    this.renderer.setStyle(clone, 'top', rect.top + 'px');
+    this.renderer.setStyle(clone, 'left', rect.left + 'px');
+    this.renderer.setStyle(clone, 'width', rect.width + 'px');
+    this.renderer.setStyle(clone, 'height', rect.height + 'px');
+
+    this.renderer.appendChild(document.body, clone);
+
+    this.renderer.addClass(menuIconEl, 'magnet');
 
     setTimeout(() => {
-      clone.style.top = cartRect.top + 'px';
-      clone.style.left = cartRect.left + 'px';
-      clone.style.width = '30px';
-      clone.style.height = '30px';
-      clone.style.opacity = '0.5';
-      menuIcon.classList.add('pulse');
+      this.renderer.setStyle(clone, 'top', cartRect.top + 'px');
+      this.renderer.setStyle(clone, 'left', cartRect.left + 'px');
+      this.renderer.setStyle(clone, 'width', '30px');
+      this.renderer.setStyle(clone, 'height', '30px');
+      this.renderer.setStyle(clone, 'opacity', '0.5');
+
+      this.renderer.addClass(menuIconEl, 'pulse');
     }, 10);
 
     setTimeout(() => {
-      clone.remove();
-      this.createBurst(cartRect);
-      menuIcon.classList.add('vibrate');
+      this.renderer.removeChild(document.body, clone);
+
+      //this.createBurst(cartRect);
+
+      this.renderer.addClass(menuIconEl, 'vibrate');
 
       setTimeout(() => {
-        menuIcon.classList.remove('vibrate', 'pulse', 'magnet');
+        this.renderer.removeClass(menuIconEl, 'vibrate');
+        this.renderer.removeClass(menuIconEl, 'pulse');
+        this.renderer.removeClass(menuIconEl, 'magnet');
       }, 300);
     }, 700);
   }
 
   createBurst(rect: DOMRect) {
-    const burst = document.createElement('div');
-    burst.classList.add('cart-burst');
-    burst.style.top = rect.top + rect.height / 2 - 80 + 'px';
-    burst.style.left = rect.left + rect.width / 2 - 80 + 'px';
-    document.body.appendChild(burst);
-    setTimeout(() => burst.remove(), 600);
+    const burst = this.renderer.createElement('div');
+
+    this.renderer.addClass(burst, 'cart-burst');
+
+    this.renderer.setStyle(burst, 'top', rect.top + rect.height / 2 - 80 + 'px');
+    this.renderer.setStyle(burst, 'left', rect.left + rect.width / 2 - 80 + 'px');
+
+    this.renderer.appendChild(document.body, burst);
+
+    setTimeout(() => {
+      this.renderer.removeChild(document.body, burst);
+    }, 600);
   }
 
   @ViewChild('titleEl') titleEl!: ElementRef;
@@ -262,25 +278,25 @@ export class HomeComponent implements OnInit {
   }
 
   toggleTheme() {
-    document.body.classList.add('theme-switching');
+    this.renderer.addClass(document.body, 'theme-switching');
 
     setTimeout(() => {
       this.isDark = this.theme.toggle();
     }, 150);
 
     setTimeout(() => {
-      document.body.classList.remove('theme-switching');
+      this.renderer.removeClass(document.body, 'theme-switching');
     }, 650);
   }
 
   ngAfterViewInit() {
-    const el = this.titleEl.nativeElement;
+    //const el = this.titleEl.nativeElement;
 
-    el.addEventListener('animationiteration', () => {
+    /* el.addEventListener('animationiteration', () => {
       if (this.isLeaving) {
         el.classList.remove('spin-left', 'spin-right');
         this.isLeaving = false;
       }
-    });
+    }); */
   }
 }
