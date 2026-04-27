@@ -3,12 +3,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GiochiService } from '../../services/giochi-service';
 import { GiochiAdminService } from '../../services/giochi-admin.service';
 import { ToastService } from '../../services/toast.service';
+import { CurrencyPipe } from '@angular/common';
 import { GiochiModel } from '../../models/giochi-model';
 
 @Component({
   selector: 'app-admin-giochi',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CurrencyPipe],
   templateUrl: './admin-giochi.html',
   styleUrl: './admin-giochi.css',
 })

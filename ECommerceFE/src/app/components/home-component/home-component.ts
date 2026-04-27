@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   // NUOVO: Proprietà per il filtro prezzo
   maxPrice = signal(60);
 
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   cartCount = signal(0);
   isHovering = false;
   isLeaving = false;
