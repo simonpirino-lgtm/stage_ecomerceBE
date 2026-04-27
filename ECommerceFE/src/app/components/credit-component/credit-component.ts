@@ -76,8 +76,8 @@ export class CreditComponent {
       },
       error: (err) => {
        
-        this.message = 'Errore durante aggiornamento';
-        console.log("ERRORE BACKEND:", err);
+        this.message.set('Errore durante aggiornamento');
+        console.error("ERRORE BACKEND:", err);
         this.message.set('Errore durante aggiornamento');
       }
     });
