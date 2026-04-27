@@ -15,11 +15,16 @@ export class GiochiService
   /* -------------------------
      GIOCHI
   -------------------------- */
-  getGiochi(): Observable<GiochiModel[]> {
-    return this.http
-      .get<{ giochi: GiochiModel[] }>(`${this.baseUrl}/giochi/getall`)
-      .pipe(map(response => response.giochi));
-  }
+ getGiochi(): Observable<GiochiModel[]> {
+  return this.http
+    .get<{ giochi: any[] }>(`${this.baseUrl}/giochi/getall`)
+    .pipe(
+      map(res => res.giochi.map(g => ({
+        ...g,
+        prezzo: Number(g.prezzo),   // 👈 conversione qui, una volta sola
+      }) as GiochiModel))
+    );
+}
 
   /* -------------------------
      CATEGORIE

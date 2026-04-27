@@ -14,9 +14,9 @@ const Categoria = sequelize.define(
             unsigned: false // Unsigned=0
         },
         // Name=id_utente | DataType=3 (INT) | LengthSet=11 | AllowNull=0
-        Nome: 
+        nome: 
         {
-            type: DataTypes.INTEGER(11),
+            type: DataTypes.STRING(255),
             allowNull: false,
             unsigned: false // Unsigned=0
         }
