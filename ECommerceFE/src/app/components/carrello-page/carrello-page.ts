@@ -109,26 +109,33 @@ export class CarrelloPageComponent implements OnInit {
     });
   }
 
-checkout(): void {
+  checkout(): void {
     this.carrelloService.checkout().subscribe({
       next: (res) => {
         this.toastService.success("Acquisto riuscito!");
 
-        // 1. Recuperiamo i dati aggiornati dal server
         this.authService.getMe().subscribe({
           next: (user: any) => {
             this.authService.setCurrentUser(user);
-            this.router.navigate(['/libreria']);
+
+            setTimeout(() => {
+              this.router.navigate(['/libreria']);
+            }, 2000);
           },
           error: (err: any) => {
             console.error(err);
-            this.router.navigate(['/libreria']);
+
+            setTimeout(() => {
+              this.router.navigate(['/libreria']);
+            }, 2000);
           }
         });
       },
       error: (err) => {
         console.error("Errore checkout", err);
-        this.toastService.success("Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente"));
+        this.toastService.success(
+          "Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente")
+        );
       }
     });
   }

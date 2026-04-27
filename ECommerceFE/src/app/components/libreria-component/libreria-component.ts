@@ -5,6 +5,7 @@ import { GiochiService } from '../../services/giochi-service';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-libreria',
@@ -20,14 +21,17 @@ export class LibreriaComponent implements OnInit {
   private toastService = inject(ToastService);
   mieigiochi = signal<any[]>([]);
   utenti = signal<any[]>([]);
-  utenteSelezionato = signal<any>(null);
+  //utenteSelezionato = signal<any>(null);
+  utenteSelezionato: Record<number, number | null> = {};
   isLoading = signal(true);
-
 
   // ✅ ORA DERIVA DA AUTH SERVICE (NO LOCALSTORAGE)
   user = this.authService.currentUser;
 
+  constructor(public theme: ThemeService) {}
+
   ngOnInit(): void {
+    this.theme.init();
     this.caricaLibreria();
     this.caricaUtenti();
   }
@@ -57,18 +61,20 @@ export class LibreriaComponent implements OnInit {
   }
 
   eseguiRegalo(item: any) {
-    const destinatario = this.utenteSelezionato();
+    const destinatario = this.utenteSelezionato[item.id];
 
     if (!destinatario) return;
 
-  this.giochiService.regalaGioco(this.utenteSelezionato(), item.id_gioco).subscribe({
-    next: (res) => {
-      this.toastService.success("Gioco regalato con successo!");
-      this.caricaLibreria(); // Ricarica per aggiornare le quantità
-    },
-    error: (err) => this.toastService.error("Errore: " + (err.error?.error || "Impossibile regalare"))
-  });
-}
+    this.giochiService.regalaGioco(destinatario, item.id_gioco).subscribe({
+      next: () => {
+        this.toastService.success("Gioco regalato con successo!");
+        this.caricaLibreria();
+      },
+      error: (err) => {
+        this.toastService.error("Errore: " + (err.error?.error || "Impossibile regalare"));
+      }
+    });
+  }
 
   scaricaGioco(gioco: any) {
     this.toastService.success(`Avvio del download di: ${gioco.titolo}`);

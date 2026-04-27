@@ -1,5 +1,5 @@
 <div class="header-section">
-  <div class="menu-icon" (click)="toggleMenu($event)">☰</div>
+  <div #menuIcon class="menu-icon" (click)="toggleMenu($event)">☰</div>
 
   <div class="nomecarrello">
     <h1 #titleEl class="title animated-title" (mouseenter)="onHover($event)" (mousemove)="onMoveTitle($event)" (mouseleave)="onLeave()">
@@ -65,22 +65,33 @@
 </div>
 
 <div class="main-content" [class.shift]="showMenu">
-  <div class="container">
-    @for(gioco of giochiFiltrati(); track gioco.id) {
-      <div class="product-card">
-        <div class="image-wrapper">
-          <img #gameImg [src]="gioco.image_url" class="product-image"
-            (mouseenter)="onMouseEnter($event, gioco)"
-            (mousemove)="onMouseMove($event, gioco)"
-            (mouseleave)="onMouseLeave(gioco)"
-            [style.transform]="transforms[gioco.id] || ''">
+    <div class="container">
+
+      @if (giochiFiltrati().length === 0) {
+        <div class="empty-state">
+          Nessun gioco trovato 😢
         </div>
-        <div class="card-content">
-          <h2 class="game-title">{{gioco.titolo}}</h2>
-          <p class="price">€ {{gioco.prezzo}}</p><br>
-          <button class="btn-add" (click)="aggiungiAlCarrello(gioco, gameImg)">Aggiungi al Carrello</button>
-        </div>
-      </div>
-    }
-  </div>
+      } @else {
+        @for (gioco of giochiFiltrati(); track gioco.id) {
+          <div class="product-card">
+            <div class="image-wrapper">
+              <img #gameImg [src]="gioco.image_url" class="product-image"
+                (mouseenter)="onMouseEnter($event, gioco)"
+                (mousemove)="onMouseMove($event, gioco)"
+                (mouseleave)="onMouseLeave(gioco)"
+                [style.transform]="transforms[gioco.id] || ''">
+            </div>
+
+            <div class="card-content">
+              <h2 class="game-title">{{gioco.titolo}}</h2>
+              <p class="price">€ {{gioco.prezzo}}</p><br>
+              <button class="btn-add" (click)="aggiungiAlCarrello(gioco, gameImg)">
+                Aggiungi al Carrello
+              </button>
+            </div>
+          </div>
+        }
+      }
+
+    </div>
 </div>

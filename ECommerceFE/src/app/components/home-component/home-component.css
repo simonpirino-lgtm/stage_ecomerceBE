@@ -87,8 +87,6 @@
     transform: translate3d(0,0,0);
     backface-visibility: hidden;
 
-    will-change: transform, opacity;
-
     display: flex;
     flex-direction: column;
 }
@@ -98,6 +96,7 @@
     transform: translateX(0);
     opacity: 1;
     pointer-events: auto;
+    will-change: auto;
 }
 
 .sidebar .sidebar-item {
@@ -449,4 +448,12 @@
 
 .price-popup input {
   width: 100%;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #aaa;
+  font-size: 1.2rem;
+  padding: 40px;
 }

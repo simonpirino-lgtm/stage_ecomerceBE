@@ -5,7 +5,7 @@
   align-items: center;
 
   padding: 40px 20px;
-  background: #ff6427;
+  background: var(--bg-main);
 }
 
 /* BACK BUTTON */
@@ -17,9 +17,9 @@
 
   border-radius: 14px;
 
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid #00000014;
 
-  background: rgba(255, 255, 255, 0.6);
+  background: #ffffff99;
   backdrop-filter: blur(6px);
 
   display: flex;
@@ -54,9 +54,9 @@
 
 .title {
   margin: 0;
-  font-size: 64px; /* 🔥 più grande */
+  font-size: 64px;
   font-weight: 800;
-  color: #222;
+  color: var(--login-link);
 }
 
 .credit-value {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 
 interface LoginResponse {
   accessToken: string;
@@ -24,8 +24,9 @@ export class AuthService {
 
   initAuth(): Observable<any> {
     return this.refreshToken().pipe(
-      tap(res => {
-        this.accessTokenSignal.set(res.accessToken);
+      switchMap(() => this.getMe()), // 🔥 recupera utente
+      tap((user: any) => {
+        this.userSignal.set(user);
       }),
       catchError(err => {
         this.accessTokenSignal.set(null);
