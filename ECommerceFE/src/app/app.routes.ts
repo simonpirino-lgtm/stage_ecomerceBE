@@ -20,7 +20,7 @@ export const routes: Routes = [
   { path: 'carrello', canActivate: [AuthGuard], component: CarrelloPageComponent},
   { path: 'credito', canActivate: [AuthGuard], component: CreditComponent},
   { path: 'account' , canActivate :[AuthGuard], component: SettingsPageComponent},
-  { path : 'libreria', canActivate : [AuthGuard], component: LibreriaComponent},
+  { path: 'libreria', canActivate : [AuthGuard], component: LibreriaComponent},
   { path: 'admin/giochi',canActivate: [AuthGuard, RoleGuard],component: AdminGiochiComponent},
   { path: '**', component: ErrorComponent}
 ];
