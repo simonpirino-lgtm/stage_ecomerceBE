@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GiochiService } from '../../services/giochi-service';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-libreria',
@@ -21,6 +22,8 @@ export class LibreriaComponent implements OnInit {
   utenti = signal<any[]>([]);
   utenteSelezionato = signal<any>(null);
   isLoading = signal(true);
+
+  private toastService = inject(ToastService);
 
   // ✅ ORA DERIVA DA AUTH SERVICE (NO LOCALSTORAGE)
   user = this.authService.currentUser;
@@ -61,16 +64,16 @@ export class LibreriaComponent implements OnInit {
 
     this.giochiService.regalaGioco(destinatario, item.id_gioco).subscribe({
       next: () => {
-        alert("Gioco regalato con successo!");
+        this.toastService.success("Gioco regalato con successo!");
         this.caricaLibreria();
       },
       error: (err) => {
-        alert("Errore: " + (err.error?.error || "Impossibile regalare"));
+        this.toastService.success("Errore: " + (err.error?.error || "Impossibile regalare"));
       }
     });
   }
 
   scaricaGioco(gioco: any) {
-    alert(`Avvio del download di: ${gioco.titolo}`);
+    this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
   }
 }

@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CarrelloService, CarrelloResponse } from '../../services/carrello.service';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-carrello-page',
@@ -29,6 +30,7 @@ export class CarrelloPageComponent implements OnInit {
   //private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private toastService = inject(ToastService);
 
   constructor(public theme: ThemeService) {}
 
@@ -110,7 +112,7 @@ export class CarrelloPageComponent implements OnInit {
 checkout(): void {
     this.carrelloService.checkout().subscribe({
       next: (res) => {
-        alert("Acquisto riuscito!");
+        this.toastService.success("Acquisto riuscito!");
 
         // 1. Recuperiamo i dati aggiornati dal server
         this.authService.getMe().subscribe({
@@ -126,7 +128,7 @@ checkout(): void {
       },
       error: (err) => {
         console.error("Errore checkout", err);
-        alert("Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente"));
+        this.toastService.success("Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente"));
       }
     });
   }
