@@ -4,12 +4,12 @@
         <i class="fas fa-arrow-left arrow"></i>
       </button>
     <h1 class="title">Il Tuo Carrello</h1>
-    <div class="item-count">{{ totaleArticoli }} Giochi pronti</div>
+    <div class="item-count">{{ totaleArticoli() }} Giochi pronti</div>
   </div>
 
   <div class="container-cart">
     <div class="items-list">
-    @for (item of items; track item.id) {
+    @for (item of items(); track item.id) {
 
       <div class="cart-card">
 
@@ -50,16 +50,16 @@
     }
   </div>
 
-    @if(items.length){
+    @if(items().length){
     <div class="summary-box">
       <h3>Riepilogo Ordine</h3><br>
       <div class="summary-row">
         <span>Subtotale: </span>
-        <span style="color: #0f551e">{{ subtotale.toFixed(2) }} €</span>
+        <span style="color: #0f551e">{{ subtotale().toFixed(2) }} €</span>
       </div>
       <div class="summary-row">
         <span>IVA (22%): </span>
-        <span style="color: #3e1376">{{ iva.toFixed(2) }} €</span>
+        <span style="color: #3e1376">{{ iva().toFixed(2) }} €</span>
       </div>
       <div class="summary-row"> 
         <span class="free" style="color: #76135f">Spedizione GRATIS</span>
@@ -69,7 +69,7 @@
 
       <div class="summary-total">
         <span>Totale</span>
-        <span>€ {{ totale.toFixed(2) }}</span>
+        <span>€ {{ totale().toFixed(2) }}</span>
       </div>
       <button class="btn-checkout" (click)="checkout()">
         Procedi al Pagamento

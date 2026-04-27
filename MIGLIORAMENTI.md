@@ -11,7 +11,7 @@ Ogni voce è strutturata con **Cos'è** (descrizione tecnica), **Perché** (moti
 
 ### 1. Rimuovere `cdr.detectChanges()` e migrare a Signals
 
-**Cos'è.** In 6 componenti diversi (`home-component.ts`, `carrello-page.ts`, `credit-component.ts`, `settings-page.ts`, `login-component.ts`, `libreria-component.ts`) viene iniettato `ChangeDetectorRef` e chiamato `cdr.detectChanges()` dopo le `subscribe`, per forzare l'aggiornamento della UI. Vanno rimosse tutte queste chiamate e i dati vanno gestiti con `signal()` (Angular 16+).
+**Cos'è.** In 6 componenti diversi (`home-component.ts` fatto, `carrello-page.ts` fatto, `credit-component.ts` fatto, `settings-page.ts` saltato, `login-component.ts` fatto, `libreria-component.ts` fatto) viene iniettato `ChangeDetectorRef` e chiamato `cdr.detectChanges()` dopo le `subscribe`, per forzare l'aggiornamento della UI. Vanno rimosse tutte queste chiamate e i dati vanno gestiti con `signal()` (Angular 16+).
 
 **Perché.** `detectChanges()` è un *workaround* costoso (ricalcola l'albero del componente) e fragile. I **signals** sono il modello reattivo nuovo di Angular: la UI si aggiorna automaticamente quando il signal cambia, senza bisogno di forzare nulla.
 
@@ -54,6 +54,7 @@ export class CreditComponent {
   }
 }
 ```
+//////////////////////////////////////////////////////////////////////////
 
 **Nel template** invece di `{{ currentCredit }}` si scrive `{{ currentCredit() }}` (con le parentesi, perché è una funzione).
 

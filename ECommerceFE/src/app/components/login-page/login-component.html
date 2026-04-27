@@ -1,11 +1,11 @@
 <div class="auth-container">
 
-  <div class="flip-card" [class.flipped]="!isLogin">
+  <div class="flip-card" [class.flipped]="!isLogin()">
 
     <!-- LOGIN -->
     <div class="flip-face front">
 
-      <div class="auth-box" [class.shake]="shake">
+      <div class="auth-box" [class.shake]="shake()">
 
         <h2>Login</h2>
 
@@ -30,7 +30,7 @@
         </form>
 
         <div class="error" *ngIf="errorMessage">
-          {{ errorMessage }}
+          {{ errorMessage() }}
         </div>
 
         <p class="switch">
@@ -44,7 +44,7 @@
     <!-- REGISTER -->
     <div class="flip-face back">
 
-      <div class="auth-box" [class.shake]="shake">
+      <div class="auth-box" [class.shake]="shake()">
 
         <h2>Register</h2>
 
@@ -69,7 +69,7 @@
         </form>
 
         <div class="error" *ngIf="errorMessage">
-          {{ errorMessage }}
+          {{ errorMessage() }}
         </div>
 
         <p class="switch">

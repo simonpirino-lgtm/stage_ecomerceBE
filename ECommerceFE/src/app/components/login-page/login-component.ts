@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -17,10 +17,9 @@ import { ThemeService } from '../../services/theme.service';
 
 export class LoginComponent {
 
-  isLogin = true;
-
-  errorMessage = '';
-  shake = false;
+  isLogin = signal(true);
+  errorMessage = signal('');
+  shake = signal(false);
 
   form = {
     userid: '',
@@ -30,7 +29,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cd: ChangeDetectorRef,
+    //private cd: ChangeDetectorRef,
     private theme: ThemeService
   ) {}
 
@@ -42,23 +41,23 @@ export class LoginComponent {
   }
 
   toggleMode() {
-    this.isLogin = !this.isLogin;
-    this.errorMessage = '';
+    this.isLogin.update(v => !v);
+    this.errorMessage.set('');
     this.form = { userid: '', password: '' };
 
-    this.cd.detectChanges();
+    //this.cd.detectChanges();
   }
 
   onSubmit() {
-    this.errorMessage = '';
-    this.cd.detectChanges();
+    this.errorMessage.set('');
+    //this.cd.detectChanges();
 
     const payload = {
       userid: this.form.userid,
       password: this.form.password
     };
 
-    if (this.isLogin) {
+    if (this.isLogin()) {
       // LOGIN
       this.authService.login(this.form.userid, this.form.password).subscribe({
         next: (res: any) => {
@@ -109,20 +108,20 @@ export class LoginComponent {
   }
 
   triggerError(message: string) {
-    this.errorMessage = message;
+    this.errorMessage.set(message);
 
-    this.cd.detectChanges();
+    //this.cd.detectChanges();
 
     // restart animation reliably
-    this.shake = false;
+    this.shake.set(false);
 
     setTimeout(() => {
-      this.shake = true;
-      this.cd.detectChanges();
+      this.shake.set(true);
+      //this.cd.detectChanges();
 
       setTimeout(() => {
-        this.shake = false;
-        this.cd.detectChanges();
+        this.shake.set(false);
+        //this.cd.detectChanges();
       }, 400);
     });
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injectable } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router'
@@ -13,18 +13,15 @@ import { ThemeService } from '../../services/theme.service';
   styleUrl: './credit-component.css',
 })
 
-@Injectable({
-  providedIn: 'root'
-})
-
 export class CreditComponent {
-  amount: number = 0;
-  message: string = '';
-  currentCredit: number = 0;
+  amount = signal(0);
+  message = signal('');
+  currentCredit = signal(0);
+  loading = signal(true);
 
   constructor(
     private authService: AuthService,
-    private cdr: ChangeDetectorRef,
+    //private cdr: ChangeDetectorRef,
     public theme: ThemeService
   ) {}
 
@@ -43,44 +40,43 @@ export class CreditComponent {
       }
     });
   } */
-  loading = true;
   loadCredit() {
     //this.loading = true;
 
     this.authService.getMe().subscribe({
       next: (res: any) => {
-        this.currentCredit = res.credito;
-        this.loading = false;
+        this.currentCredit.set(res.credito);
+        this.loading.set(false);
       },
       error: () => {
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
 
   addCredit() {
-    if (this.amount <= 0) {
-      this.message = 'Inserisci un importo valido';
+    if (this.amount() <= 0) {
+      this.message.set('Inserisci un importo valido');
       return;
     }
 
-    this.authService.addCredit(this.amount).subscribe({
+    this.authService.addCredit(this.amount()).subscribe({
       next: (res: any) => {
         console.log("RISPOSTA BACKEND:", res);
 
-        this.currentCredit = res.credito;
-        this.message = 'Credito aggiornato: ' + res.credito;
+        this.currentCredit.set(res.credito);
+        this.message.set('Credito aggiornato: ' + res.credito);
 
-        this.amount = 0;
+        this.amount.set(0);
 
         this.loadCredit();
 
         // 🔥 forza aggiornamento UI
-        this.cdr.detectChanges();
+        //this.cdr.detectChanges();
       },
       error: (err) => {
         console.log("ERRORE BACKEND:", err);
-        this.message = 'Errore durante aggiornamento';
+        this.message.set('Errore durante aggiornamento');
       }
     });
   }
