@@ -1,15 +1,16 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core'; // Aggiungi OnInit
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common'; // Fondamentale per l'errore Pipe
 import { GiochiService } from '../../services/giochi-service';
 import { GiochiAdminService } from '../../services/giochi-admin.service';
-import { ToastService } from '../../services/toast.service';
-import { CurrencyPipe } from '@angular/common';
+import { ToastService } from '../../services/toast.service'; // Ora funzionerà
 import { GiochiModel } from '../../models/giochi-model';
 
 @Component({
   selector: 'app-admin-giochi',
   standalone: true,
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  // Aggiungi CurrencyPipe qui per risolvere l'errore NG8004
+  imports: [ReactiveFormsModule, CurrencyPipe], 
   templateUrl: './admin-giochi.html',
   styleUrl: './admin-giochi.css',
 })
