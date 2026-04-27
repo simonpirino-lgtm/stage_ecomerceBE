@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { GiochiModel } from '../models/giochi-model';
 
 @Injectable({ providedIn: 'root' })
 export class GiochiAdminService {
   private http = inject(HttpClient);
-  private baseUrl = `${environment.apiUrl}/giochi`;
+private baseUrl = `${environment.apiUrl}/giochi`;
 
   create(payload: Partial<GiochiModel>) {
     return this.http.post<{ gioco: GiochiModel }>(this.baseUrl, payload);

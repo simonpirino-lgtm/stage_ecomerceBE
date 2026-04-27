@@ -16,7 +16,7 @@ interface UserData {
   id: number;
   userid: string;
   credito: number;
-  role: 'user' | 'admin'; 
+  role?: 'user' | 'admin'; 
 }
 
 @Injectable({ providedIn: 'root' })
