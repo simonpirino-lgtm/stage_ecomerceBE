@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms'; // FONDAMENTALE PER ngModel
 import { GiochiService } from '../../services/giochi-service';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-libreria',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, RouterModule],
   templateUrl: './libreria-component.html',
   styleUrls: ['./libreria-component.css']
 })
@@ -16,7 +17,7 @@ export class LibreriaComponent implements OnInit {
   private giochiService = inject(GiochiService);
   //private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
-  
+  private toastService = inject(ToastService);
   mieigiochi = signal<any[]>([]);
   utenti = signal<any[]>([]);
   utenteSelezionato = signal<any>(null);
@@ -61,14 +62,14 @@ eseguiRegalo(item: any) {
 
   this.giochiService.regalaGioco(this.utenteSelezionato(), item.id_gioco).subscribe({
     next: (res) => {
-      alert("Gioco regalato con successo!");
+      this.toastService.success("Gioco regalato con successo!");
       this.caricaLibreria(); // Ricarica per aggiornare le quantità
     },
-    error: (err) => alert("Errore: " + (err.error?.error || "Impossibile regalare"))
+    error: (err) => this.toastService.error("Errore: " + (err.error?.error || "Impossibile regalare"))
   });
 }
 
   scaricaGioco(gioco: any) {
-    alert(`Avvio del download di: ${gioco.titolo}`);
+    this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
   }
 }
