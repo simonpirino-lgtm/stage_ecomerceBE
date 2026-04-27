@@ -1,14 +1,14 @@
-export class GiochiModel 
-{
-    
-    id!: number;
-    titolo!: string;
-    prezzo!: number;
-    datarilascio!: string;
-    sviluppatore!: string;
-    image_url!: string;
-    descrizione!: string;
-    categoria: any;
+import { Categoria } from './categoria-model';
+
+export interface GiochiModel {
+  id: number;
+  titolo: string;
+  prezzo: number;
+  datarilascio: string;
+  sviluppatore: string;
+  image_url: string;
+  descrizione: string;
+  categoria?: Categoria[];
 }
  /*"giochi": [
     {
