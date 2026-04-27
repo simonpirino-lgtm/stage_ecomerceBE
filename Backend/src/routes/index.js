@@ -11,8 +11,7 @@ const checkoutRoutes = require('./checkout.route');
 const libreriaRoute = require('./libreria.routes')
 const adminRoute = require('./admin.route');
 
-router.use('/admin', adminRoute);
-
+//router.use('/admin', adminRoute);
 
 router.use('/utenti', utentiRoute);
 

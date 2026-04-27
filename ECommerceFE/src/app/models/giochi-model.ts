@@ -8,7 +8,7 @@ export class GiochiModel
     sviluppatore!: string;
     image_url!: string;
     descrizione!: string;
-  categoria: any;
+    categoria: any;
 }
  /*"giochi": [
     {

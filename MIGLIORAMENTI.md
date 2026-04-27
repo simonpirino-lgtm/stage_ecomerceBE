@@ -321,7 +321,7 @@ export class ToastService {
 })
 export class ToastComponent {
   toastService = inject(ToastService);
-}
+x
 ```
 
 **Uso:**
