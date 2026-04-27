@@ -118,11 +118,11 @@ checkout(): void {
         this.authService.getMe().subscribe({
           next: (user: any) => {
             this.authService.setCurrentUser(user);
-            this.router.navigate(['/library']);
+            this.router.navigate(['/libreria']);
           },
           error: (err: any) => {
             console.error(err);
-            this.router.navigate(['/library']);
+            this.router.navigate(['/libreria']);
           }
         });
       },

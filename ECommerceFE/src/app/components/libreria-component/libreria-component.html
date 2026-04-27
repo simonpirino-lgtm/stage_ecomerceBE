@@ -11,11 +11,11 @@
 
     <div class="right">
       <div class="welcome">
-        Bentornato, <strong>{{ user?.userid }}</strong>!
+        Bentornato, <strong>{{ user()?.userid }}</strong>!
       </div>
 
       <div class="credit">
-        Credito: <strong>{{ user?.credito || 0 }}€</strong>
+        Credito: <strong>{{ user()?.credito || 0 }}€</strong>
       </div>
     </div>
 
