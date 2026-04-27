@@ -97,13 +97,14 @@ export class AuthService {
   logout(): void {
     this.http
       .post(`${this.baseUrl}/auth/logout`, {}, { withCredentials: true })
-      .subscribe({
-        complete: () => {
-          // Solo quando il backend ha confermato il logout:
-          // 1. Azzera i signal
+      .pipe(
+        tap(() => {
           this.accessTokenSignal.set(null);
           this.userSignal.set(null);
-          // 2. Naviga alla pagina di login
+        })
+      )
+      .subscribe({
+        complete: () => {
           this.router.navigate(['/']);
         }
       });
@@ -131,9 +132,12 @@ export class AuthService {
   updateProfile(data: { newUserid?: string, newPassword?: string }): Observable<any> {
     return this.http.patch(`${this.baseUrl}/utenti/update-me`, data);
   }
-  updateUserSignal(updatedUser: any) {
-  // Dato che userSignal è privato, usiamo il setter del signal
-  // Se avevi dichiarato: private readonly userSignal = signal<UserData | null>(null);
-  this.userSignal.set(updatedUser);
-}
+  /*   updateUserSignal(updatedUser: any) {
+    // Dato che userSignal è privato, usiamo il setter del signal
+    // Se avevi dichiarato: private readonly userSignal = signal<UserData | null>(null);
+    this.userSignal.set(updatedUser);
+  } */
+  setCurrentUser(user: UserData | null) {
+    this.userSignal.set(user);
+  }
 }

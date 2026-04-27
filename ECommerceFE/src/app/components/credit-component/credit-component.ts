@@ -27,7 +27,7 @@ export class CreditComponent {
 
   ngOnInit() {
     this.theme.init();
-    this.loadCredit();
+    //this.loadCredit();
   }
 
   /* loadCredit() {
@@ -41,17 +41,15 @@ export class CreditComponent {
     });
   } */
   loadCredit() {
-    //this.loading = true;
+    const user = this.authService.currentUser();
 
-    this.authService.getMe().subscribe({
-      next: (res: any) => {
-        this.currentCredit.set(res.credito);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.loading.set(false);
-      }
-    });
+    if (!user) {
+      this.loading.set(false);
+      return;
+    }
+
+    this.currentCredit.set(user.credito);
+    this.loading.set(false);
   }
 
   addCredit() {
@@ -61,19 +59,23 @@ export class CreditComponent {
     }
 
     this.authService.addCredit(this.amount()).subscribe({
-      next: (res: any) => {
-       
+    next: (res: any) => {
 
+      const user = this.authService.currentUser();
+
+      if (user) {
+        const updatedUser = {
+          ...user,
+          credito: res.credito
+        };
+
+        this.authService.setCurrentUser(updatedUser);
         this.currentCredit.set(res.credito);
-        this.message.set('Credito aggiornato: ' + res.credito);
+      }
 
-        this.amount.set(0);
-
-        this.loadCredit();
-
-        // 🔥 forza aggiornamento UI
-        //this.cdr.detectChanges();
-      },
+      this.message.set('Credito aggiornato: ' + res.credito);
+      this.amount.set(0);
+    },
       error: (err) => {
        
         this.message.set('Errore durante aggiornamento');

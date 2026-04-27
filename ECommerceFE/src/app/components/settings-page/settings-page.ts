@@ -36,11 +36,10 @@ export class SettingsPageComponent implements OnInit {
 
   ngOnInit() {
     this.theme.init();
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      const user = JSON.parse(savedUser);
-      // Usiamo 'userid' o 'id' in base a come lo salva il tuo login
-      this.userData.oldUserid = user.userid || user.id || ''; 
+
+    const user = this.authService.currentUser();
+    if (user) {
+      this.userData.oldUserid = user.userid;
     }
   }
 
@@ -78,34 +77,29 @@ export class SettingsPageComponent implements OnInit {
 
           // 3. Chiama il metodo di update del profilo
           this.authService.updateProfile(updateData).subscribe({
-            next: (updateRes: any) => {
+            next: () => {
               this.message = 'Profilo aggiornato con successo!';
               this.isError = false;
-              
-              // Aggiorna il localStorage se il userid è cambiato
-              if (updateData.newUserid) {
-                const savedUser = localStorage.getItem('user');
-                if (savedUser) {
-                  const user = JSON.parse(savedUser);
-                  user.userid = updateData.newUserid;
-                  localStorage.setItem('user', JSON.stringify(user));
-                  this.userData.oldUserid = updateData.newUserid; // Aggiorna anche il campo oldUserid
-                }
+
+              const currentUser = this.authService.currentUser();
+
+              if (currentUser && updateData.newUserid) {
+                const updatedUser = {
+                  ...currentUser,
+                  userid: updateData.newUserid
+                };
+
+                this.authService.setCurrentUser(updatedUser);
+                this.userData.oldUserid = updateData.newUserid;
               }
-              
-              // Resetta i campi di input (eccetto oldUserid)
+
               this.userData.newUserid = '';
               this.userData.newPassword = '';
               this.userData.oldPassword = '';
-              
+
               this.cd.detectChanges();
 
-              // logout
-              setTimeout(() => {
-                localStorage.removeItem('user');
-                localStorage.removeItem('accessToken');
-                this.router.navigate(['/']);
-              }, 1000);
+              this.authService.logout();
             },
             error: (updateErr: any) => {
               if (updateErr.status === 409) {

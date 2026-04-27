@@ -49,35 +49,26 @@ export class CarrelloPageComponent implements OnInit {
    * Nota: Il server restituisce già i totali calcolati.
    */
   caricaCarrello(): void {
-    const userStr = localStorage.getItem('user');
-    if (!userStr) {
-      console.error('User not found in localStorage');
+    const user = this.authService.currentUser();
+
+    if (!user?.id) {
+      console.error('Utente non valido o non autenticato');
+      this.router.navigate(['/']);
       return;
     }
 
-    let userId: number;
-    try {
-      const userObj = JSON.parse(userStr);
-      userId = userObj.id || parseInt(userStr, 10);
-    } catch {
-      userId = parseInt(userStr, 10);
-    }
-
-    if (!userId) {
-      console.error('Invalid user ID');
+    if (!user) {
+      console.error('Utente non loggato');
       return;
     }
 
-    this.carrelloService.getCarrello(userId).subscribe({
+    this.carrelloService.getCarrello(user.id).subscribe({
       next: (risposta: CarrelloResponse) => {
-        // Assegnazione dei dati pronti dal backend
         this.items.set(risposta.items || []);
         this.totaleArticoli.set(risposta.totaleArticoli || 0);
         this.subtotale.set(risposta.subtotale || 0);
         this.iva.set(risposta.iva || 0);
         this.totale.set(risposta.totale || 0);
-        
-        //this.cdr.detectChanges(); // Forza il refresh della UI
       },
       error: (err) => {
         console.error('Errore durante il caricamento del carrello:', err);
@@ -124,15 +115,11 @@ checkout(): void {
         // 1. Recuperiamo i dati aggiornati dal server
         this.authService.getMe().subscribe({
           next: (user: any) => {
-            // 2. Aggiorniamo il Signal nell'AuthService (vedi punto sotto)
-            this.authService.updateUserSignal(user); 
-            
-            // 3. Navighiamo alla libreria
+            this.authService.setCurrentUser(user);
             this.router.navigate(['/library']);
           },
           error: (err: any) => {
-            console.error("Errore nel recupero dati utente post-checkout", err);
-            // Navighiamo comunque anche se il refresh del credito fallisce
+            console.error(err);
             this.router.navigate(['/library']);
           }
         });

@@ -37,8 +37,13 @@
       <button type="submit" class="save-btn">Aggiorna Credenziali</button>
     </form>
 
-    <p *ngIf="message" [style.color]="isError ? 'red' : 'green'" style="text-align: center; margin-top: 15px; font-weight: bold;">
-      {{ message }}
-    </p>
+    @if (message) {
+      <p
+        [style.color]="isError ? 'red' : 'green'"
+        style="text-align: center; margin-top: 15px; font-weight: bold;"
+      >
+        {{ message }}
+      </p>
+    }
   </div>
 </div>
