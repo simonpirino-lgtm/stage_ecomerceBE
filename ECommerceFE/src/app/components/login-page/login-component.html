@@ -29,9 +29,11 @@
 
         </form>
 
-        <div class="error" *ngIf="errorMessage">
-          {{ errorMessage() }}
-        </div>
+        @if (errorMessage()) {
+          <div class="error">
+            {{ errorMessage() }}
+          </div>
+        }
 
         <p class="switch">
           Non hai un account?
@@ -68,9 +70,11 @@
 
         </form>
 
-        <div class="error" *ngIf="errorMessage">
-          {{ errorMessage() }}
-        </div>
+        @if (errorMessage()) {
+          <div class="error">
+            {{ errorMessage() }}
+          </div>
+        }
 
         <p class="switch">
           Hai già un account?
@@ -78,8 +82,5 @@
         </p>
 
       </div>
-    </div>
-
-  </div>
 
 </div>

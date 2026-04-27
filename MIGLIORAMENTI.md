@@ -54,7 +54,6 @@ export class CreditComponent {
   }
 }
 ```
-//////////////////////////////////////////////////////////////////////////
 
 **Nel template** invece di `{{ currentCredit }}` si scrive `{{ currentCredit() }}` (con le parentesi, perché è una funzione).
 
@@ -105,6 +104,9 @@ export class CreditComponent { }
 
 ---
 
+//////////////////////////////////////////////////////////////////////////
+
+
 ### 3. Migrare alla nuova control flow `@if` / `@for` / `@switch`
 
 **Cos'è.** Negli HTML si usano ancora le direttive storiche `*ngIf`, `*ngFor`, `*ngSwitch`. Da Angular 17 esiste la nuova *built-in control flow*: `@if`, `@for`, `@switch`.
@@ -146,6 +148,8 @@ Il `track gioco.id` è **obbligatorio**: dice ad Angular come riconoscere gli el
 
 ---
 
+/////////////////////////////////////////////////
+
 ### 4. Unificare la sorgente di verità sull'utente
 
 **Cos'è.** Oggi l'utente loggato vive in **due posti**: `AuthService.userSignal` (memoria) e `localStorage.getItem('user')` (persistente). I componenti leggono da entrambi a casaccio. Va eliminato l'accesso diretto al `localStorage` nei componenti.
@@ -183,6 +187,8 @@ Il `localStorage` lo gestisce **solo** `AuthService` (al login: salva, al logout
 
 ---
 
+/////////////////////
+
 ### 5. Fix bug `carrello-page.ts` — checkout crasha
 
 **Cos'è.** Nel file `carrello-page.ts` righe 33-34 ci sono `authService: any;` e `router: any;` ma **non sono mai iniettati**. Nel `checkout()` (riga 122) si chiamano e crashano con `Cannot read properties of undefined`.
@@ -216,7 +222,7 @@ export class CarrelloPageComponent {
   }
 }
 ```
-
+/////////////////////////
 ---
 
 ### 6. Spostare URL hardcoded in `environment.ts`
