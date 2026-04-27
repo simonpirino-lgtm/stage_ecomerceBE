@@ -8,9 +8,6 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './error.component.html',
   styleUrl: './error.component.css',
 })
-@Injectable({
-  providedIn: 'root'
-})
 
 export class ErrorComponent {
   constructor(
