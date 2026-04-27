@@ -332,7 +332,7 @@ alert("Acquisto riuscito!");
 // DOPO
 this.toastService.success("Acquisto riuscito!");
 ```
-
+////////////////////////////////////////////////////////
 ---
 
 ### 8. Eliminare la DOM manipulation diretta in `home-component.ts`

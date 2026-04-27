@@ -30,7 +30,7 @@ export class CarrelloPageComponent implements OnInit {
   //private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   private router = inject(Router);
-  toastService: any;
+  private toastService = inject(ToastService);
 
   constructor(public theme: ThemeService) {}
 
@@ -118,17 +118,17 @@ checkout(): void {
         this.authService.getMe().subscribe({
           next: (user: any) => {
             this.authService.setCurrentUser(user);
-            this.router.navigate(['/library']);
+            this.router.navigate(['/libreria']);
           },
           error: (err: any) => {
             console.error(err);
-            this.router.navigate(['/library']);
+            this.router.navigate(['/libreria']);
           }
         });
       },
       error: (err) => {
         console.error("Errore checkout", err);
-        this.toastService.error("Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente"));
+        this.toastService.success("Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente"));
       }
     });
   }

@@ -23,6 +23,8 @@ export class LibreriaComponent implements OnInit {
   utenteSelezionato = signal<any>(null);
   isLoading = signal(true);
 
+  private toastService = inject(ToastService);
+
   // ✅ ORA DERIVA DA AUTH SERVICE (NO LOCALSTORAGE)
   user = this.authService.currentUser;
 

@@ -3,7 +3,7 @@
 
   <div class="nomecarrello">
     <h1 #titleEl class="title animated-title" (mouseenter)="onHover($event)" (mousemove)="onMoveTitle($event)" (mouseleave)="onLeave()">
-      Benvenuto, {{user.userid}}!
+      Benvenuto, {{ authService.currentUser()?.userid }}!
     </h1>
 
     <div class="search-row">
@@ -49,10 +49,10 @@
   <a routerLink="/admin/giochi" class="menu-item">🎮 Gestione giochi</a>
 }
   <div class="sidebar-header">
-    <span class="user">👤 {{ user?.userid }}</span>
+    <span class="user">👤 {{ authService.currentUser()?.userid }}</span>
     <button class="theme-toggle" (click)="toggleTheme()">{{ isDark ? '🌙' : '☀️' }}</button>
   </div>
-  <div class="sidebar-item" style="--i:2" (click)="goToCredit()">💰 Credito € {{ user?.credito }}</div>
+  <div class="sidebar-item" style="--i:2" (click)="goToCredit()">💰 Credito € {{ authService.currentUser()?.credito }}</div>
   <div class="sidebar-item cart-item" style="--i:3" (click)="goToCart()">
     🛒 Carrello
     @if (cartCount() > 0) {
