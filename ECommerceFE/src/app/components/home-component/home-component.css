@@ -105,6 +105,7 @@
 
 /* HEADER SIDEBAR */
 .sidebar-header {
+  font-family: 'Inter', sans-serif;
     margin-bottom: 20px;
     font-weight: bold;
 }
