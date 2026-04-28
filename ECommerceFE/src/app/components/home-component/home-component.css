@@ -457,3 +457,27 @@
   font-size: 1.2rem;
   padding: 40px;
 }
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-btn {
+  padding: 6px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.admin-btn.edit {
+  background: #3498db;
+  color: white;
+}
+
+.admin-btn.delete {
+  background: #e74c3c;
+  color: white;
+}

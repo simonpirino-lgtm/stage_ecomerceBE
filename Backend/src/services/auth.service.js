@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const authRepo = require('../repositories/auth.repository');
 const ACCESS_TOK = process.env.JWT_SECRET || 'dev_access_secret';
 const REFRESH_TOK = process.env.JWT_REFRESH || 'dev_refresh_secret';
-
 const getUtenteByUserid = async (userid) => {
   return await Utenti.findOne({ where: { userid } });
 };
@@ -36,13 +35,13 @@ const login = async ({ userid, password }) => {
    // login correttoù
 
   const accessToken = jwt.sign(
-    {id :user.id, userid : user.userid},
+    {id :user.id, userid : user.userid, role : user.role},
     ACCESS_TOK,
     {expiresIn : '10m'}
   );
 
   const refreshToken =jwt.sign(
-    {id: user.id ,userid :user.userid, role : user.role},
+    {id: user.id ,userid :user.userid},
     REFRESH_TOK,
     {expiresIn : '7d'}
   );

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CarrelloService } from '../../services/carrello.service';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { GiochiAdminService } from '../../services/giochi-admin.service';
 
 @Component({
   selector: 'app-home-component',
@@ -45,6 +46,9 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
   private renderer = inject(Renderer2);
 
+  // 🔥 AGGIUNTA SOLO ADMIN SERVICE
+  private giochiAdminService = inject(GiochiAdminService);
+
   constructor(public theme: ThemeService) {}
 
   ngOnInit() {
@@ -77,7 +81,6 @@ export class HomeComponent implements OnInit {
     });
 
     this.caricaCartCount();
-    //this.menuIcon = document.querySelector('.menu-icon') as HTMLElement;
 
     this.giochiService.getGiochi().subscribe({
       next: (data) => {
@@ -172,6 +175,7 @@ export class HomeComponent implements OnInit {
     const centerY = rect.height / 2;
     const rotateX = ((y - centerY) / centerY) * -15;
     const rotateY = ((x - centerX) / centerX) * 15;
+
     this.transforms[gioco.id] =
       `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   }
@@ -211,9 +215,6 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => {
       this.renderer.removeChild(document.body, clone);
-
-      //this.createBurst(cartRect);
-
       this.renderer.addClass(menuIconEl, 'vibrate');
 
       setTimeout(() => {
@@ -222,21 +223,6 @@ export class HomeComponent implements OnInit {
         this.renderer.removeClass(menuIconEl, 'magnet');
       }, 300);
     }, 700);
-  }
-
-  createBurst(rect: DOMRect) {
-    const burst = this.renderer.createElement('div');
-
-    this.renderer.addClass(burst, 'cart-burst');
-
-    this.renderer.setStyle(burst, 'top', rect.top + rect.height / 2 - 80 + 'px');
-    this.renderer.setStyle(burst, 'left', rect.left + rect.width / 2 - 80 + 'px');
-
-    this.renderer.appendChild(document.body, burst);
-
-    setTimeout(() => {
-      this.renderer.removeChild(document.body, burst);
-    }, 600);
   }
 
   @ViewChild('titleEl') titleEl!: ElementRef;
@@ -289,14 +275,32 @@ export class HomeComponent implements OnInit {
     }, 650);
   }
 
-  ngAfterViewInit() {
-    //const el = this.titleEl.nativeElement;
+  // 🔥 ADMIN CHECK (AGGIUNTA MINIMA)
+  get isAdmin(): boolean {
+    return this.authService.currentUser()?.role === 'admin';
+  }
 
-    /* el.addEventListener('animationiteration', () => {
-      if (this.isLeaving) {
-        el.classList.remove('spin-left', 'spin-right');
-        this.isLeaving = false;
-      }
-    }); */
+  // 🔥 ADMIN ACTIONS (AGGIUNTE)
+  modifica(g: GiochiModel) {
+    if (!this.isAdmin) return;
+
+    this.router.navigate(['/admin/giochi'], {
+      state: { gioco: g }
+    });
+  }
+
+  elimina(g: GiochiModel) {
+    if (!this.isAdmin) return;
+
+    if (!confirm(`Eliminare ${g.titolo}?`)) return;
+
+    this.giochiAdminService.remove(g.id).subscribe({
+      next: () => {
+        this.giochiModel.update(list =>
+          list.filter(x => x.id !== g.id)
+        );
+      },
+      error: (err) => console.error(err)
+    });
   }
 }

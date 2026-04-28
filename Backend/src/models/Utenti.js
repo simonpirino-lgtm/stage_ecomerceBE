@@ -30,6 +30,11 @@ const Utenti = sequelize.define(
             unsigned: true,
             allowNull: false,
             defaultValue: '0.00',
+        },
+        role: {
+            type: DataTypes.ENUM('user', 'admin'),
+            allowNull: false,
+            defaultValue: 'user',
         }
     },
     {
