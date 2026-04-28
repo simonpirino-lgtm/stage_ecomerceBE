@@ -1,4 +1,4 @@
-const { OrdiniCarrello, Libreria, Giochi, Utenti } = require('../models');
+/* const { OrdiniCarrello, Libreria, Giochi, Utenti } = require('../models');
 const sequelize = require('../config/db');
 
 const IVA_PERCENTUALE = 0.22;
@@ -91,4 +91,4 @@ const checkout = async (utenteId) => {
   }
 };
 
-module.exports = { checkout };
+module.exports = { checkout }; */
