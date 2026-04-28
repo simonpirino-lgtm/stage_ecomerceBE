@@ -35,4 +35,22 @@ const getAllUtenti = async (req, res) => {
     }
 };
 
-module.exports = { updateProfile , getAllUtenti};
+const getUtentiRegalabili = async (req, res) => {
+  try {
+    // Chiama il service che restituisce tutti gli utenti tranne te stesso
+    const utenti = await utentiService.getUtentiRegalabili(
+      req.user.id,
+      req.params.idGioco
+    );
+
+    // Filtra chi ha già il gioco nella libreria
+    const regalabili = utenti.filter(u => !u.Libreria || u.Libreria.length === 0);
+
+    res.json(regalabili);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+module.exports = { updateProfile , getAllUtenti, getUtentiRegalabili};
