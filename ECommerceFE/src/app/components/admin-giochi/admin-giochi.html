@@ -62,7 +62,7 @@
           {{ g.descrizione }}
         </p>
 
-        @if (isAdmin) {
+        <!-- @if (isAdmin) {
           <div class="admin-actions">
 
             <button class="admin-btn edit" (click)="modifica(g)">
@@ -74,7 +74,20 @@
             </button>
 
           </div>
-        }
+        } -->
+          @if (!inEditing()) {
+            <div class="admin-actions">
+
+              <button class="admin-btn edit" (click)="modifica(g)">
+                ✏️
+              </button>
+
+              <button class="admin-btn delete" (click)="elimina(g)">
+                🗑️
+              </button>
+
+            </div>
+          }
 
       </div>
 

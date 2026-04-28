@@ -10,6 +10,12 @@
       Benvenuto, {{ authService.currentUser()?.userid }}!
     </h1>
 
+    @if (isAdmin) {
+    <button class="edit-global" (click)="goToAdmin()">
+        ✏️
+      </button>
+    }
+
     <div class="search-row">
 
       <input 
@@ -58,7 +64,7 @@
 
   @if (isAdmin) {
     <a routerLink="/admin/giochi" class="menu-item">
-      🎮 Gestione giochi
+      Admin Mode: On
     </a>
   }
 
@@ -82,6 +88,27 @@
 
   <div class="sidebar-item" (click)="goToLibrary()">📜 Libreria</div>
   <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
+
+
+  <!-- Icona campanella -->
+    <div class="bell" (click)="toggleNotifications()">
+      🔔
+      <span *ngIf="unreadCount() > 0" class="bell-badge">{{ unreadCount() }}</span>
+    </div>
+
+    <!-- Mostra notifiche -->
+    <div *ngIf="showNotifications" class="notifications-dropdown">
+      <ul>
+        <li *ngFor="let notifica of notifiche()">
+          <div>
+            <strong>{{ notifica.messaggio }}</strong>
+            <p>{{ notifica.data }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    
   <div class="sidebar-item logout" (click)="logout()">↪️ Logout</div>
 
 </div>
@@ -119,15 +146,6 @@
               (click)="aggiungiAlCarrello(gioco, gameImg)">
               Aggiungi al Carrello
             </button>
-
-            <!-- 🔥 ADMIN ACTIONS -->
-            @if (isAdmin) {
-              <div class="admin-actions">
-                <button (click)="modifica(gioco)">✏️</button>
-                <button (click)="elimina(gioco)">🗑️</button>
-              </div>
-            }
-
           </div>
 
         </div>
