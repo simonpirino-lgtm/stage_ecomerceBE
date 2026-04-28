@@ -69,7 +69,8 @@ export class HomeComponent implements OnInit {
         if (current) {
           const updatedUser = {
             ...current,
-            credito: res.credito
+            credito: res.credito,
+            role: res.role
           };
 
           this.authService.setCurrentUser(updatedUser);
@@ -302,5 +303,9 @@ export class HomeComponent implements OnInit {
       },
       error: (err) => console.error(err)
     });
+  }
+
+  goToAdmin() {
+    this.router.navigate(['/admin/giochi']);
   }
 }

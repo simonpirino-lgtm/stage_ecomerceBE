@@ -10,6 +10,12 @@
       Benvenuto, {{ authService.currentUser()?.userid }}!
     </h1>
 
+    @if (isAdmin) {
+    <button class="edit-global" (click)="goToAdmin()">
+        ✏️
+      </button>
+    }
+
     <div class="search-row">
 
       <input 
@@ -58,7 +64,7 @@
 
   @if (isAdmin) {
     <a routerLink="/admin/giochi" class="menu-item">
-      🎮 Gestione giochi
+      Admin Mode: On
     </a>
   }
 
@@ -119,15 +125,6 @@
               (click)="aggiungiAlCarrello(gioco, gameImg)">
               Aggiungi al Carrello
             </button>
-
-            <!-- 🔥 ADMIN ACTIONS -->
-            @if (isAdmin) {
-              <div class="admin-actions">
-                <button (click)="modifica(gioco)">✏️</button>
-                <button (click)="elimina(gioco)">🗑️</button>
-              </div>
-            }
-
           </div>
 
         </div>

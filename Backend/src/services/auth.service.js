@@ -68,7 +68,7 @@ const refresh = async (refreshToken) => {
 
   // 3. Genera il nuovo access token
   const newAccessToken = jwt.sign(
-    { id: user.id, userid: user.userid },
+    { id: user.id, userid: user.userid, role: user.role },
     ACCESS_TOK,
     { expiresIn: '10m' }
   );
@@ -100,7 +100,8 @@ const getMe = async (userId) => {
   return {
     id: user.id,
     userid: user.userid,
-    credito: Number(user.credito)
+    credito: Number(user.credito),
+    role: user.role
   };
 };
 
