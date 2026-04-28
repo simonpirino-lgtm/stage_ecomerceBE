@@ -13,6 +13,7 @@ export interface GiocoCarrello {
   sviluppatore: string;
   image_url: string;
   descrizione: string;
+  game_url: string;
   OrdiniCarrello: OrdiniCarrello; // Dati di giunzione (quantità)
 }
 

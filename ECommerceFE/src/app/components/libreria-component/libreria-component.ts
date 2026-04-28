@@ -79,7 +79,8 @@ export class LibreriaComponent implements OnInit {
 }
 
   scaricaGioco(gioco: any) {
-    this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
+    //this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
+    window.location.href = gioco.game_url;
   }
 
   getUtentiRegalabiliPerGioco(idGioco: number) {

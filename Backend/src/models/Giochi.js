@@ -48,6 +48,11 @@ const Giochi = sequelize.define(
         {
             type: DataTypes.STRING(5000),
             allowNull: false
+        },
+        game_url: 
+        {
+            type: DataTypes.TEXT,
+            allowNull: false
         }
     },
     {
