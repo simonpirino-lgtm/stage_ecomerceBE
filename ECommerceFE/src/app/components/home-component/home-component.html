@@ -10,13 +10,21 @@
       Benvenuto, {{ authService.currentUser()?.userid }}!
     </h1>
 
-    @if (isAdmin) {
+<!--     @if (isAdmin) {
     <button class="edit-global" (click)="goToAdmin()">
         ✏️
       </button>
-    }
+    } -->
 
     <div class="search-row">
+      @if (isAdmin) {
+        <!-- Nuovo pulsante matita a sinistra -->
+        <div class="edit-btn-container">
+          <button class="price-btn" (click)="goToAdmin()">
+            ✏️
+          </button>
+        </div>
+      }
 
       <input 
         type="text" 
@@ -62,35 +70,17 @@
 <!-- SIDEBAR -->
 <div class="sidebar" [class.open]="showMenu">
 
-  @if (isAdmin) {
-    <a routerLink="/admin/giochi" class="menu-item">
-      Admin Mode: On
-    </a>
-  }
-
   <div class="sidebar-header">
+    @if (isAdmin) {
+      <a routerLink="/admin/giochi" class="menu-item">
+        🛡️
+      </a>
+    }
     <span class="user">👤 {{ authService.currentUser()?.userid }}</span>
     <button class="theme-toggle" (click)="toggleTheme()">
       {{ isDark ? '🌙' : '☀️' }}
     </button>
-  </div>
-
-  <div class="sidebar-item" (click)="goToCredit()">
-    💰 Credito € {{ authService.currentUser()?.credito }}
-  </div>
-
-  <div class="sidebar-item cart-item" (click)="goToCart()">
-    🛒 Carrello
-    @if (cartCount() > 0) {
-      <span class="cart-badge">{{ cartCount() }}</span>
-    }
-  </div>
-
-  <div class="sidebar-item" (click)="goToLibrary()">📜 Libreria</div>
-  <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
-
-
-  <!-- Icona campanella -->
+    <!-- Icona campanella -->
     <div class="bell" (click)="toggleNotifications()">
       🔔
       <span *ngIf="unreadCount() > 0" class="bell-badge">{{ unreadCount() }}</span>
@@ -107,8 +97,25 @@
         </li>
       </ul>
     </div>
+  </div>
 
-    
+  
+
+  <div class="sidebar-item" (click)="goToCredit()">
+    💰 Credito € {{ authService.currentUser()?.credito }}
+  </div>
+
+  <div class="sidebar-item cart-item" (click)="goToCart()">
+    🛒 Carrello
+    @if (cartCount() > 0) {
+      <span class="cart-badge">{{ cartCount() }}</span>
+    }
+  </div>
+
+  <div class="sidebar-item" (click)="goToLibrary()">📚 Libreria</div>
+  <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
+
+
   <div class="sidebar-item logout" (click)="logout()">↪️ Logout</div>
 
 </div>
@@ -140,7 +147,7 @@
           <div class="card-content">
 
             <h2 class="game-title">{{gioco.titolo}}</h2>
-            <p class="price">€ {{gioco.prezzo}}</p>
+            <p class="price">€ {{gioco.prezzo}}</p><br>
 
             <button class="btn-add"
               (click)="aggiungiAlCarrello(gioco, gameImg)">

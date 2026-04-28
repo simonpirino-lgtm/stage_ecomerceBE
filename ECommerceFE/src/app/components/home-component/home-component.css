@@ -113,6 +113,7 @@
 .sidebar-item {
     padding: 12px;
     cursor: pointer;
+    font-family: 'Inter', sans-serif;
 
     opacity: 0;
     transform: translateX(20px);
@@ -480,4 +481,58 @@
 .admin-btn.delete {
   background: #e74c3c;
   color: white;
+}
+
+
+.bell {
+  position: relative;
+  z-index: 1000; /* più alto del dropdown */
+  cursor: pointer;
+}
+
+.notifications-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--bg-card-1);
+  color: var(--text-color);
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  padding: 10px;
+  z-index: 1000;  /* sopra altri elementi */
+}
+
+.notifications-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notifications-dropdown li {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background: var(--bg-card-2);
+  border-radius: 10px;
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.notifications-dropdown li:hover {
+  transform: translateX(5px);
+  background: var(--bg-card-3);
+}
+
+.notifications-dropdown li strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.notifications-dropdown li p {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin: 5px 0 0 0;
 }

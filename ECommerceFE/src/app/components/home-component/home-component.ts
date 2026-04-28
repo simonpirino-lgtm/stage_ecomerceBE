@@ -331,4 +331,17 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/admin/giochi']);
   }
 
+  @HostListener('document:click', ['$event'])
+  handleClickOutsideNotifications(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // Se il clic NON è sulla campanella né sul dropdown delle notifiche, chiudi il menu
+    const clickedInsideBell = target.closest('.bell');
+    const clickedInsideDropdown = target.closest('.notifications-dropdown');
+
+    if (!clickedInsideBell && !clickedInsideDropdown) {
+      this.showNotifications = false;
+    }
+  }
+
 }
