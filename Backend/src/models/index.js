@@ -7,6 +7,7 @@ const CheckoutRighe = require('./CheckoutRighe');
 const Checkout = require('./Checkout');
 const Magazzino = require('./Magazzino');
 const Libreria = require('./Libreria');
+const Notifiche = require('./Notifiche');
 
 
 /* const PonteGiochiCategorie = require('./PonteGiochiCategorie'); */
@@ -24,6 +25,8 @@ Carrello.belongsTo(Utenti, {
   },
   as: 'utente'
 }); */
+Utenti.hasMany(Notifiche, { foreignKey: 'id_utente' });
+Notifiche.belongsTo(Utenti, { foreignKey: 'id_utente' });
 
 Giochi.belongsToMany(Categoria, {
   through: 'ponte_giochi_categorie',
@@ -130,5 +133,6 @@ module.exports = {
   Checkout,
   CheckoutRighe,
   Magazzino,
-  Libreria
+  Libreria,
+  Notifiche
 };
