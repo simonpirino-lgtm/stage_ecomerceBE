@@ -75,18 +75,21 @@
     Gioca
   </button>
 
-  @if (item.quantita > 1) {
+  @if (utenti().length > 0) {
     <div class="gift-section" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
       
       <select [(ngModel)]="utenteSelezionato[item.id]" class="user-select">
         <option [ngValue]="null" disabled>Scegli un amico...</option>
-        
-        @for (u of utenti(); track u.id) {
-          <option [value]="u.id">
-            {{ u.userid }} </option>
+
+        <!-- FILTER: mostra solo utenti che NON hanno il gioco -->
+        @for (u of utenti().filter(u => !u.libreria?.some(l => l.id_gioco === item.gioco?.id)); track u.id) {
+          <option [ngValue]="u.id">
+            {{ u.userid }}
+          </option>
         } @empty {
-          <option disabled>Nessun amico trovato</option>
+          <option disabled>Nessun amico disponibile</option>
         }
+
       </select>
 
       <button class="gift-btn" (click)="eseguiRegalo(item)" [disabled]="!utenteSelezionato[item.id]">
