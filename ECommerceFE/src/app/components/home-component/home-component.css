@@ -113,6 +113,7 @@
 .sidebar-item {
     padding: 12px;
     cursor: pointer;
+    font-family: 'Inter', sans-serif;
 
     opacity: 0;
     transform: translateX(20px);
