@@ -32,7 +32,7 @@ export class AdminGiochiComponent {
     descrizione:   ['', Validators.required],
   });
 isAdmin: any;
-gioco: GiochiModel;
+/* gioco: GiochiModel; */
 
   ngOnInit() {
     this.carica();

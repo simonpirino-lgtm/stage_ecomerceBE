@@ -3,7 +3,7 @@
   <h1>🎮 Gestione Giochi</h1>
 
   <!-- FORM -->
-  <div class="form-container">
+  <div class="form-container" [class.editing]="inEditing()">
 
     <h2>
       {{ inEditing() ? 'Modifica Gioco' : 'Aggiungi Nuovo Gioco' }}
@@ -46,7 +46,7 @@
 
     @for (g of giochi(); track g.id) {
 
-      <div class="gioco-card">
+      <div class="gioco-card" [class.editing]="inEditing()?.id === g.id">
 
         <img [src]="g.image_url" alt="{{ g.titolo }}" />
 
@@ -62,21 +62,19 @@
           {{ g.descrizione }}
         </p>
 
-        <div class="admin-actions">
-          @if (isAdmin) {
-  <div class="admin-actions">
+        @if (isAdmin) {
+          <div class="admin-actions">
 
-    <button class="admin-btn edit" (click)="modifica(gioco)">
-      ✏️ Modifica
-    </button>
+            <button class="admin-btn edit" (click)="modifica(g)">
+              ✏️ Modifica
+            </button>
 
-    <button class="admin-btn delete" (click)="elimina(gioco)">
-      🗑️ Elimina
-    </button>
+            <button class="admin-btn delete" (click)="elimina(g)">
+              🗑️ Elimina
+            </button>
 
-  </div>
-}
-        </div>
+          </div>
+        }
 
       </div>
 
