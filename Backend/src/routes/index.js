@@ -10,6 +10,7 @@ const categorieRoutes = require('./categorie.route');
 const checkoutRoutes = require('./checkout.route');
 const libreriaRoute = require('./libreria.routes')
 const adminRoute = require('./admin.route');
+const notificheRoute = require('./notifiche.route')
 
 //router.use('/admin', adminRoute);
 
@@ -28,6 +29,8 @@ router.use('/checkout', checkoutRoutes);
 router.use('/categorie', categorieRoutes);
 
 router.use('/libreria', libreriaRoute);
+
+router.use('/notifiche', notificheRoute);
 
 
 module.exports = router;

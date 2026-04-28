@@ -61,20 +61,22 @@ export class LibreriaComponent implements OnInit {
   }
 
   eseguiRegalo(item: any) {
-    const destinatario = this.utenteSelezionato[item.id];
+  const destinatario = this.utenteSelezionato[item.id];
+  if (!destinatario) return;
 
-    if (!destinatario) return;
+  const conferma = confirm("Sei sicuro di voler regalare questo gioco?");
+  if (!conferma) return;
 
     this.giochiService.regalaGioco(destinatario, item.id_gioco).subscribe({
-      next: () => {
-        this.toastService.success("Gioco regalato con successo!");
-        this.caricaLibreria();
-      },
-      error: (err) => {
-        this.toastService.error("Errore: " + (err.error?.error || "Impossibile regalare"));
-      }
+        next: () => {
+          this.toastService.success("Gioco regalato con successo!");
+          this.caricaLibreria();
+        },
+        error: (err) => {
+          this.toastService.error("Errore: " + (err.error?.error || "Impossibile regalare"));
+        }
     });
-  }
+}
 
   scaricaGioco(gioco: any) {
     this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
