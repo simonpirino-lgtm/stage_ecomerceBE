@@ -12,7 +12,7 @@ const libreriaRoute = require('./libreria.routes')
 const adminRoute = require('./admin.route');
 const notificheRoute = require('./notifiche.route')
 
-//router.use('/admin', adminRoute);
+router.use('/admin', adminRoute);
 
 router.use('/utenti', utentiRoute);
 
