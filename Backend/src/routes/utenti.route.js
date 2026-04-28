@@ -19,4 +19,6 @@ router.patch('/update-me', verifyToken, utentiController.updateProfile);
 // Le tue rotte esistenti...  
 router.get('/all', verifyToken, utentiController.getAllUtenti);
 
+router.get('/regalabili/:idGioco', verifyToken, utentiController.getUtentiRegalabili);
+
 module.exports = router;

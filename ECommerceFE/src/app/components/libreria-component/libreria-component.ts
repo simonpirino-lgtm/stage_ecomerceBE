@@ -81,4 +81,10 @@ export class LibreriaComponent implements OnInit {
   scaricaGioco(gioco: any) {
     this.toastService.success(`Avvio del download di: ${gioco.titolo}`);
   }
+
+  getUtentiRegalabiliPerGioco(idGioco: number) {
+    return this.utenti().filter(u => 
+      !u.Libreria || !u.Libreria.some((l: { id_gioco: number }) => l.id_gioco === idGioco)
+    );
+  }
 }

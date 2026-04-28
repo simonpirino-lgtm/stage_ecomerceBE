@@ -58,5 +58,11 @@ const updateProfile = async (id, { newUserid, newPassword }) => {
     return await utentiRepository.updateUtente(id, updateData);
 };
 
+const getUtentiRegalabili = async (idMittente, idGioco) => {
+  const data = await utentiRepo.getUtentiRegalabili(idMittente, idGioco);
 
-module.exports = { register, login ,updateProfile};
+  return data.filter(u => !u.libreria || u.libreria.length === 0);
+};
+
+
+module.exports = { register, login , updateProfile, getUtentiRegalabili};
