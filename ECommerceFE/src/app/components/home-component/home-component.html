@@ -88,6 +88,27 @@
 
   <div class="sidebar-item" (click)="goToLibrary()">📜 Libreria</div>
   <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
+
+
+  <!-- Icona campanella -->
+    <div class="bell" (click)="toggleNotifications()">
+      🔔
+      <span *ngIf="unreadCount() > 0" class="bell-badge">{{ unreadCount() }}</span>
+    </div>
+
+    <!-- Mostra notifiche -->
+    <div *ngIf="showNotifications" class="notifications-dropdown">
+      <ul>
+        <li *ngFor="let notifica of notifiche()">
+          <div>
+            <strong>{{ notifica.messaggio }}</strong>
+            <p>{{ notifica.data }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    
   <div class="sidebar-item logout" (click)="logout()">↪️ Logout</div>
 
 </div>

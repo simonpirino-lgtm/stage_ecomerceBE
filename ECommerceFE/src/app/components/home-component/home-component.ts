@@ -8,6 +8,7 @@ import { CarrelloService } from '../../services/carrello.service';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
 import { GiochiAdminService } from '../../services/giochi-admin.service';
+import { NotificheService } from '../../services/notifiche.service';
 
 @Component({
   selector: 'app-home-component',
@@ -17,6 +18,13 @@ import { GiochiAdminService } from '../../services/giochi-admin.service';
   styleUrls: ['./home-component.css'],
 })
 export class HomeComponent implements OnInit {
+
+  showNotifications = false; // Variabile per controllare la visibilità del menu delle notifiche
+
+  // Metodo per alternare la visibilità del menu delle notifiche
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
+  }
 
   giochiModel = signal<GiochiModel[]>([]);
   searchTerm = signal('');
@@ -49,7 +57,15 @@ export class HomeComponent implements OnInit {
   // 🔥 AGGIUNTA SOLO ADMIN SERVICE
   private giochiAdminService = inject(GiochiAdminService);
 
+  notificheService = inject(NotificheService);
+
   constructor(public theme: ThemeService) {}
+
+  notifiche = this.notificheService.notifiche;
+
+  unreadCount = computed(() =>
+    this.notifiche().filter(n => !n.letto).length
+  );
 
   ngOnInit() {
     this.theme.init();
@@ -82,6 +98,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.caricaCartCount();
+    this.notificheService.load();
 
     this.giochiService.getGiochi().subscribe({
       next: (data) => {
@@ -94,6 +111,11 @@ export class HomeComponent implements OnInit {
         this.generi.set(categorie);
       }
     });
+
+
+    setInterval(() => {
+      this.notificheService.load();
+    }, 5000);
   }
 
   giochiFiltrati = computed(() => {
@@ -308,4 +330,5 @@ export class HomeComponent implements OnInit {
   goToAdmin() {
     this.router.navigate(['/admin/giochi']);
   }
+
 }

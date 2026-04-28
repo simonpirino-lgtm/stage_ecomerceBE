@@ -27,6 +27,8 @@ const regalaGiocoRepo = async (idMittente, idDestinatario, idGioco) => {
       throw new Error("Non hai copie sufficienti da regalare");
     }
 
+    const gioco = await Giochi.findByPk(idGioco, { transaction: t });
+
     // 2. Destinatario
     const recordDestinatario = await Libreria.findOne({
       where: { id_utente: idDestinatario, id_gioco: idGioco },
@@ -54,7 +56,7 @@ const regalaGiocoRepo = async (idMittente, idDestinatario, idGioco) => {
 
     await Notifiche.create({
         id_utente: idDestinatario,
-        messaggio: `Hai ricevuto un gioco in regalo!`
+        messaggio: `Hai ricevuto ${gioco.titolo} in regalo!`
     }, { transaction: t });
 
     await t.commit();
