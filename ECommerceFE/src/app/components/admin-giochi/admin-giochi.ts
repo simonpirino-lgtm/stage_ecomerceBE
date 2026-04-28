@@ -30,6 +30,7 @@ export class AdminGiochiComponent {
     sviluppatore:  ['', Validators.required],
     image_url:     ['', Validators.required],
     descrizione:   ['', Validators.required],
+    game_url:      ['', Validators.required]
   });
 isAdmin: any;
 

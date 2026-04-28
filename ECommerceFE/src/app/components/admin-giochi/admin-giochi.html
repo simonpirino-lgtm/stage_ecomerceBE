@@ -23,6 +23,8 @@
 
       <textarea formControlName="descrizione" placeholder="Descrizione"></textarea>
 
+      <input type="text" formControlName="game_url" placeholder="URL Gioco" />
+
       <div class="form-buttons">
 
         <button type="submit">
@@ -60,6 +62,10 @@
 
         <p class="descrizione">
           {{ g.descrizione }}
+        </p>
+
+        <p *ngIf="g.game_url">
+          <a [href]="g.game_url" target="_blank">Gioca ora</a>
         </p>
 
         <!-- @if (isAdmin) {

@@ -8,6 +8,7 @@ export interface GiochiModel {
   sviluppatore: string;
   image_url: string;
   descrizione: string;
+  game_url: string;
   categoria?: Categoria[];
 }
  /*"giochi": [
