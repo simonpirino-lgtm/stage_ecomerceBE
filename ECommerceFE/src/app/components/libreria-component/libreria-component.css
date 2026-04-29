@@ -7,7 +7,7 @@
     color: white;
 }
 
-/* LEFT */
+/* BACK BUTTON */
 .back-btn {
     background: transparent;
     border: 2px solid var(--menu-icon);
@@ -24,7 +24,7 @@
     color: white;
 }
 
-/* RIGHT */
+/* RIGHT HEADER */
 .right {
     display: flex;
     flex-direction: column;
@@ -102,11 +102,9 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    position: relative;
     cursor: pointer;
 }
 
-/* HOVER ESPANSIONE */
 .desc:hover {
     white-space: normal;
     overflow: visible;
@@ -122,10 +120,12 @@
     text-align: center;
 }
 
-/* ACTIONS */
+/* ACTIONS (🔥 ALLINEAMENTO PERFETTO) */
 .actions {
     display: flex;
+    align-items: center;
     gap: 10px;
+    flex-wrap: nowrap; /* evita che vadano a capo */
 }
 
 /* PLAY BUTTON */
@@ -133,28 +133,97 @@
     background: var(--btn-add-bg);
     color: var(--btn-add-col);
     border: none;
-    padding: 6px 12px;
+    padding: 0 12px;
+    height: 30px;
     border-radius: 8px;
     cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .play:hover {
     background: var(--btn-add-bg-h);
+    transform: scale(1.05);
+}
+
+/* GIFT SECTION */
+.gift-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* SELECT WRAPPER */
+.select-wrapper {
+    position: relative;
+    width: 120px;
+}
+
+/* SELECT */
+.user-select {
+    width: 100%;
+    height: 30px;
+    padding: 0 25px 0 8px;
+    border-radius: 8px;
+    border: 1px solid #00ffcc50;
+    background: var(--bg-card-1);
+    color: white;
+    font-size: 0.8rem;
+    appearance: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.user-select:hover {
+    border-color: #00ffcc;
+}
+
+.user-select:focus {
+    outline: none;
+    border-color: #00ffcc;
+    box-shadow: 0 0 5px #00ffcc80;
+}
+
+/* SELECT ICON */
+.select-icon {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 9px;
+    color: #00ffcc;
 }
 
 /* GIFT BUTTON */
-.gift {
-    background: transparent;
-    border: 1px solid #00ffcc;
-    color: #00ffcc;
-    padding: 6px 10px;
+.gift-btn {
+    background: linear-gradient(135deg, #00ffcc, #00ccaa);
+    color: black;
+    border: none;
+    padding: 0 10px;
+    height: 30px;
     border-radius: 8px;
+    font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.gift:hover {
-    background: #00ffcc;
-    color: black;
+.gift-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px #00ffcc80;
+}
+
+.gift-btn:disabled {
+    background: #555;
+    color: #aaa;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 /* EMPTY */
