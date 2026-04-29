@@ -19,4 +19,13 @@ export class NotificheService {
       error: (err) => console.error(err)
     });
   }
+
+
+  segnaComeLetta(id: number) {
+    return this.http.patch(`http://localhost:3000/api/v1/notifiche/${id}`, {});
+  }
+
+  segnaTutte() {
+    return this.http.patch(`http://localhost:3000/api/v1/notifiche`, {});
+  }
 }

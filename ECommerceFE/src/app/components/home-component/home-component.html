@@ -91,15 +91,38 @@
 
     <!-- Mostra notifiche -->
     <div *ngIf="showNotifications" class="notifications-dropdown">
+
+    <!-- HEADER -->
+    <div class="notif-header">
+      <span>Notifiche</span>
+      <button (click)="segnaTutteNotifiche()">Segna tutte</button>
+    </div>
+    
+    @if (notificheNonLette().length === 0) {
+      <div class="no-notifications">
+        Nessuna notifica.
+      </div>
+    } @else {
       <ul>
-        <li *ngFor="let notifica of notifiche()" (click)="goToLibraryFromNotification()">
-          <div>
+        <li *ngFor="let notifica of notificheNonLette()">
+
+          <div class="notif-content" (click)="goToLibraryFromNotification()">
             <strong>{{ notifica.messaggio }}</strong>
-            <p>{{ notifica.data }}</p>
+            <p>{{ notifica.createdAt | date:'short' }}</p>
           </div>
+
+          <!-- ❌ BOTTONE SINGOLO -->
+          <span 
+            class="close-btn"
+            (click)="segnaNotificaLetta(notifica.id); $event.stopPropagation()">
+            ✖
+          </span>
+
         </li>
       </ul>
-    </div>
+    }
+
+  </div>
   </div>
 
   

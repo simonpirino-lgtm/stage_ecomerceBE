@@ -361,6 +361,22 @@ export class HomeComponent implements OnInit {
     window.location.reload();
   }
 
+  notificheNonLette = computed(() => 
+    this.notifiche().filter(n => !n.letto)
+  );
+
+  segnaNotificaLetta(id: number) {
+    this.notificheService.segnaComeLetta(id).subscribe({
+      next: () => this.notificheService.load()
+    });
+  }
+
+  segnaTutteNotifiche() {
+    this.notificheService.segnaTutte().subscribe({
+      next: () => this.notificheService.load()
+    });
+  }
+
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: Event) {
     const target = event.target as HTMLElement;

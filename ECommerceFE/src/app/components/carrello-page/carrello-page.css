@@ -420,3 +420,41 @@
     50% { transform: translateY(-6px); }
     100% { transform: translateY(0); }
 }
+
+
+/* .trash-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.2s ease;
+}
+
+.trash-btn:hover {
+  transform: scale(1.2);
+  color: #ff4a4a;
+} */
+
+
+
+.cart-card {
+  position: relative;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  cursor: pointer;
+  font-size: 14px;
+  color: #999;
+
+  transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+  color: red;
+  transform: scale(1.2);
+}
