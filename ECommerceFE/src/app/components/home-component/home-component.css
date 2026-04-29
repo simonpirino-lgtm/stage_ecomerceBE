@@ -582,6 +582,13 @@
   color: red;
 }
 
+.no-notifications {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #a89595;
+}
+
 /* TEMA */
 
 .theme-switch {

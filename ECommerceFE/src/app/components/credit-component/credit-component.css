@@ -156,5 +156,6 @@
 .credit-box p {
   margin-top: 12px;
   font-size: 14px;
-  color: #333;
+  color: var(--login-link);
+  font-family: 'Orbitron', sans-serif;
 }
