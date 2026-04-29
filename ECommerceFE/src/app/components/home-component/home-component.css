@@ -84,7 +84,7 @@
     background: var(--sidebar-bg);
     color: white;
     padding: 20px;
-    z-index: 1000;
+    z-index: 5000;
 
     /* FIX ANIMAZIONE STABILE */
     transform: translateX(100%);
@@ -684,4 +684,50 @@
 
 .back-to-top {
     animation: fadeIn 0.3s ease-out;
+}
+
+
+
+
+
+
+
+.header-mini {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 20px;
+  background: var(--bg-header);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
+  z-index: 3000;
+
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.header-mini.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* LOGO PICCOLO */
+.logo-mini img {
+  height: 40px;
+  cursor: pointer;
+}
+
+/* MENU ICON PICCOLA */
+.menu-icon-mini {
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--menu-icon-2);
 }
