@@ -39,6 +39,15 @@
   --price-popup: #222;
   --price-popup-c: #e9e9e9;
 
+  --credit-text: #272a16;
+
+  --credit-hover: #272a16;
+
+  --credit-box: #d4ff78;
+  --credit-box-btn: #433412;
+  --credit-box-btn-bg: #fcbf25;
+  --credit-box-btn-bg-h: #1b5ed6;
+
   --hover-bright: 1.15;
 }
 
@@ -83,6 +92,15 @@ body.dark-theme {
 
   --price-popup: #e9e9e9;
   --price-popup-c: #2a2929;
+
+  --credit-text: #6376b7; 
+
+  --credit-hover: #6376b7;
+
+  --credit-box: #666863;
+  --credit-box-btn: #ffffff;
+  --credit-box-btn-bg: #1b5ed6;
+  --credit-box-btn-bg-h: #fcbf25;
 
   --hover-bright: 1.3;
 }

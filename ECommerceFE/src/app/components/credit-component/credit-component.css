@@ -59,12 +59,16 @@
   color: var(--login-link);
 }
 
+.credit-text {
+  color: var(--credit-text);
+}
+
 .credit-value {
-  color: #57194b;
+  color: var(--text-color);
 }
 
 .credit-value:hover {
-  color: #6376b7;
+  color: var(--credit-hover);
 }
 
 .item-count {
@@ -80,7 +84,7 @@
   width: 100%;
   max-width: 360px;
 
-  background: rgb(212, 255, 120);
+  background: var(--credit-box);
   padding: 25px;
   border-radius: 16px;
 
@@ -92,6 +96,7 @@
 .credit-box h3 {
   font-size: 20px;
   margin-bottom: 20px;
+  color: var(--login-link);
 }
 
 /* INPUT */
@@ -120,8 +125,8 @@
   border: none;
   border-radius: 10px;
 
-  background: #fcbf25;
-  color: rgb(67, 52, 18);
+  background: var(--credit-box-btn-bg);
+  color: var(--credit-box-btn);
 
   font-size: 16px;
   font-weight: 600;
@@ -132,7 +137,7 @@
 }
 
 .credit-box button:hover {
-  background: #1b5ed6;
+  background: var(--credit-box-btn-bg-h);
   transform: translateY(-1px);
 }
 

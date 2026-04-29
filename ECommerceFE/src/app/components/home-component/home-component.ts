@@ -165,14 +165,6 @@ export class HomeComponent implements OnInit {
     this.showMenu = !this.showMenu;
   }
 
-  @HostListener('document:click', ['$event'])
-  handleClick(event: Event) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.sidebar') && !target.closest('.menu-icon')) {
-      this.showMenu = false;
-    }
-  }
-
   goToProfile() { this.router.navigate(['/account']); this.showMenu = false; }
   goToCart() { this.router.navigate(['/carrello']); this.showMenu = false; }
   goToCredit() { this.router.navigate(['/credito']); }
@@ -354,11 +346,23 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  refreshHome() {
+    window.location.reload();
+  }
+
   @HostListener('document:click', ['$event'])
-  handleClickOutsideNotifications(event: Event) {
+  handleDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
 
-    // Se il clic NON è sulla campanella né sul dropdown delle notifiche, chiudi il menu
+    // Sidebar
+    const clickedInsideSidebar = target.closest('.sidebar');
+    const clickedMenuIcon = target.closest('.menu-icon');
+
+    if (!clickedInsideSidebar && !clickedMenuIcon) {
+      this.showMenu = false;
+    }
+
+    // Notifiche
     const clickedInsideBell = target.closest('.bell');
     const clickedInsideDropdown = target.closest('.notifications-dropdown');
 

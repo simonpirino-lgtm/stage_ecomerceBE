@@ -133,9 +133,10 @@ export class CarrelloPageComponent implements OnInit {
       },
       error: (err) => {
         console.error("Errore checkout", err);
-        this.toastService.success(
+        this.toastService.error(
           "Errore durante l'acquisto: " + (err.error?.error || "Credito insufficiente")
         );
+        window.alert(err.error?.error || "Credito insufficiente");
       }
     });
   }
