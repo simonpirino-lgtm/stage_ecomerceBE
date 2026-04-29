@@ -53,12 +53,13 @@
 
         @if (showPriceFilter) {
           <div class="price-popup">
-            <label>Prezzo max: {{ maxPrice() }}€</label>
+            <label>Prezzo max: {{ maxPrice().toFixed(2) }}€ / {{ maxPriceLimit().toFixed(2) }}€</label>
 
             <input
               type="range"
               min="0"
-              max="60"
+              [max]="maxPriceLimit()"
+              step="0.01"
               [ngModel]="maxPrice()"
               (ngModelChange)="maxPrice.set($event)"
             />

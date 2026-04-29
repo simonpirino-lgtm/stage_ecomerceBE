@@ -35,7 +35,14 @@ export class HomeComponent implements OnInit {
   searchTerm = signal('');
   transforms: { [id: number]: string } = {};
 
-  maxPrice = signal(60);
+  maxPrice = signal(0); // valore selezionato
+
+  maxPriceLimit = computed(() => {
+  const giochi = this.giochiModel();
+  if (!giochi.length) return 60;
+
+  return Math.max(...giochi.map(g => g.prezzo));
+  });
 
   authService = inject(AuthService);
   cartCount = signal(0);
@@ -119,6 +126,9 @@ export class HomeComponent implements OnInit {
     this.giochiService.getGiochi().subscribe({
       next: (data) => {
         this.giochiModel.set(data);
+
+        const max = Math.max(...data.map(g => g.prezzo));
+        this.maxPrice.set(max);
       }
     });
 
