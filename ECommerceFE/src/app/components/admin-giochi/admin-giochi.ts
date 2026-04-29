@@ -67,6 +67,11 @@ isAdmin: any;
   modifica(g: GiochiModel) {
     this.inEditing.set(g);
     this.form.patchValue(g);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
   elimina(g: GiochiModel) {

@@ -122,7 +122,7 @@
     transition: transform 2.6s ease, opacity 0.6s ease;
 }
 
-.sidebar-item:not(.logout):hover {
+.sidebar-item:not(.logout):not(.theme-switch):hover {
     background: var(--sidebar-h);
     margin-left: 2%;
 }
@@ -536,4 +536,61 @@
   font-size: 0.8rem;
   color: var(--text-color);
   margin: 5px 0 0 0;
+}
+
+.theme-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 5%;
+  width: 100%;
+}
+
+/* CONTENITORE */
+.switch {
+  position: relative;
+  width: 70px;
+  height: 32px;
+  background: #222;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  justify-content: flex-start;
+  margin-left: 8%;
+  margin-top: 5%;
+}
+
+/* pallino */
+.toggle {
+  width: 26px;
+  height: 26px;
+  background: white;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+/* quando attivo sposta il pallino */
+.switch.active .toggle {
+  transform: translateX(calc(70px - 26px - 6px));
+}
+
+/* icona dentro il pallino */
+.icon {
+  font-size: 14px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* animazione cambio icona */
+.switch.active .icon {
+  transform: rotate(360deg) scale(1.2);
 }
