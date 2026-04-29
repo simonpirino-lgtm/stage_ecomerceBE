@@ -27,7 +27,7 @@ export class CreditComponent {
 
   ngOnInit() {
     this.theme.init();
-    //this.loadCredit();
+    this.loadCredit();
   }
 
   /* loadCredit() {
@@ -75,6 +75,7 @@ export class CreditComponent {
 
       this.message.set('Credito aggiornato: ' + res.credito);
       this.amount.set(0);
+      this.loadCredit();
     },
       error: (err) => {
        

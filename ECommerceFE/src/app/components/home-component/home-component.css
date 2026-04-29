@@ -9,7 +9,7 @@
 }
 
 /* MENU */
-.menu-icon {
+/* .menu-icon {
     position: fixed;
     right: 20px;
     top: 12%;
@@ -19,6 +19,18 @@
     color: var(--menu-icon-2);
     z-index: 999;
     box-shadow: 0px 0px 0px 3px var(--menu-icon);
+} */
+ .menu-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 28px;
+  cursor: pointer;
+
+  color: var(--menu-icon-2);
+  z-index: 999;
 }
 
 /* CENTRO */
@@ -564,6 +576,22 @@
   margin-top: 5%;
 }
 
+.theme-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.theme-full span {
+  display: flex;
+  align-items: center;
+  height: 32px;          /* uguale all'altezza dello switch */
+  line-height: 32px;    /* centra il testo verticalmente */
+  opacity: 0.9;
+  margin-top: 5%;
+}
+
 /* pallino */
 .toggle {
   width: 26px;
@@ -574,6 +602,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
 
   transform: translateX(0);
   transition: transform 0.35s cubic-bezier(.68,-0.55,.27,1.55);
@@ -593,4 +622,66 @@
 /* animazione cambio icona */
 .switch.active .icon {
   transform: rotate(360deg) scale(1.2);
+}
+
+.logo {
+  position: absolute;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 60px;        /* regola principale */
+  width: auto;         /* mantiene proporzioni */
+  object-fit: contain; /* evita deformazioni */
+
+  border-radius: 10px; /* opzionale */
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Pulsante Torna Su */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--price-btn-m); /* Usa le tue variabili esistenti */
+    color: var(--text-color-b);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    z-index: 2000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.back-to-top:hover {
+    transform: scale(1.1);
+    background-color: var(--btn-add-bg-h); /* Colore hover coerente */
+}
+
+.back-to-top:active {
+    transform: scale(0.9);
+}
+
+/* Animazione di comparsa semplice (opzionale se non usi Angular Animations) */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-to-top {
+    animation: fadeIn 0.3s ease-out;
 }

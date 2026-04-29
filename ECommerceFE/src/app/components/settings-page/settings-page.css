@@ -4,18 +4,23 @@
 
 .page-wrapper {
   min-height: 100vh;
-  background: #ff6427;
+  background: var(--bg-main);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 20px;
 }
 
+.title {
+  color: var(--login-link);
+}
+
 .credit-box {
   width: 100%;
   max-width: 380px;
+  margin-top: 20px;
 
-  background: linear-gradient(145deg, #d4ff78, #c8f36a);
+  background: var(--bg-header2);
   padding: 28px;
 
   border-radius: 20px;
@@ -136,7 +141,7 @@ input:focus {
 .save-btn {
   width: 100%;
   padding: 15px;
-  background: #fcbf25;
+  background: var(--credit-box-btn-bg);
   border: none;
   border-radius: 12px;
   font-weight: 800;
@@ -145,7 +150,7 @@ input:focus {
   transition: 0.3s;
 }
 
-.save-btn:hover { background: #1b5ed6; color: white; transform: translateY(-2px); }
+.save-btn:hover { background: var(--credit-box-btn-bg-h); color: white; transform: translateY(-2px); }
 
 .save-btn:active {
   scale: 0.90;

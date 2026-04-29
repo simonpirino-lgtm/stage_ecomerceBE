@@ -1,11 +1,13 @@
 <div class="header-section">
 
-  <div class="logo" (click)="goToHome()">
-    <img src="../assets/logo.jpg" alt="Logo">
+  <div class="logo" (click)="refreshHome()">
+    <img src="logo.jpg" alt="Logo">
   </div>
 
 
-  <div #menuIcon class="menu-icon" (click)="toggleMenu($event)">☰</div>
+  <div #menuIcon class="menu-icon" (click)="toggleMenu($event)">
+    <i class="fa-solid fa-bars"></i>
+  </div>
 
   <div class="nomecarrello">
     <!-- <h1 #titleEl class="title animated-title"
@@ -116,12 +118,14 @@
   <div class="sidebar-item" (click)="goToLibrary()">📚 Libreria</div>
   <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
 
-  <div class="switch" [class.active]="isDark" (click)="toggleTheme()">
+  <div class="theme-full">
+  <span>Tema: </span><div class="switch" [class.active]="isDark" (click)="toggleTheme()">
     <div class="toggle">
       <span class="icon">
         {{ isDark ? '🌙' : '☀️' }}
       </span>
     </div>
+  </div>
   </div>
 
 
@@ -170,4 +174,10 @@
     }
 
   </div>
+  
+  @if (showScrollButton) {
+    <button class="back-to-top" (click)="scrollToTop()" [@fadeInOut]>
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+  }
 </div>
