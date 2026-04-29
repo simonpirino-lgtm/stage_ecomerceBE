@@ -66,40 +66,56 @@
             </td>
 
             <!-- QUANTITA -->
-            <td>
+            <td class="qty">
               {{ item.quantita }}
             </td>
 
-<td class="actions">
-  <button class="play" (click)="scaricaGioco(item.gioco)">
-    Gioca
+            <!-- AZIONI -->
+            <td class="actions">
 
-  </button>
+              <!-- GIOCA -->
+              <button class="play" (click)="scaricaGioco(item.gioco)">
+                🎮
+              </button>
 
-  @if (utenti().length > 0) {
-    <div class="gift-section" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
-      
-      <select [(ngModel)]="utenteSelezionato[item.id]" class="user-select">
-        <option [ngValue]="null" disabled>Scegli un amico...</option>
+              @if (utenti().length > 0) {
 
-        <!-- FILTER: mostra solo utenti che NON hanno il gioco -->
-        @for (u of utenti().filter(u => !u.libreria?.some(l => l.id_gioco === item.gioco?.id)); track u.id) {
-          <option [ngValue]="u.id">
-            {{ u.userid }}
-          </option>
-        } @empty {
-          <option disabled>Nessun amico disponibile</option>
-        }
+                <!-- REGALO INLINE -->
+                <div class="gift-section">
 
-      </select>
+                  <!-- SELECT -->
+                  <div class="select-wrapper">
+                    <select [(ngModel)]="utenteSelezionato[item.id]" class="user-select">
+                      
+                      <option [ngValue]="null" disabled selected>
+                        👤 Amico
+                      </option>
 
-      <button class="gift-btn" (click)="eseguiRegalo(item)" [disabled]="!utenteSelezionato[item.id]">
-        🎁 Regala Copia
-      </button>
+                      @for (u of utenti().filter(u => !u.libreria?.some(l => l.id_gioco === item.gioco?.id)); track u.id) {
+                        <option [ngValue]="u.id">
+                          {{ u.userid }}
+                        </option>
+                      } @empty {
+                        <option disabled>Nessuno</option>
+                      }
 
-    </div>
-  }
-</td>
+                    </select>
+
+                    <span class="select-icon">▼</span>
+                  </div>
+
+                  <!-- BOTTONE REGALO -->
+                  <button 
+                    class="gift-btn"
+                    (click)="eseguiRegalo(item)" 
+                    [disabled]="!utenteSelezionato[item.id]">
+                    🎁
+                  </button>
+
+                </div>
+              }
+
+            </td>
 
           </tr>
         } @empty {

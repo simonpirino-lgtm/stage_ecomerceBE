@@ -68,16 +68,18 @@
           {{ g.descrizione }}
         </p>
 
-        @if (g.game_url) {
-          <p>
-            <a [href]="g.game_url" target="_blank">Gioca ora</a>
-          </p>
-        }
-
         @if (!inEditing()) {
           <div class="admin-actions">
             <button class="admin-btn edit" (click)="modifica(g)">✏️</button>
             <button class="admin-btn delete" (click)="elimina(g)">🗑️</button>
+          </div>
+        }
+
+        @if (g.game_url) {
+          <div class="admin-actions">
+            <a [href]="g.game_url" target="_blank" class="admin-btn play">
+              ▶ Gioca
+            </a>
           </div>
         }
 

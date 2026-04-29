@@ -321,3 +321,22 @@
   display: flex;
   gap: 10px;
 }
+
+
+/* PLAY BUTTON */
+.admin-btn.play {
+  background: #2ecc71;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.admin-btn.play:hover {
+  background: #27ae60;
+  transform: scale(1.05);
+}
