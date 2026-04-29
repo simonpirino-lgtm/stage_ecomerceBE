@@ -6,6 +6,9 @@
 
   <h1>🎮 Gestione Giochi</h1>
 
+  <!-- 🔍 SEARCH BAR -->
+  
+
   <!-- FORM -->
   <div class="form-container" [class.editing]="inEditing()">
 
@@ -16,21 +19,14 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
       <input type="text" formControlName="titolo" placeholder="Titolo" />
-
       <input type="number" formControlName="prezzo" placeholder="Prezzo" />
-
       <input type="date" formControlName="datarilascio" />
-
       <input type="text" formControlName="sviluppatore" placeholder="Sviluppatore" />
-
       <input type="text" formControlName="image_url" placeholder="URL Immagine" />
-
       <textarea formControlName="descrizione" placeholder="Descrizione"></textarea>
-
       <input type="text" formControlName="game_url" placeholder="URL Gioco" />
 
       <div class="form-buttons">
-
         <button type="submit">
           {{ inEditing() ? 'Aggiorna' : 'Crea' }}
         </button>
@@ -40,17 +36,21 @@
             Annulla
           </button>
         }
-
       </div>
 
     </form>
-
   </div>
-
-  <!-- LISTA GIOCHI -->
+<input
+    class="search-bar"
+    type="text"
+    placeholder="Cerca gioco..."
+    [value]="search()"
+    (input)="search.set($any($event.target).value)"
+  />
+  <!-- LISTA -->
   <div class="giochi-list">
 
-    @for (g of giochi(); track g.id) {
+    @for (g of giochiFiltrati(); track g.id) {
 
       <div class="gioco-card" [class.editing]="inEditing()?.id === g.id">
 
@@ -74,32 +74,12 @@
           </p>
         }
 
-        <!-- @if (isAdmin) {
+        @if (!inEditing()) {
           <div class="admin-actions">
-
-            <button class="admin-btn edit" (click)="modifica(g)">
-              ✏️ Modifica
-            </button>
-
-            <button class="admin-btn delete" (click)="elimina(g)">
-              🗑️ Elimina
-            </button>
-
+            <button class="admin-btn edit" (click)="modifica(g)">✏️</button>
+            <button class="admin-btn delete" (click)="elimina(g)">🗑️</button>
           </div>
-        } -->
-          @if (!inEditing()) {
-            <div class="admin-actions">
-
-              <button class="admin-btn edit" (click)="modifica(g)">
-                ✏️
-              </button>
-
-              <button class="admin-btn delete" (click)="elimina(g)">
-                🗑️
-              </button>
-
-            </div>
-          }
+        }
 
       </div>
 
