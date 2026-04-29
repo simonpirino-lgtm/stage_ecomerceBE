@@ -1,9 +1,16 @@
 <div class="cart-wrapper">
   <div class="header-section">
-      <button class="back-button" [routerLink]="['/home']">
-        <i class="fas fa-arrow-left arrow"></i>
-      </button>
+    <button class="back-button" [routerLink]="['/home']">
+      <i class="fas fa-arrow-left arrow"></i>
+    </button>
+
     <h1 class="title">Il Tuo Carrello</h1>
+
+    <!-- 🗑️ NUOVO -->
+    <!-- <button class="trash-btn" (click)="svuotaCarrello()">
+      🗑️
+    </button> -->
+
     <div class="item-count">{{ totaleArticoli() }} Giochi pronti</div>
   </div>
 
@@ -36,6 +43,10 @@
         </div>
 
         <p class="cart-price-tot">€ {{ (item.gioco.prezzo * item.quantita).toFixed(2) }}</p>
+
+        <div class="remove-btn" (click)="rimuovi(item.id)">
+          ✖
+        </div>
 
       </div>
 
