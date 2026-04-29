@@ -68,9 +68,11 @@
           {{ g.descrizione }}
         </p>
 
-        <p *ngIf="g.game_url">
-          <a [href]="g.game_url" target="_blank">Gioca ora</a>
-        </p>
+        @if (g.game_url) {
+          <p>
+            <a [href]="g.game_url" target="_blank">Gioca ora</a>
+          </p>
+        }
 
         <!-- @if (isAdmin) {
           <div class="admin-actions">
