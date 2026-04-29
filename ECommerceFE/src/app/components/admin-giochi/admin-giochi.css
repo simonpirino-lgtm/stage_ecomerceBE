@@ -288,3 +288,36 @@
 .back-btn svg {
   fill: #1b5ed6;
 }
+/* 🔍 SEARCH BAR */
+.search-bar {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+  background: #2b2b2b;
+  color: white;
+  outline: none;
+}
+
+/* 🔥 CARD FIX */
+.gioco-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 🔥 questo risolve il problema */
+  height: 100%;
+}
+
+/* DESCRIZIONE NON SPINGE PIÙ I BOTTONI */
+.descrizione {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  flex-grow: 1; /* 🔥 occupa spazio senza spingere i bottoni fuori */
+}
+
+/* ACTIONS SEMPRE IN BASSO */
+.admin-actions {
+  margin-top: auto; /* 🔥 blocca in basso */
+  display: flex;
+  gap: 10px;
+}
