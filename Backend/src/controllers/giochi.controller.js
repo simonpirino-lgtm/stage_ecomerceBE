@@ -38,14 +38,14 @@ const getGamesByCategory = async (req, res) => {
 };
 const create = async (req, res) => {
     try {
-        const { titolo, prezzo, datarilascio, sviluppatore, image_url, descrizione } = req.body;
+        const { titolo, prezzo, datarilascio, sviluppatore, image_url, descrizione, game_url } = req.body;
 
         // Validazione minima
         if (!titolo || prezzo === undefined || prezzo < 0) {
             return res.status(400).json({ message: 'Titolo e prezzo (>=0) sono obbligatori' });
         }
 
-        const nuovo = await giochiServizio.create({ titolo, prezzo, datarilascio, sviluppatore, image_url, descrizione });
+        const nuovo = await giochiServizio.create({ titolo, prezzo, datarilascio, sviluppatore, image_url, descrizione, game_url });
         return res.status(201).json({ gioco: nuovo });
     } catch (error) {
         console.error(error);

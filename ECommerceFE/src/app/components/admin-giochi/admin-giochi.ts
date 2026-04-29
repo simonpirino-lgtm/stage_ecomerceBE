@@ -44,6 +44,7 @@ isAdmin: any;
   }
 
   onSubmit() {
+    console.log(this.form.value, this.form.valid);
     if (this.form.invalid) return;
 
     const payload = this.form.getRawValue();
