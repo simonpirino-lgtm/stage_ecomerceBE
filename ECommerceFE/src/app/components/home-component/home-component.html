@@ -78,9 +78,9 @@
       </a>
     }
     <span class="user">👤 {{ authService.currentUser()?.userid }}</span>
-    <button class="theme-toggle" (click)="toggleTheme()">
+    <!-- <button class="theme-toggle" (click)="toggleTheme()">
       {{ isDark ? '🌙' : '☀️' }}
-    </button>
+    </button> -->
     <!-- Icona campanella -->
     <div class="bell" (click)="toggleNotifications()">
       🔔
@@ -115,6 +115,14 @@
 
   <div class="sidebar-item" (click)="goToLibrary()">📚 Libreria</div>
   <div class="sidebar-item" (click)="goToProfile()">⚙️ Account</div>
+
+  <div class="switch" [class.active]="isDark" (click)="toggleTheme()">
+    <div class="toggle">
+      <span class="icon">
+        {{ isDark ? '🌙' : '☀️' }}
+      </span>
+    </div>
+  </div>
 
 
   <div class="sidebar-item logout" (click)="logout()">↪️ Logout</div>

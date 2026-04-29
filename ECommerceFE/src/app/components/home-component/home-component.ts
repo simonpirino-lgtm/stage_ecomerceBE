@@ -291,7 +291,7 @@ export class HomeComponent implements OnInit {
     this.showPriceFilter = !this.showPriceFilter;
   }
 
-  toggleTheme() {
+  /* toggleTheme() {
     this.renderer.addClass(document.body, 'theme-switching');
 
     setTimeout(() => {
@@ -301,7 +301,17 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.renderer.removeClass(document.body, 'theme-switching');
     }, 650);
+  } */
+  toggleTheme() {
+    this.renderer.addClass(document.body, 'theme-switching');
+
+    this.isDark = this.theme.toggle();
+
+    setTimeout(() => {
+      this.renderer.removeClass(document.body, 'theme-switching');
+    }, 600);
   }
+
 
   // 🔥 ADMIN CHECK (AGGIUNTA MINIMA)
   get isAdmin(): boolean {
