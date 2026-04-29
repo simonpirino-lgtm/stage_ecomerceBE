@@ -1,5 +1,9 @@
 <div class="admin-container">
 
+  <button class="back-btn" [routerLink]="['/home']">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+
   <h1>🎮 Gestione Giochi</h1>
 
   <!-- FORM -->
@@ -64,9 +68,11 @@
           {{ g.descrizione }}
         </p>
 
-        <p *ngIf="g.game_url">
-          <a [href]="g.game_url" target="_blank">Gioca ora</a>
-        </p>
+        @if (g.game_url) {
+          <p>
+            <a [href]="g.game_url" target="_blank">Gioca ora</a>
+          </p>
+        }
 
         <!-- @if (isAdmin) {
           <div class="admin-actions">

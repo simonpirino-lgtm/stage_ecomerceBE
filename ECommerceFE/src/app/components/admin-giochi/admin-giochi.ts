@@ -5,12 +5,13 @@ import { GiochiService } from '../../services/giochi-service';
 import { GiochiAdminService } from '../../services/giochi-admin.service';
 import { ToastService } from '../../services/toast.service'; // Ora funzionerà
 import { GiochiModel } from '../../models/giochi-model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin-giochi',
   standalone: true,
   // Aggiungi CurrencyPipe qui per risolvere l'errore NG8004
-  imports: [ReactiveFormsModule, CurrencyPipe], 
+  imports: [ReactiveFormsModule, CurrencyPipe, RouterLink], 
   templateUrl: './admin-giochi.html',
   styleUrl: './admin-giochi.css',
 })

@@ -1,14 +1,20 @@
 <div class="header-section">
+
+  <div class="logo" (click)="goToHome()">
+    <img src="../assets/logo.jpg" alt="Logo">
+  </div>
+
+
   <div #menuIcon class="menu-icon" (click)="toggleMenu($event)">☰</div>
 
   <div class="nomecarrello">
-    <h1 #titleEl class="title animated-title"
+    <!-- <h1 #titleEl class="title animated-title"
       (mouseenter)="onHover($event)"
       (mousemove)="onMoveTitle($event)"
       (mouseleave)="onLeave()">
 
       Benvenuto, {{ authService.currentUser()?.userid }}!
-    </h1>
+    </h1> -->
 
 
     <div class="search-row">
@@ -84,7 +90,7 @@
     <!-- Mostra notifiche -->
     <div *ngIf="showNotifications" class="notifications-dropdown">
       <ul>
-        <li *ngFor="let notifica of notifiche()">
+        <li *ngFor="let notifica of notifiche()" (click)="goToLibraryFromNotification()">
           <div>
             <strong>{{ notifica.messaggio }}</strong>
             <p>{{ notifica.data }}</p>
