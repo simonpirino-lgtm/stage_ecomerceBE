@@ -5,7 +5,9 @@
   </div>
 
 
-  <div #menuIcon class="menu-icon" (click)="toggleMenu($event)">☰</div>
+  <div #menuIcon class="menu-icon" (click)="toggleMenu($event)">
+    <i class="fa-solid fa-bars"></i>
+  </div>
 
   <div class="nomecarrello">
     <!-- <h1 #titleEl class="title animated-title"
@@ -172,4 +174,10 @@
     }
 
   </div>
+  
+  @if (showScrollButton) {
+    <button class="back-to-top" (click)="scrollToTop()" [@fadeInOut]>
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+  }
 </div>

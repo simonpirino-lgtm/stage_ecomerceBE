@@ -43,6 +43,15 @@ export class HomeComponent implements OnInit {
   isHovering = false;
   isLeaving = false;
 
+  showScrollButton = false;
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Scroll fluido
+    });
+  }
+
   // ✅ ORA DERIVA DA AUTH SERVICE
   user = this.authService.currentUser;
 
@@ -369,6 +378,12 @@ export class HomeComponent implements OnInit {
     if (!clickedInsideBell && !clickedInsideDropdown) {
       this.showNotifications = false;
     }
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // Mostra il pulsante se lo scroll supera i 400px
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.showScrollButton = scrollPosition > 400;
   }
 
   ngOnDestroy() {
