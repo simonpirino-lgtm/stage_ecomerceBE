@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login-page-component',
@@ -73,18 +74,20 @@ export class LoginComponent {
     });
     } else {
       // REGISTER
-      this.authService.register(this.form.userid, this.form.password).subscribe({
-      next: () => {
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        if (err.status === 409) {
-          this.triggerError('Utente già esistente');
-        } else {
-          this.triggerError(err?.error?.message || 'Errore di registrazione');
+      this.authService.register(this.form.userid, this.form.password).pipe(
+        switchMap(() => this.authService.login(this.form.userid, this.form.password))
+      ).subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          if (err.status === 409) {
+            this.triggerError('Utente già esistente');
+          } else {
+            this.triggerError(err?.error?.message || 'Errore di registrazione');
+          }
         }
-      }
-    });
+      });
     }
   }
 

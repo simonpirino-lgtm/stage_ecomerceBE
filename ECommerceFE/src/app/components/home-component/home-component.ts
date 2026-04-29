@@ -10,6 +10,7 @@ import { ThemeService } from '../../services/theme.service';
 import { GiochiAdminService } from '../../services/giochi-admin.service';
 import { NotificheService } from '../../services/notifiche.service';
 
+
 @Component({
   selector: 'app-home-component',
   standalone: true,
@@ -17,9 +18,13 @@ import { NotificheService } from '../../services/notifiche.service';
   templateUrl: './home-component.html',
   styleUrls: ['./home-component.css'],
 })
+
+
 export class HomeComponent implements OnInit {
 
   showNotifications = false; // Variabile per controllare la visibilità del menu delle notifiche
+
+  private notifInterval: any;
 
   // Metodo per alternare la visibilità del menu delle notifiche
   toggleNotifications() {
@@ -113,7 +118,7 @@ export class HomeComponent implements OnInit {
     });
 
 
-    setInterval(() => {
+    this.notifInterval = setInterval(() => {
       this.notificheService.load();
     }, 5000);
   }
@@ -248,20 +253,20 @@ export class HomeComponent implements OnInit {
     }, 700);
   }
 
-  @ViewChild('titleEl') titleEl!: ElementRef;
+  // @ViewChild('titleEl') titleEl!: ElementRef;
 
-  onHover(event: MouseEvent) {
+  /* onHover(event: MouseEvent) {
     this.isHovering = true;
     this.isLeaving = false;
     this.onMoveTitle(event);
-  }
+  } */
 
-  onLeave() {
+  /* onLeave() {
     this.isHovering = false;
     this.isLeaving = true;
-  }
+  } */
 
-  onMoveTitle(event: MouseEvent) {
+  /*onMoveTitle(event: MouseEvent) {
     if (!this.isHovering) return;
 
     const el = this.titleEl.nativeElement;
@@ -278,7 +283,7 @@ export class HomeComponent implements OnInit {
         el.classList.add('spin-left');
       }
     }
-  }
+  }*/
 
   showPriceFilter = false;
 
@@ -331,6 +336,14 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/admin/giochi']);
   }
 
+  goToLibraryFromNotification() {
+    this.router.navigate(['/libreria']);
+  }
+
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
+
   @HostListener('document:click', ['$event'])
   handleClickOutsideNotifications(event: Event) {
     const target = event.target as HTMLElement;
@@ -341,6 +354,12 @@ export class HomeComponent implements OnInit {
 
     if (!clickedInsideBell && !clickedInsideDropdown) {
       this.showNotifications = false;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.notifInterval) {
+      clearInterval(this.notifInterval);
     }
   }
 

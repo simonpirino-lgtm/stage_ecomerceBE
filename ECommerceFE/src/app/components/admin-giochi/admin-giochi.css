@@ -252,3 +252,39 @@
     flex-direction: column;
   }
 }
+
+.back-btn {
+  align-self: flex-start;
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: 14px;
+
+  border: 1px solid #00000014;
+
+  background: #ffffff99;
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #1b5ed6;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.back-btn:hover {
+  transform: translateX(-3px);
+  background: white;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+}
+
+.back-btn svg {
+  fill: #1b5ed6;
+}
