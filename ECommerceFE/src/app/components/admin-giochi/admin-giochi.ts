@@ -1,21 +1,20 @@
-import { Component, signal, inject, OnInit } from '@angular/core'; // Aggiungi OnInit
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CurrencyPipe } from '@angular/common'; // Fondamentale per l'errore Pipe
+import { CurrencyPipe } from '@angular/common';
 import { GiochiService } from '../../services/giochi-service';
 import { GiochiAdminService } from '../../services/giochi-admin.service';
-import { ToastService } from '../../services/toast.service'; // Ora funzionerà
+import { ToastService } from '../../services/toast.service';
 import { GiochiModel } from '../../models/giochi-model';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin-giochi',
   standalone: true,
-  // Aggiungi CurrencyPipe qui per risolvere l'errore NG8004
-  imports: [ReactiveFormsModule, CurrencyPipe, RouterLink], 
+  imports: [ReactiveFormsModule, CurrencyPipe, RouterLink],
   templateUrl: './admin-giochi.html',
   styleUrl: './admin-giochi.css',
 })
-export class AdminGiochiComponent {
+export class AdminGiochiComponent implements OnInit {
   private fb = inject(FormBuilder);
   private giochiService = inject(GiochiService);
   private adminService = inject(GiochiAdminService);
@@ -23,6 +22,18 @@ export class AdminGiochiComponent {
 
   giochi = signal<GiochiModel[]>([]);
   inEditing = signal<GiochiModel | null>(null);
+
+  // ✅ NUOVA SEARCH
+  search = signal('');
+
+  // ✅ FILTRO REATTIVO
+  giochiFiltrati = computed(() => {
+    const term = this.search().toLowerCase();
+    return this.giochi().filter(g =>
+      g.titolo.toLowerCase().includes(term) ||
+      g.sviluppatore.toLowerCase().includes(term)
+    );
+  });
 
   form = this.fb.nonNullable.group({
     titolo:        ['', Validators.required],
@@ -33,7 +44,6 @@ export class AdminGiochiComponent {
     descrizione:   ['', Validators.required],
     game_url:      ['', Validators.required]
   });
-isAdmin: any;
 
   ngOnInit() {
     this.carica();
