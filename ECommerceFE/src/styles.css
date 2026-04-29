@@ -185,3 +185,56 @@ app-root {
     opacity: 1;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+.app-footer {
+  background: #111;
+  color: #aaa;
+  padding: 20px 10px;
+  text-align: center;
+  border-top: 1px solid #222;
+  margin-top: 40px;
+}
+
+.footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.credits {
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.links a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+
+.links a:hover {
+  color: #ff4d4d;
+}
