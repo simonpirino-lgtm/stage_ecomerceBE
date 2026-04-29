@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
   isHovering = false;
   isLeaving = false;
 
+  showMiniHeader = false;
+
   showScrollButton = false;
 
   scrollToTop() {
@@ -381,9 +383,16 @@ export class HomeComponent implements OnInit {
   }
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    // Mostra il pulsante se lo scroll supera i 400px
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const scrollPosition =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+
     this.showScrollButton = scrollPosition > 400;
+
+    // 👇 mostra mini header dopo 100px (modificabile)
+    this.showMiniHeader = scrollPosition > 120;
   }
 
   ngOnDestroy() {
