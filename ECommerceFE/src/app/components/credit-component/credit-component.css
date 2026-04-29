@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+
 .page-wrapper {
   min-height: 100vh;
   display: flex;
@@ -54,6 +56,7 @@
 
 .title {
   margin: 0;
+  font-family: 'Orbitron', sans-serif;
   font-size: 64px;
   font-weight: 800;
   color: var(--login-link);
@@ -61,6 +64,7 @@
 
 .credit-text {
   color: var(--credit-text);
+  font-family: 'Orbitron', sans-serif;
 }
 
 .credit-value {
@@ -97,6 +101,7 @@
   font-size: 20px;
   margin-bottom: 20px;
   color: var(--login-link);
+  font-family: 'Orbitron', sans-serif;
 }
 
 /* INPUT */
@@ -111,6 +116,7 @@
 
   margin-bottom: 15px;
   outline: none;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .credit-box input:focus {
@@ -134,6 +140,7 @@
   cursor: pointer;
 
   transition: 0.2s;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .credit-box button:hover {

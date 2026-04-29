@@ -48,6 +48,8 @@
   --credit-box-btn-bg: #fcbf25;
   --credit-box-btn-bg-h: #1b5ed6;
 
+  --form-box-btn-bg: #1b5ed6;
+
   --hover-bright: 1.15;
 }
 
@@ -101,6 +103,8 @@ body.dark-theme {
   --credit-box-btn: #ffffff;
   --credit-box-btn-bg: #1b5ed6;
   --credit-box-btn-bg-h: #fcbf25;
+
+  --form-box-btn-bg: #030914;
 
   --hover-bright: 1.3;
 }
