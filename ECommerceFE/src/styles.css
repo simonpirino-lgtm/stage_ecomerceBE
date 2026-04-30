@@ -221,20 +221,3 @@ app-root {
   font-size: 0.8rem;
   margin-bottom: 10px;
 }
-
-.links {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.links a {
-  color: #bbb;
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: 0.2s;
-}
-
-.links a:hover {
-  color: #ff4d4d;
-}
